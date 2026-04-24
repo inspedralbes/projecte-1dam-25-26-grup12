@@ -28,7 +28,7 @@ require_once 'connexio.php';
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
         while ($row = $result->fetch_assoc()) {
             echo "<p>ID: " . $row["id_incidencia"] . " - Descripcio: " . htmlspecialchars($row["descripcio"]) . " - Fecha: "  . $row["fecha"] . "";
-            echo " <a href='esborrar.php?id=" . $row["id"] . "'>Esborrar</a></p>";
+            echo " <a href='esborrar.php?id_incidencia=" . $row["id_incidencia"] . "'>Esborrar</a></p>";
         }
 
     } else {

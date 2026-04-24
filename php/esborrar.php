@@ -26,17 +26,17 @@ require_once 'connexio.php';
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Si el formulari s'ha enviat (mètode POST), procedim a esborrar la casa 
-        $id = $_POST['id'];
+        $id = $_POST['id_incidencia'];
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per esborrar la casa
-            $sql = "DELETE FROM cases WHERE id = ?";
+            $sql = "DELETE FROM INCIDENCIA WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
 
             // Executar la consulta i comprovar si s'ha esborrat correctament
             if ($stmt->execute()) {
-                echo "<p class='info'>Casa esborrada amb èxit!</p>";
+                echo "<p class='info'>Incidencia esborrada amb èxit!</p>";
             } else {
                 echo "<p class='error'>Error al esborrar la casa: " . htmlspecialchars($stmt->error) . "</p>";
             }
@@ -46,13 +46,13 @@ require_once 'connexio.php';
         } else {
             echo "<p class='error'>ID no vàlid.</p>";
         }
-    } elseif (isset($_GET['id'])) {
+    } elseif (isset($_GET['id_incidencia'])) {
         // Comprovar si s'ha rebut  l'ID de la casa via GET (a la URL esborrar.php?id=XXX)
-        $id = $_GET['id'];
+        $id = $_GET['id_incidencia'];
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per obtenir la casa a esborrar
-            $sql = "SELECT id, name FROM cases WHERE id = ?";
+            $sql = "SELECT id_incidencia, descripcio FROM INCIDENCIA WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -65,15 +65,15 @@ require_once 'connexio.php';
 
                 // Mostrar el formulari, que s'enviarà per POST, per confirmar l'esborrat
                 echo "<form method='POST' action='esborrar.php'>";
-                echo "<fieldset><legend>Casa a esborrar:</legend>" . htmlspecialchars($row["name"]) . "";
+                echo "<fieldset><legend>Incidencia a esborrar:</legend>" . htmlspecialchars($row["descripcio"]) . "";
 
                 echo "<br>";
-                echo "<input type='hidden' name='id' value='" . htmlspecialchars($row["id"]) . "'>";
+                echo "<input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
                 echo "<input type='submit' value='Sí, esborrar'>";
                 echo "</fieldset>";
                 echo "</form>";
             } else {
-                echo "<p class='error'>No s'ha trobat la casa amb ID: " . htmlspecialchars($id) . "</p>";
+                echo "<p class='error'>No s'ha trobat la Incidencia amb ID: " . htmlspecialchars($id) . "</p>";
             }
         } else {
             echo "<p class='error'>ID no vàlid.</p>";
