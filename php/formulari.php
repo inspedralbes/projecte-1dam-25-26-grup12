@@ -56,14 +56,28 @@ function crear_incidencia($conn)
     } else {
         //Mostrem el formulari per crear una nova casa
         //Tanquem el php per poder escriure el codi HTML de forma més còmoda.
+        $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
+        $departaments = $conn->query($sql);
         ?>
         <form method="POST" action="formulari.php">
             <fieldset>
                 <legend>Incidencia</legend>
-                <label for="nom">Descripcio</label>
+
+                <label for="descripcio">Descripcio</label>
+                <textarea name="descripcio" rows="10" cols="50"></textarea>
                 <input type="text" id="descripcio" name="descripcio">
-                <label for="nom">Departament</label>
-                <input type="number" id="departamento" name="departamento">
+                <label for="departament">Departament</label>
+                <select name="departament_id" id="departament">
+                    <option value=""> Selecciona </option>
+                    <?php while ($dep = $departaments->fetch_assoc()) { ?>
+                        <option value="<?= $dep['id_dept'] ?>">
+                            <?= htmlspecialchars($dep['nom']) ?>
+                        </option>
+                    <?php } ?>
+                </select>
+
+
+                    
                 <label for="nom">Fecha</label>
                 <input type="date" id="fecha" name="fecha">
                 <label for="nom">Tipologia</label>
