@@ -10,7 +10,7 @@
 <body>
     <h1>Benvingut!!</h1>
     <hr>
-    <h2>Gestió incidències informàtiques Institut Pedralbes</h2>
+    <h2>Gestió d'incidències informàtiques Institut Pedralbes</h2>
     <hr>
     <h2>Identifica't</h2>
 
