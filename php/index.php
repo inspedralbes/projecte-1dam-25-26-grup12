@@ -8,27 +8,19 @@
 </head>
 
 <body>
-    <h1>Pàgina inicial</h1>
-    <p>Aquesta pàgina inclou codi php</p>
-    <?php
-    echo "<h2>Hola, món!</h2>";
-    echo "<p>Hora actual: " . date("H:i:s") . "</p>";
-    ?>
-    <h2>Variables</h2>
-    <p>Les variables s'han d'utilitzar per a definir la cadena de connexió independentment del codi</p>
-    <?php
-    $v1 = getenv('VAR1') ?: 'Ups, variable no definida';
-    $v2 = getenv('VAR2') ?: 'Ups, variable no definida';
-    echo "<p>El valor de la variable d'entorn VAR1 és: <strong>$v1</strong> </p>";
-    echo "<p>El valor de la variable d'entorn VAR2 és: <strong>$v2</strong></p>";
-    ?>
-    <div id="menu">
-        <hr>
-        <p><a href="index.php">Portada</a> </p>
-        <p><a href="llistar.php">Llistar</a></p>
-        <p><a href="crear.php">Crear</a></p>
+    <h1>Benvingut!!</h1>
+    <hr>
+    <h2>Gestió incidències informàtiques Institut Pedralbes</h2>
+    <hr>
+    <h2>Identifica't</h2>
+
+    <!--Hem afegit un menu per identificar-se-->
+    <div id="menu" >
+        <p><a href="usuari.php">Usuari</a></p>
+        <p><a href="admin.php">Admin</a></p>
+        <p><a href="tecnic.php">Tècnic</a></p>
     </div>
-    <p>Fi de la pàgina</p>
+
 </body>
 
 </html>
