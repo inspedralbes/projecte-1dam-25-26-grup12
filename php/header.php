@@ -16,3 +16,4 @@
             <p><a href="admin.php">Admin</a></p>
             <p><a href="tecnic.php">Tècnic</a></p>
         </div>
+        <hr>
