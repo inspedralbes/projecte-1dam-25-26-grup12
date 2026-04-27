@@ -14,14 +14,13 @@ function crear_incidencia($conn)
     // Obtenir el nom de la casa del formulari
     $descripcio = $_POST['descripcio'];
     $departamento = $_POST['id_dept'];
-    $fecha = $_POST['fecha'];
     $tipologia = $_POST['id_tipo'];
 
 
     // Preparar la consulta SQL per inserir una nova casa
-    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo) VALUES (?, ?, NOW(), ?)";
     $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
-    $stmt->bind_param("sisi", $descripcio, $departamento, $fecha, $tipologia);
+    $stmt->bind_param("sii", $descripcio, $departamento, $tipologia);
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
@@ -86,8 +85,7 @@ function crear_incidencia($conn)
                         </option>
                     <?php } ?>
                 </select>
-                <label for="nom">Fecha</label>
-                <input type="date" id="fecha" name="fecha">
+                
                 
                 
                 <input type="submit" value="Crear">

@@ -33,7 +33,7 @@ CREATE TABLE INCIDENCIA(
     id_incidencia INT AUTO_INCREMENT PRIMARY KEY,
     descripcio VARCHAR(1000) NOT NULL,
     id_dept INT NOT NULL,
-    fecha DATE  NOT NULL ,
+    fecha DATE ,
     id_tipo INT NOT NULL,
     prioridad ENUM('baja','media','alta'),
     id_tecnic INT,
