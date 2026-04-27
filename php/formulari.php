@@ -2,6 +2,7 @@
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
+require_once 'header.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 /**
@@ -25,6 +26,7 @@ function crear_incidencia($conn)
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
         echo "<p class='info'>Incidencia creada amb èxit!</p>";
+        echo "<p><a href='index.php'>Retorna</a></p>";  
     } else {
         echo "<p class='error'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
     }
@@ -36,16 +38,7 @@ function crear_incidencia($conn)
 
 ?>
 
-<!DOCTYPE html>
-<html lang="ca">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear</title>
-</head>
-
-<body>
     <h1>Registrar incidencia</h1>
     <?php
 
