@@ -2,6 +2,7 @@
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
+require_once 'header.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 /**
@@ -14,18 +15,18 @@ function crear_incidencia($conn)
     // Obtenir el nom de la casa del formulari
     $descripcio = $_POST['descripcio'];
     $departamento = $_POST['id_dept'];
-    $fecha = $_POST['fecha'];
     $tipologia = $_POST['id_tipo'];
 
 
     // Preparar la consulta SQL per inserir una nova casa
-    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo) VALUES (?, ?, NOW(), ?)";
     $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
-    $stmt->bind_param("sisi", $descripcio, $departamento, $fecha, $tipologia);
+    $stmt->bind_param("sii", $descripcio, $departamento, $tipologia);
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
         echo "<p class='info'>Incidencia creada amb èxit!</p>";
+        echo "<p><a href='index.php'>Retorna</a></p>";  
     } else {
         echo "<p class='error'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
     }
@@ -37,16 +38,7 @@ function crear_incidencia($conn)
 
 ?>
 
-<!DOCTYPE html>
-<html lang="ca">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear</title>
-</head>
-
-<body>
     <h1>Registrar incidencia</h1>
     <?php
 
@@ -86,8 +78,7 @@ function crear_incidencia($conn)
                         </option>
                     <?php } ?>
                 </select>
-                <label for="nom">Fecha</label>
-                <input type="date" id="fecha" name="fecha">
+                
                 
                 
                 <input type="submit" value="Crear">
