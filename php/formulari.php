@@ -13,15 +13,15 @@ function crear_incidencia($conn)
 {
     // Obtenir el nom de la casa del formulari
     $descripcio = $_POST['descripcio'];
-    $departamento = $_POST['departamento'];
+    $departamento = $_POST['id_dept'];
     $fecha = $_POST['fecha'];
-    $tipologia = $_POST['tipologia'];
+    $tipologia = $_POST['id_tipo'];
 
 
     // Preparar la consulta SQL per inserir una nova casa
     $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
-    $stmt->bind_param("ssss", $descripcio, $departamento, $fecha, $tipologia);
+    $stmt->bind_param("sisi", $descripcio, $departamento, $fecha, $tipologia);
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
@@ -58,6 +58,9 @@ function crear_incidencia($conn)
         //Tanquem el php per poder escriure el codi HTML de forma més còmoda.
         $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
         $departaments = $conn->query($sql);
+
+        $sql1 = "SELECT id_tipo, nom FROM TIPO";
+        $tipologia = $conn->query($sql1);
         ?>
         <form method="POST" action="formulari.php">
             <fieldset>
@@ -65,9 +68,8 @@ function crear_incidencia($conn)
 
                 <label for="descripcio">Descripcio</label>
                 <textarea name="descripcio" rows="10" cols="50"></textarea>
-                <input type="text" id="descripcio" name="descripcio">
                 <label for="departament">Departament</label>
-                <select name="departament_id" id="departament">
+                <select name="id_dept" id="id_dept">
                     <option value=""> Selecciona </option>
                     <?php while ($dep = $departaments->fetch_assoc()) { ?>
                         <option value="<?= $dep['id_dept'] ?>">
@@ -75,13 +77,19 @@ function crear_incidencia($conn)
                         </option>
                     <?php } ?>
                 </select>
-
-
-                    
+                <label for="nom">Tipologia</label>
+                <select name="id_tipo" id="id_tipo">
+                    <option value=""> Selecciona </option>
+                    <?php while ($tip = $tipologia->fetch_assoc()) { ?>
+                        <option value="<?= $tip['id_tipo'] ?>">
+                            <?= htmlspecialchars($tip['nom']) ?>
+                        </option>
+                    <?php } ?>
+                </select>
                 <label for="nom">Fecha</label>
                 <input type="date" id="fecha" name="fecha">
-                <label for="nom">Tipologia</label>
-                <input type="number" id="tipologia" name="tipologia">
+                
+                
                 <input type="submit" value="Crear">
             </fieldset>
         </form>
@@ -91,12 +99,7 @@ function crear_incidencia($conn)
         //Tanquem l'else
     }
     ?>
-    <div id="menu">
-        <hr>
-        <p><a href="index.php">Portada</a> </p>
-        <p><a href="llistar.php">Llistar</a></p>
-        <p><a href="crear.php">Crear</a></p>
-    </div>
+   
 </body>
 
 </html>
