@@ -26,7 +26,6 @@ echo "<h3> Estat de l'incidencia $id</h3>";
 
 // Consulta SQL per obtenir totes les files de la taula 'cases'
     $sql = "SELECT id_incidencia, descripcio, id_dept, fecha FROM INCIDENCIA WHERE id_incidencia = $id ";
-    $sql = "SELECT id_incidencia, descripcio, id_dept, fecha, id_actuacio FROM INCIDENCIA JOIN ACTUACIO USING (id_incidencia) WHERE id_incidencia = $id";
 
     $result = $conn->query($sql);
 
