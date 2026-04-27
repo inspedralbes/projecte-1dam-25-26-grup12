@@ -16,6 +16,14 @@ require_once 'header.php';
 <body>
     <h1>Identifica't</h1>
 
+    <?php
+
+    require_once 'informeTecnic.php';
+
+?>
+
+
+
 </body>
 
 </html>
