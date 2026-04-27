@@ -10,15 +10,15 @@ require_once 'header.php';
         // Si el formulari s'ha enviat (mètode POST), procedim a esborrar la casa 
         $id = $_POST['id_incidencia'];
         $prioridad = $_POST['prioridad'];
-        //$tecnico = $_POST['id_tecnico'];
+        $tecnic = $_POST['id_tecnic'];
 
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per esborrar la casa
 
-            $sql = "UPDATE  INCIDENCIA SET prioridad = ? WHERE id_incidencia = ?";
+            $sql = "UPDATE  INCIDENCIA SET prioridad = ?, id_tecnic = ? WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $prioridad, $id);
+            $stmt->bind_param("sii", $prioridad, $tecnic, $id);
 
             // Executar la consulta i comprovar si s'ha esborrat correctament
             if ($stmt->execute()) {
@@ -45,6 +45,9 @@ require_once 'header.php';
             $stmt->execute();
             $result = $stmt->get_result();
 
+            $sql1 = "SELECT id_tecnic, nom FROM TECNIC";
+            $tecnicos= $conn->query($sql1);
+
             // Comprovar si s'ha trobat la casa
             if ($result->num_rows > 0) {
                 // Mostrar la casa a esborrar
@@ -58,8 +61,16 @@ require_once 'header.php';
                 echo "<input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
                 echo "<select name='prioridad' id='prioridad'> ";
                 echo "<option value='baja'> Baja </option>";
-                echo "<option value='media'> media </option>";
-                echo "<option value='alta'> alta </option>";
+                echo "<option value='media'> Media </option>";
+                echo "<option value='alta'> Alta </option>";
+                echo "</select>";
+                echo "<select name='id_tecnic' id='id_tecnic'>";
+                echo "<option value=''> Selecciona </option>" ;
+                    while ($tec = $tecnicos->fetch_assoc()) {
+                echo "<option value='" . htmlspecialchars($tec['id_tecnic']) . "'>" . htmlspecialchars($tec['nom']);
+                echo  "</option>";  
+                    }
+                echo "</select>";        
                 echo "<input type='submit' value='Sí, modificar'>";
                 echo "</fieldset>";
                 echo "</form>";
