@@ -1,36 +1,30 @@
-<?php
-
-//Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
+<?php 
 require_once 'connexio.php';
 require_once 'header.php';
-// Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
-
 ?>
 
-    <h1>Esborrar</h1>
-    <!-- Tots els esborrats han de tenir conformació
- Per tant, primer hem de mostrar LA CASA, i aleshores tornar preguntar
- si realment la vol esborrar
- El primer cop rebem l'id de la casa via GET, i el segon cop via POST
- Això és una (de les moltes formes) de fer la doble confirmació
--->
+<h1>Modificar</h1>
 
-    <?php
+<?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Si el formulari s'ha enviat (mètode POST), procedim a esborrar la casa 
         $id = $_POST['id_incidencia'];
+        $prioridad = $_POST['prioridad'];
+        $tecnic = $_POST['id_tecnic'];
+
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per esborrar la casa
-            $sql = "DELETE FROM INCIDENCIA WHERE id_incidencia = ?";
+
+            $sql = "UPDATE  INCIDENCIA SET prioridad = ?, id_tecnic = ? WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id);
+            $stmt->bind_param("sii", $prioridad, $tecnic, $id);
 
             // Executar la consulta i comprovar si s'ha esborrat correctament
             if ($stmt->execute()) {
-                echo "<p class='info'>Incidencia esborrada amb èxit!</p>";
+                echo "<p class='info'>Incidencia modificada amb èxit!</p>";
             } else {
-                echo "<p class='error'>Error al esborrar la casa: " . htmlspecialchars($stmt->error) . "</p>";
+                echo "<p class='error'>Error al modificar la incidencia: " . htmlspecialchars($stmt->error) . "</p>";
             }
 
             // Tancar la declaració
@@ -41,6 +35,7 @@ require_once 'header.php';
     } elseif (isset($_GET['id_incidencia'])) {
         // Comprovar si s'ha rebut  l'ID de la casa via GET (a la URL esborrar.php?id=XXX)
         $id = $_GET['id_incidencia'];
+
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per obtenir la casa a esborrar
@@ -50,18 +45,33 @@ require_once 'header.php';
             $stmt->execute();
             $result = $stmt->get_result();
 
+            $sql1 = "SELECT id_tecnic, nom FROM TECNIC";
+            $tecnicos= $conn->query($sql1);
+
             // Comprovar si s'ha trobat la casa
             if ($result->num_rows > 0) {
                 // Mostrar la casa a esborrar
                 $row = $result->fetch_assoc();
 
                 // Mostrar el formulari, que s'enviarà per POST, per confirmar l'esborrat
-                echo "<form method='POST' action='esborrar.php'>";
-                echo "<fieldset><legend>Incidencia a esborrar:</legend>" . htmlspecialchars($row["descripcio"]) . "";
+                echo "<form method='POST' action='modificar.php'>";
+                echo "<fieldset><legend>Incidencia a modificar:</legend>" . htmlspecialchars($row["descripcio"]) . "";
 
                 echo "<br>";
                 echo "<input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
-                echo "<input type='submit' value='Sí, esborrar'>";
+                echo "<select name='prioridad' id='prioridad'> ";
+                echo "<option value='baja'> Baja </option>";
+                echo "<option value='media'> Media </option>";
+                echo "<option value='alta'> Alta </option>";
+                echo "</select>";
+                echo "<select name='id_tecnic' id='id_tecnic'>";
+                echo "<option value=''> Selecciona </option>" ;
+                    while ($tec = $tecnicos->fetch_assoc()) {
+                echo "<option value='" . htmlspecialchars($tec['id_tecnic']) . "'>" . htmlspecialchars($tec['nom']);
+                echo  "</option>";  
+                    }
+                echo "</select>";        
+                echo "<input type='submit' value='Sí, modificar'>";
                 echo "</fieldset>";
                 echo "</form>";
             } else {
@@ -75,12 +85,7 @@ require_once 'header.php';
     }
     ?>
 
-    <div id="menu">
-        <hr>
-        <p><a href="index.php">Portada</a> </p>
-        <p><a href="llistar.php">Llistar</a></p>
-        <p><a href="crear.php">Crear</a></p>
-    </div>
+   
 </body>
 
 </html>

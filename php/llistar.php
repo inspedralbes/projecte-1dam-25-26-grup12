@@ -2,24 +2,16 @@
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
+require_once 'header.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 ?>
-<!DOCTYPE html>
-<html lang="ca">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Llistat</title>
-</head>
-
-<body>
-    <h1>Llistat de cases</h1>
+    <h1>Llistat de Incidencies</h1>
     <?php
 
     // Consulta SQL per obtenir totes les files de la taula 'cases'
-    $sql = "SELECT id, name FROM cases";
+    $sql = "SELECT id_incidencia, descripcio, fecha FROM INCIDENCIA";
     $result = $conn->query($sql);
 
     // Comprovar si hi ha resultats
@@ -27,8 +19,9 @@ require_once 'connexio.php';
 
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
         while ($row = $result->fetch_assoc()) {
-            echo "<p>ID: " . $row["id"] . " - Nom: " . htmlspecialchars($row["name"]) . "";
-            echo " <a href='esborrar.php?id=" . $row["id"] . "'>Esborrar</a></p>";
+            echo "<p>ID: " . $row["id_incidencia"] . " - Descripcio: " . htmlspecialchars($row["descripcio"]) . " - Fecha: "  . $row["fecha"] . "";
+            echo " <a href='modificar.php?id_incidencia=" . $row["id_incidencia"] . "'>Modificar</a></p>";
+            echo " <a href='esborrar.php?id_incidencia=" . $row["id_incidencia"] . "'>Esborrar</a></p>";
         }
 
     } else {

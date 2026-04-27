@@ -17,7 +17,6 @@ services:
       - ./php:/var/www/html
     environment:
       VAR1: "sóc una pera i estic al docker-compose"
-  
     depends_on:
       - db
 
