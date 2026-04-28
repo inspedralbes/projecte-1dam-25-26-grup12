@@ -47,7 +47,7 @@ CREATE TABLE ACTUACIO(
     id_actuacio INT AUTO_INCREMENT PRIMARY KEY,
     id_incidencia INT NOT NULL,
     descripcio VARCHAR(1000) NOT NULL,
-    fecha DATE ,+
+    fecha DATE ,
     finalitzat INT,
     visible INT,
     duracio INT,

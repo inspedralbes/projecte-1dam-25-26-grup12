@@ -37,16 +37,42 @@ echo "<h3> Estat de l'incidencia $id</h3>";
             echo "<p>ID: " . $row["id_incidencia"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - ID Departament: " . $row["id_dept"] . " - Data: " . $row["fecha"];
             echo "<br>";
             echo "<br>";
-            echo "ACTUACIONS: ";
+            
+            
 
+        
         }
-
-    } else {
+    }else {
         echo "<p>No hi ha dades a mostrar.</p>";
     }
 
-    // Tancar la connexió
-    $conn->close();
+            
+    // Preparar la consulta SQL per obtenir la casa a esborrar
+    $sql = "SELECT id_actuacio, descripcio, fecha FROM ACTUACIO WHERE visible = 0 and id_incidencia = $id";
+    $result = $conn->query($sql);
+    
+    // Comprovar si s'ha trobat la casa
+    if ($result->num_rows > 0) {
+            
+        echo "<h2> ACTUACIONS: </h2> ";
+                
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<p>ID: " . $row["id_actuacio"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - Data: " . $row["fecha"];
+            echo "<br>";
+            echo "<br>";
+            }
+
+                    
+
+    }else {
+        echo "<p>No hi ha dades a mostrar.</p>";
+    }
+
+
+
+            // Tancar la connexió
+            $conn->close();
 
 }
 ?>
