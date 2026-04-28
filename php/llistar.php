@@ -11,7 +11,7 @@ require_once 'header.php';
     <?php
 
     // Consulta SQL per obtenir totes les files de la taula 'cases'
-    $sql = "SELECT id_incidencia, descripcio, fecha FROM INCIDENCIA";
+    $sql = "SELECT id_incidencia, descripcio, fecha FROM INCIDENCIA WHERE fecha_fin IS NULL";
     $result = $conn->query($sql);
 
     // Comprovar si hi ha resultats

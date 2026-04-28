@@ -63,7 +63,7 @@ require_once 'connexio.php';
 
         // Consulta SQL per obtenir totes les files de la taula 'cases'
         $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
-        FROM INCIDENCIA WHERE id_tecnic = $id" ;
+        FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL" ;
         $result = $conn->query($sql);
 
         
