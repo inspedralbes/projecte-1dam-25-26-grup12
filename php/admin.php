@@ -15,7 +15,7 @@ require_once 'header.php';
 
 <body>
     <div id="menu" style="width: 300px; margin: 0 auto;">
-        <p><a href="informe-tecnic.php">Informe de Tècnics</a></p>
+        <p><a href="informeTecnic.php">Informe de Tècnics</a></p>
         <p><a href="llistar.php">Llistar incidència</a></p>
         <p><a href="consum-dept.php">Consum per departaments</a></p>
         <p><a href="estadistiques.php">Estadístiques d'Accés</a></p>

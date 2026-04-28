@@ -76,41 +76,10 @@ require_once 'connexio.php';
         
                 echo "<h2> INCIDÈNCIA  " .$row["id_incidencia"] . "</h2> " ;
 
-
-                echo "<p> <strong>- Descripció: </strong> " . htmlspecialchars($row["descripcio"]); 
-                echo "<p> <strong>- ID Departament: </strong>" . $row["id_dept"];
-                echo "<p> <strong>- Data: </strong> " . $row["fecha"];
-                
                 echo "<br>";
                 echo "<br>";
 
-                echo "TEMPS DEDICAT TOTAL: ";
-
-                echo "<br>";
-                echo "<br>";
-
-                echo '<input type="submit" value="Mostrar">';
-                
-                if (isset($_GET['id_incidencia'])) {
-                // Comprovar si s'ha rebut  l'ID de la casa via GET (a la URL esborrar.php?id=XXX)
-                $id = $_GET['id_incidencia'];
-
-                    if (is_numeric($id)) {
-                    // Preparar la consulta SQL per obtenir la casa a esborrar
-                    $sql = "SELECT id_incidencia, descripcio, fecha FROM ACTUACIO WHERE id_incidencia = ?";
-                    $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $id);
-                    $stmt->execute();
-                    $result = $stmt->get_result();
-
-                    echo "ACTUACIONS: ";
-
-
-
-                    }
-
-                
-            }
+                echo " <a href='actuacions.php?id_incidencia=" . $row["id_incidencia"] . "'>Mostrar</a></p>";
 
             
 
