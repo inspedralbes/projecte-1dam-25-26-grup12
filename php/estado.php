@@ -22,10 +22,10 @@ require_once 'header.php' ;
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 $id = htmlspecialchars($_POST["id"]);
 
-echo "<h3> Estat de l'incidencia $id</h3>";
+echo "<h2> Estat de l'incidencia $id</h2>";
 
 // Consulta SQL per obtenir totes les files de la taula 'cases'
-    $sql = "SELECT id_incidencia, descripcio, id_dept, fecha FROM INCIDENCIA WHERE id_incidencia = $id ";
+    $sql = "SELECT id_incidencia, descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
 
     $result = $conn->query($sql);
 
@@ -34,13 +34,13 @@ echo "<h3> Estat de l'incidencia $id</h3>";
 
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
         while ($row = $result->fetch_assoc()) {
-            echo "<p>ID: " . $row["id_incidencia"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - ID Departament: " . $row["id_dept"] . " - Data: " . $row["fecha"];
+            echo "<div>";
+            echo "<b> - ID: </b> " . $row["id_incidencia"] . "<br><br>";
+            echo "<b>  - Descripció: </b> " . htmlspecialchars($row["descripcio"]) . "<br><br>";
+            echo "<b>  - Departament: </b> " . $row["nom"] . "<br><br>";
+            echo "<b>  - Data: </b> " . $row["fecha"] . "<br><br>";
             echo "<br>";
-            echo "<br>";
-            
-            
-
-        
+            echo "</div>";
         }
     }else {
         echo "<p>No hi ha dades a mostrar.</p>";
@@ -58,7 +58,21 @@ echo "<h3> Estat de l'incidencia $id</h3>";
                 
 
         while ($row = $result->fetch_assoc()) {
-            echo "<p>ID: " . $row["id_actuacio"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - Data: " . $row["fecha"];
+            echo "<table style='border-collapse:collapse; border:1px solid;'>";
+            
+                echo "<tr>";
+                    echo "<th> ID </th>";
+                    echo "<th> Descripció </th>";
+                    echo "<th> Data </th>";
+                echo "</tr>";
+
+                echo "<tr>";
+                    echo "<td>" . $row["id_actuacio"] . "</td>";
+                    echo "<td>" . htmlspecialchars($row["descripcio"]) . "</td>";
+                    echo "<td>" . $row["fecha"] . "</td>";
+                echo "</tr>";
+            
+            echo "</table>";
             echo "<br>";
             echo "<br>";
             }
