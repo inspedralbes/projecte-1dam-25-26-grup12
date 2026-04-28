@@ -29,7 +29,7 @@ require_once 'connexio.php';
 <?php
 
     // Consulta SQL per obtenir totes les files de la taula 'tecnic'
-    $sql = "SELECT id_tecnic, nom FROM TECNIC";
+    $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
     $result = $conn->query($sql);
     ?>
 
