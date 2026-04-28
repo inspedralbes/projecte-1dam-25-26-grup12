@@ -28,6 +28,7 @@ $id = $_GET['id_incidencia'];
                     echo "<br>";
                     echo "<br>";
                     echo "<p>ID: " . $row["id_incidencia"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - ID Departament: " . $row["id_dept"] . " - Data: " . $row["fecha"];
+                    echo " <a href='crear_actuaciones.php?id_incidencia=" . $row["id_incidencia"] . "'>Crear actuacio</a></p>";
                     echo "<br>";
                     echo "<br>";
                     
