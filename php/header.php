@@ -10,7 +10,7 @@
 <body>
     <!--Menu principal a totes les pagines menys a la landing page-->
     <main>
-        <h2>Gestió incidències informàtiques Institut Pedralbes</h2>
+        <h2>Gestió d'incidències informàtiques Institut Pedralbes</h2>
         <div id="menu" >
             <p><a href="index.php">Inici</a></p>
             <p><a href="usuari.php">Usuari</a></p>

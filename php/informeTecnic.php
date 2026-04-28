@@ -1,28 +1,16 @@
 <?php
 
-require_once 'header.php';
+//Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
-
-?>
-
-<!DOCTYPE html>
-<html lang="ca">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-</head>
-
-<body>
-    <h1>Identifica't</h1>
-
-<?php
+// Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
+require_once 'header.php';
 /**
  * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
  * @param mixed $conn
  * @return void
  */
+
+
 
 ?>
 
@@ -66,40 +54,34 @@ require_once 'connexio.php';
         FROM INCIDENCIA WHERE id_tecnic = $id" ;
         $result = $conn->query($sql);
 
-        
         // Comprovar si hi ha resultats
         if ($result->num_rows > 0) {
 
-            // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-            while ($row = $result->fetch_assoc()) {
+        // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
+        while ($row = $result->fetch_assoc()) {
+            
+            echo "<h2> INCIDÈNCIA  " .$row["id_incidencia"] . "</h2> ";
 
-        
-                echo "<h2> INCIDÈNCIA  " .$row["id_incidencia"] . "</h2> " ;
+            echo "<p> <strong>- Descripció: </strong> " . htmlspecialchars($row["descripcio"]); 
+            echo "<p> <strong>- ID Departament: </strong>" . $row["id_dept"];
+            echo "<p> <strong>- Data: </strong> " . $row["fecha"];
+            
+            echo "<br>";
+            echo "<br>";
 
-                echo "<br>";
-                echo "<br>";
-
-                echo " <a href='actuacions.php?id_incidencia=" . $row["id_incidencia"] . "'>Mostrar</a></p>";
-
+            echo "TEMPS DEDICAT TOTAL: ";
             
 
-
-
         }
 
-    }else {
-                echo "<p>No hi ha incidencies a mostrar.</p>";
-        }
+    } else {
+        echo "<p>No hi ha incidencies a mostrar.</p>";
+    }
+
+    // Tancar la connexió
+    $conn->close();
 
 }
- 
+    
 ?>
 
-
-
-<?php
-
-require_once 'footer.php';
-// Tancar la connexió
-    $conn->close();
-?>
