@@ -11,14 +11,16 @@ require_once 'header.php';
         $id = $_POST['id_incidencia'];
         $prioridad = $_POST['prioridad'];
         $tecnic = $_POST['id_tecnic'];
+        $tipologia = $_POST['id_tipo'];
+        
 
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per esborrar la casa
 
-            $sql = "UPDATE  INCIDENCIA SET prioridad = ?, id_tecnic = ? WHERE id_incidencia = ?";
+            $sql = "UPDATE  INCIDENCIA SET prioridad = ?, id_tecnic = ?, id_tipo = ? WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sii", $prioridad, $tecnic, $id);
+            $stmt->bind_param("siii", $prioridad, $tecnic, $tipologia, $id);
 
             // Executar la consulta i comprovar si s'ha esborrat correctament
             if ($stmt->execute()) {
@@ -47,33 +49,52 @@ require_once 'header.php';
 
             $sql1 = "SELECT id_tecnic, nom FROM TECNIC";
             $tecnicos= $conn->query($sql1);
+            
+            $sql2 = "SELECT id_tipo, nom FROM TIPO";
+            $tipologia= $conn->query($sql2);
+            
+
 
             // Comprovar si s'ha trobat la casa
             if ($result->num_rows > 0) {
                 // Mostrar la casa a esborrar
                 $row = $result->fetch_assoc();
-
                 // Mostrar el formulari, que s'enviarà per POST, per confirmar l'esborrat
-                echo "<form method='POST' action='modificar.php'>";
-                echo "<fieldset><legend>Incidencia a modificar:</legend>" . htmlspecialchars($row["descripcio"]) . "";
+                ?>
 
-                echo "<br>";
-                echo "<input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
-                echo "<select name='prioridad' id='prioridad'> ";
-                echo "<option value='baja'> Baja </option>";
-                echo "<option value='media'> Media </option>";
-                echo "<option value='alta'> Alta </option>";
-                echo "</select>";
-                echo "<select name='id_tecnic' id='id_tecnic'>";
-                echo "<option value=''> Selecciona </option>" ;
-                    while ($tec = $tecnicos->fetch_assoc()) {
-                echo "<option value='" . htmlspecialchars($tec['id_tecnic']) . "'>" . htmlspecialchars($tec['nom']);
-                echo  "</option>";  
-                    }
-                echo "</select>";        
-                echo "<input type='submit' value='Sí, modificar'>";
-                echo "</fieldset>";
-                echo "</form>";
+                
+                    <form method='POST' action='modificar.php'>
+                        <fieldset>
+                            <legend>Incidencia a modificar:</legend> <?= htmlspecialchars($row["descripcio"]) ?> 
+
+                            <br>
+                            <input type='hidden' name='id_incidencia' value=' <?= htmlspecialchars($row["id_incidencia"]) ?> '>
+                            <select name='prioridad' id='prioridad'> 
+                                <option value='baja'> Baja </option>
+                                <option value='media'> Media </option>
+                                <option value='alta'> Alta </option>
+                            </select>
+                            <select name='id_tecnic' id='id_tecnic'>
+                                <option value=''> Selecciona </option>
+                                <?php
+                                    while ($tec = $tecnicos->fetch_assoc()) { ?>
+                                <option value=' <?= htmlspecialchars($tec['id_tecnic']) ?> '> <?= htmlspecialchars($tec['nom'])?>
+                                </option>  
+                                <?php   } ?>
+                            </select>   
+                            <select name='id_tipo' id='id_tipo'>
+                                <option value=''> Selecciona </option>
+                                <?php
+                                    while ($tipo = $tipologia->fetch_assoc()) { ?>
+                                <option value=' <?= htmlspecialchars($tipo['id_tipo']) ?> '> <?= htmlspecialchars($tipo['nom'])?>
+                                </option>  
+                                <?php   } ?>
+                            </select>      
+                            <input type='submit' value='Sí, modificar'>
+                        </fieldset>
+                    </form>
+
+                <?php
             } else {
                 echo "<p class='error'>No s'ha trobat la Incidencia amb ID: " . htmlspecialchars($id) . "</p>";
             }
