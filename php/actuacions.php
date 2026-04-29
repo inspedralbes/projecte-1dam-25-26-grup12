@@ -14,11 +14,13 @@ function tancar_incidencia($conn){
     $stmt->bind_param("i", $id);
 
     // Executar la consulta i comprovar si s'ha inserit correctament
-    if ($stmt->execute()) {
-        echo "<p class='info'>Incidencia tancada amb èxit!</p>";
-        echo "<p><a href='index.php'>Retorna</a></p>";  
-    } else {
-        echo "<p class='error'>Error al tancar la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
+    if ($stmt->execute()) { ?>
+        <p class='info'>Incidencia tancada amb èxit!</p>
+        <p><a href='index.php'>Retorna</a></p>  
+        <?php
+    } else { ?>
+       <p class='error'>Error al tancar la Incidencia:  <?= htmlspecialchars($stmt->error) ?> </p>
+       <?php
     }
 
     // Tancar la declaració i la connexió
@@ -79,12 +81,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                  echo "<h2> ACTUACIONS: </h2> ";
         
 
-               while ($row = $result->fetch_assoc()) {
-                    echo "<p>ID: " . $row["id_actuacio"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - Data: " . $row["fecha"];
-                    echo "<br>";
-                    echo "<br>";
+               while ($row = $result->fetch_assoc()) { ?>
+                    <p>ID: <?= $row["id_actuacio"] ?> - Descripció: <?= htmlspecialchars($row["descripcio"]) ?> - Data:  <?= $row["fecha"] ?>
+                    <br>
+                    <br>
                    
-
+                <?php
                 }
 
                

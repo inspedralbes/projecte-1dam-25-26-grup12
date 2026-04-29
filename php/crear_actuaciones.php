@@ -12,7 +12,7 @@ function crear_actuaciones($conn)
     $descripcio = $_POST['descripcio'];
     $id_incidencia = $_POST['id_incidencia'];
     $duracio = $_POST['duracio'];
-    $visible = $_POST['visible'];
+    $visible = isset($_POST['visible']) ? 0 : 1;
    
 
 
@@ -57,7 +57,7 @@ function crear_actuaciones($conn)
                         <label for="duracio">Duracio</label>
                         <input type="number" name="duracio">
                         <label for="visible">Visible</label>
-                        <input type="number" name="visible">
+                        <input type="checkbox" name="visible">
                         <input type="submit" value="Crear">
                     </fieldset>
                 </form>
