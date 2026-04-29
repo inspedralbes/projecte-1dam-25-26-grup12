@@ -48,20 +48,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         
 
                while ($row = $result->fetch_assoc()) {
-                    echo "<br>";
-                    echo "<br>";
-                    echo "<p>ID: " . $row["id_incidencia"] . " - Descripció: " . htmlspecialchars($row["descripcio"]) . " - ID Departament: " . $row["id_dept"] . " - Data: " . $row["fecha"];
-                    echo " <a href='crear_actuaciones.php?id_incidencia=" . $row["id_incidencia"] . "'>Crear actuacio</a></p>";
-                    echo "<form method='POST' action='actuacions.php'> " ;   
-                    echo "<input type='hidden' name='id_incidencia' value=" . htmlspecialchars($id) . ">";        
-                    echo "<input type='submit' value='Tancar Incidencia'>";            
-                    echo "</form>";  
-                    echo "<br>";
-                    echo "<br>";
+                ?>
+                    <br>
+                    <br>
+                    <p>ID: <?= $row["id_incidencia"] ?> - Descripció: <?= htmlspecialchars($row["descripcio"]) ?> - ID Departament: <?= $row["id_dept"] ?> - Data: <?= $row["fecha"] ?>
+                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>">Crear actuacio</a></p>
+                    <form method='POST' action='actuacions.php'> 
+                    <input type='hidden' name='id_incidencia' value=" <?= htmlspecialchars($id) ?> ">        
+                    <input type='submit' value='Tancar Incidencia'>            
+                    </form>
+                    <br>
+                    <br>
                     
                     
 
-                }
+         <?php  }
 
             } 
 
