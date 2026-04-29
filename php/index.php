@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="ca">
+<?php
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inici</title>
-</head>
+//Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
+require_once 'connexio.php';
+require_once 'header.php' ;
+// Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
-<body>
+?>
     <h1>Benvingut!!</h1>
-    <hr>
-    <h2>Gestió d'incidències informàtiques Institut Pedralbes</h2>
+
     <hr>
     <h2>Identifica't</h2>
 
