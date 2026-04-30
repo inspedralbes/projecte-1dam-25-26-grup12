@@ -32,13 +32,8 @@ require_once 'header.php';
     $conn->close();
     ?>
 
-    <div id="menu">
-        <hr>
-        <p><a href="index.php">Portada</a> </p>
-        <p><a href="llistar.php">Llistar</a></p>
-        <p><a href="crear.php">Crear</a></p>
-    </div>
+ <?php
 
-</body>
+require_once 'footer.php';
 
-</html>
+?>

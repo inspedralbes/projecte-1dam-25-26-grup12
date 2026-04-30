@@ -107,6 +107,8 @@ require_once 'header.php';
     ?>
 
    
-</body>
+<?php
 
-</html>
+require_once 'footer.php';
+
+?>

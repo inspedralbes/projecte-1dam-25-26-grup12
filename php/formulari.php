@@ -91,7 +91,9 @@ function crear_incidencia($conn)
     }
     ?>
    
-</body>
+<?php
 
-</html>
+require_once 'footer.php';
+
+?>
 
