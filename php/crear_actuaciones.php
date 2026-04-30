@@ -12,7 +12,7 @@ function crear_actuaciones($conn)
     $descripcio = $_POST['descripcio'];
     $id_incidencia = $_POST['id_incidencia'];
     $duracio = $_POST['duracio'];
-    $visible = $_POST['visible'];
+    $visible = isset($_POST['visible']) ? 0 : 1;
    
 
 
@@ -22,11 +22,14 @@ function crear_actuaciones($conn)
     $stmt->bind_param("isii", $id_incidencia, $descripcio, $duracio, $visible);
 
     // Executar la consulta i comprovar si s'ha inserit correctament
-    if ($stmt->execute()) {
-        echo "<p class='info'>Actuacio creada amb èxit!</p>";
-        echo "<p><a href='actuacions.php?id_incidencia=". $id_incidencia . "'>Retorna</a></p>";  
-    } else {
-        echo "<p class='error'>Error al crear la Actuacio: " . htmlspecialchars($stmt->error) . "</p>";
+    if ($stmt->execute()) { ?>
+        <p class='info'>Actuacio creada amb èxit!</p>
+        <p><a href='actuacions.php?id_incidencia=<?= $id_incidencia ?> '>Retorna</a></p>  
+    
+    <?php 
+    } else { ?>
+      <p class='error'>Error al crear la Actuacio: <?=  htmlspecialchars($stmt->error) ?> </p>
+    <?php 
     }
 
     // Tancar la declaració i la connexió
@@ -57,7 +60,7 @@ function crear_actuaciones($conn)
                         <label for="duracio">Duracio</label>
                         <input type="number" name="duracio">
                         <label for="visible">Visible</label>
-                        <input type="number" name="visible">
+                        <input type="checkbox" name="visible">
                         <input type="submit" value="Crear">
                     </fieldset>
                 </form>
