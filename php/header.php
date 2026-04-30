@@ -11,14 +11,42 @@
 
 
 <body>
-    <h2>Gestió d'incidències informàtiques Institut Pedralbes</h2>
-    <nav>
-        <p><a href="index.php">Inici</a></p>
-            <p><a href="usuari.php">Usuari</a></p>
-            <p><a href="admin.php">Admin</a></p>
-            <p><a href="tecnic.php">Tècnic</a></p>
+<br>
+<br>
+<h2>Gestió d'incidències informàtiques Institut Pedralbes</h2><br>
+<br>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.php">INICI</a>
+         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="tecnic.php">Tècnic</a>
+        </li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="admin.php">Admin</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="usuari.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Usuari
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="formulari.php">Registrar nova incidència</a></li>
+            <li><a class="dropdown-item" href="estado.php">Veure estat incidència</a></li>
+           
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
+        
     <div class="container">
     <!--Menu principal a totes les pagines menys a la landing page-->
     <main>
-        <hr>
+        <br><br>
+     
