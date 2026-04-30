@@ -57,39 +57,36 @@ require_once 'connexio.php';
         <?php
 
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        $id = htmlspecialchars($_POST["tecnic_id"]);
+            $id = htmlspecialchars($_POST["tecnic_id"]);
+            ?>
+                <h3> Les teves incidències: </h3><br>
+            <?php
 
-        echo "<h3> Les teves incidències: </h3><br>";
-
-        // Consulta SQL per obtenir totes les files de la taula 'cases'
-        $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
-        FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL" ;
-        $result = $conn->query($sql);
-
-        
-        // Comprovar si hi ha resultats
-        if ($result->num_rows > 0) {
-
-            // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-            while ($row = $result->fetch_assoc()) {
-
-        
-                echo "<h2> INCIDÈNCIA  " .$row["id_incidencia"] . "</h2> " ;
-
-                echo "<br>";
-                echo "<br>";
-
-                echo " <a href='actuacions.php?id_incidencia=" . $row["id_incidencia"] . "'>Mostrar</a></p>";
+            // Consulta SQL per obtenir totes les files de la taula 'cases'
+            $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
+            FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL" ;
+            $result = $conn->query($sql);
 
             
+            // Comprovar si hi ha resultats
+            if ($result->num_rows > 0) {
+
+                // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
+                while ($row = $result->fetch_assoc()) { ?>
+                    <h2> INCIDÈNCIA  <?= $row["id_incidencia"] ?> </h2> 
+                    <br>
+                    <br>
+                    <a href='actuacions.php?id_incidencia= <?= $row["id_incidencia"] ?> '>Mostrar</a>
+
+                
 
 
+                <?php
+                }
 
-        }
-
-    }else {
-                echo "<p>No hi ha incidencies a mostrar.</p>";
-        }
+            }else {
+                    echo "<p>No hi ha incidencies a mostrar.</p>";
+            }
 
 }
  
