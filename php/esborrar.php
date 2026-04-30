@@ -57,13 +57,13 @@ require_once 'header.php';
                 // Mostrar el formulari, que s'enviarà per POST, per confirmar l'esborrat
                 ?>
                 <form method='POST' action='esborrar.php'>
-                <fieldset><legend>Incidencia a esborrar:</legend> <?= htmlspecialchars($row["descripcio"]) ?>
-
-                <br>
-                <input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
-                <input type='submit' value='Sí, esborrar'>";
-                </fieldset>";
-                </form>";
+                    <fieldset><legend>Incidencia a esborrar:</legend> 
+                        <p><?= htmlspecialchars($row["descripcio"]) ?></p>
+                        <br>
+                        <input type='hidden' name='id_incidencia' value='<?= htmlspecialchars($row["id_incidencia"]) ?> '>
+                        <input type='submit' value='Sí, esborrar'>
+                    </fieldset>
+                </form>"
             <?php
             } else {
                 echo "<p class='error'>No s'ha trobat la Incidencia amb ID: " . htmlspecialchars($id) . "</p>";
