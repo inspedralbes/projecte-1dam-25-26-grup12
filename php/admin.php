@@ -4,26 +4,19 @@ require_once 'header.php';
 
 ?>
 
-<!DOCTYPE html>
-<html lang="ca">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-</head>
-
-<body>
-    <div id="menu" style="width: 300px; margin: 0 auto;">
+    <div class = "row">
+        <div class="col-4 col-lg-0"></div>
+        <div class="col-4 col-lg-0">
+    <div id="menu">
         <p><a href="informeTecnic.php">Informe de Tècnics</a></p>
         <p><a href="llistar.php">Llistar incidència</a></p>
         <p><a href="consum-dept.php">Consum per departaments</a></p>
         <p><a href="estadistiques.php">Estadístiques d'Accés</a></p>
     </div>
+</div>
+</div>
 
-</body>
 
-</html>
 
 <?php
 
