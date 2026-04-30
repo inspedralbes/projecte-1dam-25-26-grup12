@@ -63,7 +63,7 @@ require_once 'header.php';
                         <input type='hidden' name='id_incidencia' value='<?= htmlspecialchars($row["id_incidencia"]) ?> '>
                         <input type='submit' value='Sí, esborrar'>
                     </fieldset>
-                </form>"
+                </form>
             <?php
             } else {
                 echo "<p class='error'>No s'ha trobat la Incidencia amb ID: " . htmlspecialchars($id) . "</p>";
