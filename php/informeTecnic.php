@@ -58,20 +58,20 @@ require_once 'header.php';
         if ($result->num_rows > 0) {
 
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-        while ($row = $result->fetch_assoc()) {
+        while ($row = $result->fetch_assoc()) { ?>
             
-            echo "<h2> INCIDÈNCIA  " .$row["id_incidencia"] . "</h2> ";
+            <h2> INCIDÈNCIA  <?= $row["id_incidencia"] ?> </h2> 
 
-            echo "<p> <strong>- Descripció: </strong> " . htmlspecialchars($row["descripcio"]); 
-            echo "<p> <strong>- ID Departament: </strong>" . $row["id_dept"];
-            echo "<p> <strong>- Data: </strong> " . $row["fecha"];
+            <p> <strong>- Descripció: </strong> <?= htmlspecialchars($row["descripcio"]) ?> </p> 
+            <p> <strong>- ID Departament: </strong> <?= $row["id_dept"] ?> </p> 
+            <p> <strong>- Data: </strong> <?= $row["fecha"] ?> </p> 
             
-            echo "<br>";
-            echo "<br>";
+            <br>
+            <br>
 
-            echo "TEMPS DEDICAT TOTAL: ";
+            <p>TEMPS DEDICAT TOTAL: </p>
             
-
+        <?php
         }
 
     } else {

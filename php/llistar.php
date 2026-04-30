@@ -18,10 +18,12 @@ require_once 'header.php';
     if ($result->num_rows > 0) {
 
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-        while ($row = $result->fetch_assoc()) {
-            echo "<p>ID: " . $row["id_incidencia"] . " - Descripcio: " . htmlspecialchars($row["descripcio"]) . " - Fecha: "  . $row["fecha"] . "";
-            echo " <a href='modificar.php?id_incidencia=" . $row["id_incidencia"] . "'>Modificar</a></p>";
-            echo " <a href='esborrar.php?id_incidencia=" . $row["id_incidencia"] . "'>Esborrar</a></p>";
+        while ($row = $result->fetch_assoc()) { ?>
+            <p>ID: <?= $row["id_incidencia"] ?> - Descripcio: <?= htmlspecialchars($row["descripcio"]) ?> - Fecha: <?= $row["fecha"] ?>
+            <a href='modificar.php?id_incidencia= <?= $row["id_incidencia"] ?> '>Modificar</a>
+            <a href='esborrar.php?id_incidencia= <?= $row["id_incidencia"] ?> '>Esborrar</a></p>
+        
+        <?php   
         }
 
     } else {
