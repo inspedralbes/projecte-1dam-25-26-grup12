@@ -34,8 +34,16 @@ require_once 'header.php';
             </tr>
         <?php
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-        while ($row = $result->fetch_assoc()) { ?>
-            <tr >
+        while ($row = $result->fetch_assoc()) { 
+            if ($row["prioridad"] == "alta" ){
+            ?>
+                <tr class="table-danger">
+        <?php }elseif ($row["prioridad"] == "media") { ?>
+                <tr class="table-warning">
+        <?php }elseif ($row["prioridad"] == "baja") { ?>
+                <tr class="table-info">
+        <?php } ?> 
+
                 <td><?= $row["id_incidencia"] ?></td>
                 <td><?= htmlspecialchars($row["descripcio"]) ?> </td>
                 <td><?= $row["fecha"] ?></td>
@@ -45,18 +53,16 @@ require_once 'header.php';
                 <td><?= $row["tecnic_nom"] ?></td>
                 <td><a class="btn btn-primary" href='modificar.php?id_incidencia= <?= $row["id_incidencia"] ?> '>Modificar</a></td>
                 <td><a class="btn btn-danger" href='esborrar.php?id_incidencia= <?= $row["id_incidencia"] ?> '>Esborrar</a></p></td>
-
-
-                
-                
-                
+  
             </tr>
-        <?php   
+        <?php
+                   
+                
         }
         ?>
         </table>
         <?php
-    } else {
+        } else {
         echo "<p>No hi ha dades a mostrar.</p>";
     }
 
