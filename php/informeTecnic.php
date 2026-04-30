@@ -44,45 +44,63 @@ require_once 'header.php';
 
         <?php
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $id = htmlspecialchars($_POST["tecnic_id"]);
 
         echo "<h3> Les teves incidències: </h3><br>";
 
         // Consulta SQL per obtenir totes les files de la taula 'cases'
-        $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
-        FROM INCIDENCIA WHERE id_tecnic = $id" ;
+        $sql = "SELECT id_incidencia, fecha
+        FROM INCIDENCIA WHERE fecha_fin IS NULL AND id_tecnic = $id" ;
         $result = $conn->query($sql);
 
         // Comprovar si hi ha resultats
         if ($result->num_rows > 0) {
 
         // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-        while ($row = $result->fetch_assoc()) { ?>
+            while ($row = $result->fetch_assoc()) { ?>
             
             <h2> INCIDÈNCIA  <?= $row["id_incidencia"] ?> </h2> 
 
-            <p> <strong>- Descripció: </strong> <?= htmlspecialchars($row["descripcio"]) ?> </p> 
-            <p> <strong>- ID Departament: </strong> <?= $row["id_dept"] ?> </p> 
+           
             <p> <strong>- Data: </strong> <?= $row["fecha"] ?> </p> 
             
             <br>
             <br>
 
-            <p>TEMPS DEDICAT TOTAL: </p>
+            <?php
+
+            $inc = $row["id_incidencia"];
+
+            if (is_numeric($inc)) {
+            $sql = "SELECT SUM(duracio) AS TEMPS FROM INCIDENCIA LEFT JOIN ACTUACIO USING (id_incidencia) WHERE id_incidencia = $inc GROUP BY id_incidencia";
+            $result = $conn->query($sql);
+
+            // Comprovar si s'ha trobat la casa
+            if ($result->num_rows > 0) { ?>
+        
+                    <p> <strong>- TEMPS: </strong> <?= $row["TEMPS"] ?> </p>
             
         <?php
+                
+
+
+
+
+
+            }
+
         }
 
-    } else {
-        echo "<p>No hi ha incidencies a mostrar.</p>";
-    }
+        
+        }
+
 
     // Tancar la connexió
     $conn->close();
 
 }
-    
+    }   
 ?>
 
 <?php
@@ -90,4 +108,3 @@ require_once 'header.php';
 require_once 'footer.php';
 
 ?>
-
