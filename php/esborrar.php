@@ -27,7 +27,7 @@ require_once 'header.php';
             $stmt->bind_param("i", $id);
 
             // Executar la consulta i comprovar si s'ha esborrat correctament
-            if ($stmt->execute()) {
+            if ($stmt->execute()) { 
                 echo "<p class='info'>Incidencia esborrada amb èxit!</p>";
             } else {
                 echo "<p class='error'>Error al esborrar la casa: " . htmlspecialchars($stmt->error) . "</p>";
@@ -54,16 +54,17 @@ require_once 'header.php';
             if ($result->num_rows > 0) {
                 // Mostrar la casa a esborrar
                 $row = $result->fetch_assoc();
-
                 // Mostrar el formulari, que s'enviarà per POST, per confirmar l'esborrat
-                echo "<form method='POST' action='esborrar.php'>";
-                echo "<fieldset><legend>Incidencia a esborrar:</legend>" . htmlspecialchars($row["descripcio"]) . "";
+                ?>
+                <form method='POST' action='esborrar.php'>
+                <fieldset><legend>Incidencia a esborrar:</legend> <?= htmlspecialchars($row["descripcio"]) ?>
 
-                echo "<br>";
-                echo "<input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
-                echo "<input type='submit' value='Sí, esborrar'>";
-                echo "</fieldset>";
-                echo "</form>";
+                <br>
+                <input type='hidden' name='id_incidencia' value='" . htmlspecialchars($row["id_incidencia"]) . "'>";
+                <input type='submit' value='Sí, esborrar'>";
+                </fieldset>";
+                </form>";
+            <?php
             } else {
                 echo "<p class='error'>No s'ha trobat la Incidencia amb ID: " . htmlspecialchars($id) . "</p>";
             }
@@ -75,6 +76,9 @@ require_once 'header.php';
     }
     ?>
 
-</body>
 
-</html>
+<?php
+
+require_once 'footer.php';
+
+?>
