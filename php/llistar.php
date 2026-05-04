@@ -10,16 +10,45 @@ require_once 'header.php';
     <h1>Llistat de Incidencies</h1>
     <?php
 
+    $sort = $_GET['sort'] ?? 'id_incidencia';
+
+    $order = $_GET['order'] ?? 'ASC';
+
     // Consulta SQL per obtenir totes les files de la taula 'cases'
     $sql = "SELECT i.id_incidencia, i.descripcio, i.fecha, d.nom AS departament_nom, t.nom AS tipologia_nom, i.prioridad, tec.nom AS tecnic_nom
     FROM INCIDENCIA AS i LEFT JOIN DEPARTAMENT AS d ON i.id_dept=d.id_dept LEFT JOIN TIPO AS t ON i.id_tipo=t.id_tipo  
-    LEFT JOIN TECNIC AS tec ON i.id_tecnic=tec.id_tecnic WHERE fecha_fin IS NULL";
+    LEFT JOIN TECNIC AS tec ON i.id_tecnic=tec.id_tecnic WHERE fecha_fin IS NULL ORDER BY $sort $order";
+
+
+
+
+
+
 
     $result = $conn->query($sql);
 
     // Comprovar si hi ha resultats
     if ($result->num_rows > 0) {
         ?>
+        <th>
+
+                Prioritat
+
+                <a href="?sort=prioridad&order=asc">↑</a>
+
+                <a href="?sort=prioridad&order=desc">↓</a>
+
+                </th>
+
+                <th>
+
+                Data
+
+                <a href="?sort=fecha&order=asc">↑</a>
+
+                <a href="?sort=fecha&order=desc">↓</a>
+
+                </th>
         <table class="table table-striped table-dark">
             <tr >
                 <th>ID</th>
