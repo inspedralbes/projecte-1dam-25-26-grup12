@@ -36,11 +36,13 @@ require_once 'connexio.php';
     <?php $id = ""; ?>
 
         <form method="POST" action="">
+            <div class="mb-3">
             <fieldset>
                 <legend>Tècnic</legend>
 
-                <label for="nom">Nom</label>
-                <select name="tecnic_id" id="tecnic">
+                <label for="nom"  class="form-label">Nom</label>
+                <br>
+                <select name="tecnic_id" id="tecnic" class="form-select" aria-label="Default select example">
                     <option value=""> Selecciona </option>
                     <?php while ($tec = $result->fetch_assoc()) { ?>
                         <option value="<?= $tec['id_tecnic'] ?>">
@@ -48,9 +50,10 @@ require_once 'connexio.php';
                         </option>
                     <?php } ?>
                 </select>
-
-                <input type="submit" value="Entrar">
+                <br>
+                <button type="submit" class="btn btn-primary">Entrar</button>
             </fieldset>
+        </div>
         </form>
 
 
@@ -59,7 +62,7 @@ require_once 'connexio.php';
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $id = htmlspecialchars($_POST["tecnic_id"]);
             ?>
-                <h3> Les teves incidències: </h3><br>
+                <br><h3> Les teves incidències: </h3><br>
             <?php
 
             // Consulta SQL per obtenir totes les files de la taula 'cases'
@@ -73,10 +76,12 @@ require_once 'connexio.php';
 
                 // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
                 while ($row = $result->fetch_assoc()) { ?>
-                    <h2> INCIDÈNCIA  <?= $row["id_incidencia"] ?> </h2> 
+                
+                    <h3> Incidència  <?= $row["id_incidencia"] ?> </h3> 
+                    <br>
+                    <a href='actuacions.php?id_incidencia= <?= $row["id_incidencia"] ?> ' class="btn btn-primary">Mostrar</a>
                     <br>
                     <br>
-                    <a href='actuacions.php?id_incidencia= <?= $row["id_incidencia"] ?> '>Mostrar</a>
 
                 
 

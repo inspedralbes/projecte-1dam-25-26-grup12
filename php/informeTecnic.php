@@ -17,7 +17,7 @@ require_once 'header.php';
 <?php
 
     // Consulta SQL per obtenir totes les files de la taula 'tecnic'
-    $sql = "SELECT id_tecnic, nom FROM TECNIC";
+    $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
     $result = $conn->query($sql);
     ?>
 
@@ -48,43 +48,60 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     echo "<h3> Les teves incidències: </h3><br>";
 
-    $sql = "SELECT 
-                i.id_incidencia, 
-                i.descripcio, 
-                i.id_dept, 
-                i.fecha,
-                SUM(a.duracio) AS temps_total
+    $sql = "SELECT i.id_incidencia, d.nom, i.fecha, i.prioridad, SUM(a.duracio) AS temps_total
             FROM INCIDENCIA i
-            JOIN ACTUACIO a 
-                ON i.id_incidencia = a.id_incidencia
-            WHERE i.id_tecnic = $id
-            GROUP BY 
-                i.id_incidencia, 
-                i.descripcio, 
-                i.id_dept, 
-                i.fecha";
+            LEFT JOIN ACTUACIO a 
+            ON i.id_incidencia = a.id_incidencia
+            JOIN DEPARTAMENT d
+            ON i.id_dept = d.id_dept
+            WHERE i.fecha_fin IS NULL AND i.id_tecnic = $id
+            GROUP BY i.id_incidencia, d.nom, i.fecha, i.prioridad";
 
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
+    if ($result->num_rows > 0) {?>
 
-        while ($row = $result->fetch_assoc()) { ?>
-            
-            <h2> INCIDÈNCIA <?= $row["id_incidencia"] ?> </h2> 
+        <table class="table table-striped table-dark">
+            <tr>
+                <th> INCIDENCIA </th>
+                <th> DESCRIPCIÓ </th>
+                <th> DATA </th>
+                <th> TEMPS TOTAL DEDICAT</th>
+                <th> PRIORITAT </th>
 
-            <p><strong>- Descripció: </strong> <?= htmlspecialchars($row["descripcio"]) ?> </p> 
-            <p><strong>- ID Departament: </strong> <?= $row["id_dept"] ?> </p> 
-            <p><strong>- Data: </strong> <?= $row["fecha"] ?> </p> 
+            <tr>
+
+        <?php 
+        while ($row = $result->fetch_assoc()) {
+
+                if ($row["prioridad"] == "alta" ){?>
+                    <tr class="table-danger">
+
+                <?php }elseif ($row["prioridad"] == "media") { ?>
+                        <tr class="table-warning">
+
+                <?php }elseif ($row["prioridad"] == "baja") { ?>
+                        <tr class="table-info">
+
+                <?php } ?>
+
+                <td> <?= $row["id_incidencia"] ?> </td> 
+                <td> <?= $row["nom"] ?> </td> 
+                <td> <?= $row["fecha"] ?> </td> 
+                <td> <?= $row["temps_total"] ?> minuts </td>
+                <td> <?= $row["prioridad"] ?> </td> 
+
+            </tr>
             
-            <p>
-                <strong>TEMPS DEDICAT TOTAL: </strong>
-                <?= $row["temps_total"] ?> minuts
-            </p>
 
             <br><br>
             
         <?php
         }
+        ?>
+        </table>
+
+        <?php
 
     } else {
         echo "<p>No hi ha incidencies a mostrar.</p>";

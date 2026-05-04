@@ -38,7 +38,7 @@ function crear_actuaciones($conn)
 }
 
 ?>
-    <h1>Crear Actuacio</h1>
+    <h1>Crear actuació</h1><br>
 
     <?php
 
@@ -52,16 +52,21 @@ function crear_actuaciones($conn)
     ?>
                 <form method="POST" action="crear_actuaciones.php">
                     <fieldset>
-                        <legend>Actuacion</legend>
 
-                        <label for="descripcio">Descripcio</label><br>
-                        <textarea name="descripcio" rows="10" cols="50"></textarea>
-                        <input type="hidden" name="id_incidencia" value=" <?= htmlspecialchars($id_incidencia) ?> ">
-                        <label for="duracio">Duracio</label>
-                        <input type="number" name="duracio">
-                        <label for="visible">Visible</label>
-                        <input type="checkbox" name="visible">
-                        <input type="submit" value="Crear">
+                        <label for="descripcio" class="form-label">Descripció</label><br>
+                        <textarea name="descripcio" class="form-control"rows="5" cols="50"></textarea>
+                        <input type="hidden"  name="id_incidencia" value=" <?= htmlspecialchars($id_incidencia) ?> ">
+                        <br><br>
+
+                        <label for="duracio" class="form-label">Duració</label>
+                        <input type="number"  class="form-control" name="duracio">
+
+                        <br><br>
+                        <label for="visible" class="form-label">Visible</label>
+                        <input type="checkbox" class="form-check-input" name="visible">
+
+                        <br><br>
+                        <button type="submit" class="btn btn-primary">Crear</button>
                     </fieldset>
                 </form>
 
