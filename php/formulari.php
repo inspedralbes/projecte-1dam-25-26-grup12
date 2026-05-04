@@ -15,6 +15,7 @@ function crear_incidencia($conn)
     // Obtenir la descripció i el departament del formulari, i netejar les dades per evitar injeccions SQL
     $descripcio = htmlspecialchars($_POST['descripcio']);
     $departamento = htmlspecialchars($_POST['id_dept']);
+    $data = date('Y-m-d H:i:s');
 
     //Comprovar que els camps no estiguin buits, i si ho estan mostrar un missatge d'error i un enllaç per tornar al formulari
     if (empty($descripcio) or empty($departamento)) {
@@ -27,15 +28,32 @@ function crear_incidencia($conn)
    
      
     // Preparar la consulta SQL per inserir una nova incidenccia(el valor de data es automatic amb now)
-    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha) VALUES (?, ?, NOW())";
+    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha) VALUES (?, ?, ?)";
     //Preparacio de la consulta.
     $stmt = $conn->prepare($sql);
     // Vincular els paràmetres a la consulta preparada  
-    $stmt->bind_param("si", $descripcio, $departamento);
+    $stmt->bind_param("sis", $descripcio, $departamento, $data);
+
+    
+
+
+    
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
+        // Consulta SQL per obtenir l'id de la incidencia creada a partir de la descripcio i el departament.
+        $sql1 = "SELECT id_incidencia FROM INCIDENCIA WHERE descripcio = ? AND id_dept = ? AND fecha = ?";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->bind_param("sis", $descripcio, $departamento, $data);
+        $stmt1->execute();
+        $result = $stmt1->get_result();
+        $row = $result->fetch_assoc();  
+        $id_incidencia = $row['id_incidencia']; 
+
+
+
         echo "<p class='info'>Incidencia creada amb èxit!</p>";
+        echo "<p>ID de la incidencia creada: " . htmlspecialchars($id_incidencia) . "</p>";
         echo "<p><a href='index.php'>Retorna</a></p>";  
     } else {
         echo "<p class='error'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
@@ -101,3 +119,4 @@ require_once 'footer.php';
 
 ?>
 
+get_result

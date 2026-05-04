@@ -33,11 +33,11 @@ CREATE TABLE INCIDENCIA(
     id_incidencia INT AUTO_INCREMENT PRIMARY KEY,
     descripcio VARCHAR(1000) NOT NULL,
     id_dept INT NOT NULL
-    fecha DATE ,
+    fecha DATETIME ,
     id_tipo INT ,
     prioridad ENUM('baja','media','alta'),
     id_tecnic INT,
-    fecha_fin DATE,
+    fecha_fin DATETIME,
     FOREIGN KEY (id_dept) REFERENCES DEPARTAMENT(id_dept),
     FOREIGN KEY (id_tipo) REFERENCES TIPO(id_tipo),
     FOREIGN KEY (id_tecnic) REFERENCES TECNIC(id_tecnic)
@@ -47,7 +47,7 @@ CREATE TABLE ACTUACIO(
     id_actuacio INT AUTO_INCREMENT PRIMARY KEY,
     id_incidencia INT NOT NULL,
     descripcio VARCHAR(1000) NOT NULL,
-    fecha DATE ,
+    fecha DATETIME ,
     finalitzat INT,
     visible INT,
     duracio INT,
@@ -62,11 +62,11 @@ INSERT INTO DEPARTAMENT (nom) VALUES ('Tecnologia');
 INSERT INTO TECNIC (nom) VALUES ('Carles');
 INSERT INTO TECNIC (nom) VALUES ('Marta');
 
-INSERT INTO INCIDENCIA (descripcio, id_dept,fecha,id_tipo) VALUES ('El ordinador no es conecta a Internet', 2, '2026-04-2', 1);
-INSERT INTO INCIDENCIA (descripcio, id_dept,fecha,id_tipo) VALUES ('La impresora no funciona', 1, '2026-04-17', 2);
+INSERT INTO INCIDENCIA (descripcio, id_dept,fecha,id_tipo) VALUES ('El ordinador no es conecta a Internet', 2, '2026-04-2 00:00:00', 1);
+INSERT INTO INCIDENCIA (descripcio, id_dept,fecha,id_tipo) VALUES ('La impresora no funciona', 1, '2026-04-17 00:00:00', 2);
 
-INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha) VALUES (1, 'He canviat el cable Ethernet', '2026-04-5' );
-INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha) VALUES (2, 'Hola que tal ', '2026-04-20' );
+INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha) VALUES (1, 'He canviat el cable Ethernet', '2026-04-5 00:00:00' );
+INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha) VALUES (2, 'Hola que tal ', '2026-04-20 00:00:00' );
 
 
 
