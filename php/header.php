@@ -27,10 +27,19 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="tecnic.php">Tècnic</a>
         </li>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="admin.php">Admin</a>
+        
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="usuari.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Admin
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="informeTecnic.php">Informe de Tècnics</a></li>
+            <li><a class="dropdown-item" href="llistar.php">Llistar incidència</a></li>
+            <li><a class="dropdown-item" href="#">Consum per departaments</a></li>
+            <li><a class="dropdown-item" href="#">Estadístiques d'Accés</a></li>
+          </ul>
         </li>
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="usuari.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Usuari
@@ -38,7 +47,6 @@
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="formulari.php">Registrar nova incidència</a></li>
             <li><a class="dropdown-item" href="estado.php">Veure estat incidència</a></li>
-           
           </ul>
         </li>
       </ul>

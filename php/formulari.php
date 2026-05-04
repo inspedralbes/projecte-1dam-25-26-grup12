@@ -49,7 +49,7 @@ function crear_incidencia($conn)
 ?>
 
 
-    <h1>Registrar incidencia</h1>
+    <h1>Registrar incidència</h1><br>
     <?php
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -67,23 +67,25 @@ function crear_incidencia($conn)
         ?>
         <form method="POST" action="formulari.php">
             <fieldset>
-                <legend>Incidencia</legend>
+                <div class="mb-3">
+                <label for="descripcio" class="form-label">Descripció</label><br>
+                <textarea name="descripcio" class="form-control" rows="5" cols="50"></textarea><br>
 
-                <label for="descripcio">Descripcio</label>
-                <textarea name="descripcio" rows="10" cols="50"></textarea>
-                <label for="departament">Departament</label>
 
+                <label for="departament" class="form-label">Departament</label>
                 <!-- Bucle per mostrar les opcions del select de departaments a partir de les dades obtingudes de la base de dades -->
-                <select name="id_dept" id="id_dept">
-                    <option value=""> Selecciona </option>
+                <select name="id_dept" id="id_dept" class="form-select" aria-label="Default select example" required>
+                    <option  value="" > Selecciona </option>
                     <?php while ($dep = $departaments->fetch_assoc()) { ?>
-                            <option value="<?= $dep['id_dept'] ?>">
+                            <option value="<?= $dep['id_dept'] ?>" required>
                             <?= htmlspecialchars($dep['nom']) ?>
                             </option>
                     <?php } ?>
                 </select>
-               
-                <input type="submit" value="Crear">
+               <br>
+                <button type="submit" class="btn btn-primary">Crear</button>
+
+                </div>
             </fieldset>
         </form>
 

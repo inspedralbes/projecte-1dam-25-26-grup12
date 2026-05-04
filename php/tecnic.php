@@ -42,8 +42,8 @@ require_once 'connexio.php';
 
                 <label for="nom"  class="form-label">Nom</label>
                 <br>
-                <select name="tecnic_id" id="tecnic" class="form-select" aria-label="Default select example">
-                    <option value=""> Selecciona </option>
+                <select name="tecnic_id" id="tecnic" class="form-select" aria-label="Default select example" required>
+                    <option value="" > Selecciona </option>
                     <?php while ($tec = $result->fetch_assoc()) { ?>
                         <option value="<?= $tec['id_tecnic'] ?>">
                             <?= htmlspecialchars($tec['nom']) ?>
