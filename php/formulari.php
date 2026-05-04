@@ -33,9 +33,26 @@ function crear_incidencia($conn)
     // Vincular els paràmetres a la consulta preparada  
     $stmt->bind_param("si", $descripcio, $departamento);
 
+    
+
+
+    
+
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
+        // Consulta SQL per obtenir l'id de la incidencia creada a partir de la descripcio i el departament.
+        $sql1 = "SELECT id_incidencia FROM INCIDENCIA WHERE descripcio = ? AND id_dept = ?";
+        $stmt1 = $conn->prepare($sql1);
+        $stmt1->bind_param("si", $descripcio, $departamento);
+        $stmt1->execute();
+        $result = $stmt1->get_result();
+        $row = $result->fetch_assoc();
+        $id_incidencia = $row['id_incidencia']; 
+
+
+
         echo "<p class='info'>Incidencia creada amb èxit!</p>";
+        echo "<p>ID de la incidencia creada: " . htmlspecialchars($id_incidencia) . "</p>";
         echo "<p><a href='index.php'>Retorna</a></p>";  
     } else {
         echo "<p class='error'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
@@ -99,3 +116,4 @@ require_once 'footer.php';
 
 ?>
 
+get_result

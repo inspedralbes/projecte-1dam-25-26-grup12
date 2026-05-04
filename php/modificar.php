@@ -81,12 +81,12 @@ require_once 'header.php';
 
                             <br>
                             <input type='hidden' name='id_incidencia' value=' <?= htmlspecialchars($row["id_incidencia"]) ?> '>
-                            <select name='prioridad' id='prioridad'> 
+                            <select required name='prioridad' id='prioridad'> 
                                 <option value='baja'> Baja </option>
                                 <option value='media'> Media </option>
                                 <option value='alta'> Alta </option>
                             </select>
-                            <select name='id_tecnic' id='id_tecnic'>
+                            <select required name='id_tecnic' id='id_tecnic'>
                                 <option value=''> Tecnic </option>
                                 <?php
                                     //bucle per mostrar noms de tecnics.
@@ -95,7 +95,7 @@ require_once 'header.php';
                                 </option>  
                                 <?php   } ?>
                             </select>   
-                            <select name='id_tipo' id='id_tipo'>
+                            <select required name='id_tipo' id='id_tipo'>
                                 <option value=''> Tipologia </option>
                                 <?php
                                     //bucle per mostrar noms de les tipologies.
