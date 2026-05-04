@@ -1,27 +1,37 @@
 <?php
 
-//Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
+//Conexion a la base de dades i header
 require_once 'connexio.php';
 require_once 'header.php';
-// Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
+
 
 /**
- * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
+ * Funció que llegeix els paràmetres del formulari i crea una nova incidencia a la base de dades.
  * @param mixed $conn
  * @return void
  */
 function crear_incidencia($conn)
 {
-    // Obtenir el nom de la casa del formulari
-    $descripcio = $_POST['descripcio'];
-    $departamento = $_POST['id_dept'];
-    $tipologia = $_POST['id_tipo'];
+    // Obtenir la descripció i el departament del formulari, i netejar les dades per evitar injeccions SQL
+    $descripcio = htmlspecialchars($_POST['descripcio']);
+    $departamento = htmlspecialchars($_POST['id_dept']);
 
+    //Comprovar que els camps no estiguin buits, i si ho estan mostrar un missatge d'error i un enllaç per tornar al formulari
+    if (empty($descripcio) or empty($departamento)) {
+        echo "<p class='error'>Tots els camps són obligatoris.</p>";
+        echo "<p><a href='formulari.php'>Torna al formulari</a></p>";
+        return;
 
-    // Preparar la consulta SQL per inserir una nova casa
-    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo) VALUES (?, ?, NOW(), ?)";
-    $stmt = $conn->prepare($sql);  //La variable $conn la tenim per haver inclòs el fitxer connexio.php
-    $stmt->bind_param("sii", $descripcio, $departamento, $tipologia);
+    }
+
+   
+     
+    // Preparar la consulta SQL per inserir una nova incidenccia(el valor de data es automatic amb now)
+    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha) VALUES (?, ?, NOW())";
+    //Preparacio de la consulta.
+    $stmt = $conn->prepare($sql);
+    // Vincular els paràmetres a la consulta preparada  
+    $stmt->bind_param("si", $descripcio, $departamento);
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
@@ -43,16 +53,17 @@ function crear_incidencia($conn)
     <?php
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        // Si el formulari s'ha enviatc (mètode POST), cridem a la funció per crear la casa
+        // Si el formulari s'ha enviatc (mètode POST), cridem a la funció per crear la incidencia
         crear_incidencia($conn);
+
+    //Mostrem el formulari per crear una nova incidencia    
     } else {
-        //Mostrem el formulari per crear una nova casa
-        //Tanquem el php per poder escriure el codi HTML de forma més còmoda.
+    
+        //Consulta per a recuperar les dades de departamets
         $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
         $departaments = $conn->query($sql);
 
-        $sql1 = "SELECT id_tipo, nom FROM TIPO";
-        $tipologia = $conn->query($sql1);
+        
         ?>
         <form method="POST" action="formulari.php">
             <fieldset>
@@ -61,6 +72,8 @@ function crear_incidencia($conn)
                 <label for="descripcio">Descripcio</label>
                 <textarea name="descripcio" rows="10" cols="50"></textarea>
                 <label for="departament">Departament</label>
+
+                <!-- Bucle per mostrar les opcions del select de departaments a partir de les dades obtingudes de la base de dades -->
                 <select name="id_dept" id="id_dept">
                     <option value=""> Selecciona </option>
                     <?php while ($dep = $departaments->fetch_assoc()) { ?>
@@ -69,18 +82,7 @@ function crear_incidencia($conn)
                         </option>
                     <?php } ?>
                 </select>
-                <label for="nom">Tipologia</label>
-                <select name="id_tipo" id="id_tipo">
-                    <option value=""> Selecciona </option>
-                    <?php while ($tip = $tipologia->fetch_assoc()) { ?>
-                        <option value="<?= $tip['id_tipo'] ?>">
-                            <?= htmlspecialchars($tip['nom']) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-                
-                
-                
+               
                 <input type="submit" value="Crear">
             </fieldset>
         </form>
