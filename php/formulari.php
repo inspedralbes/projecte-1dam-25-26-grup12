@@ -77,9 +77,9 @@ function crear_incidencia($conn)
                 <select name="id_dept" id="id_dept">
                     <option value=""> Selecciona </option>
                     <?php while ($dep = $departaments->fetch_assoc()) { ?>
-                        <option value="<?= $dep['id_dept'] ?>">
+                            <option value="<?= $dep['id_dept'] ?>">
                             <?= htmlspecialchars($dep['nom']) ?>
-                        </option>
+                            </option>
                     <?php } ?>
                 </select>
                
