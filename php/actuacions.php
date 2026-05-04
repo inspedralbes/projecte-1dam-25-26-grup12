@@ -39,7 +39,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         // Comprovar si l'ID és un número vàlid
         if (is_numeric($id)) {
             // Preparar la consulta SQL per obtenir la casa a esborrar
-            $sql = "SELECT id_incidencia, descripcio, id_dept, fecha FROM INCIDENCIA WHERE id_incidencia = ?";
+            $sql = "SELECT id_incidencia, descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING(id_dept) WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -51,13 +51,24 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                while ($row = $result->fetch_assoc()) {
                 ?>
-                    <br>
-                    <br>
-                    <p>ID: <?= $row["id_incidencia"] ?> - Descripció: <?= htmlspecialchars($row["descripcio"]) ?> - ID Departament: <?= $row["id_dept"] ?> - Data: <?= $row["fecha"] ?>
-                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>">Crear actuacio</a></p>
+
+                <br>
+                <br>
+                <div>
+                <ul class="list-group">
+                    <li class="list-group-item "><b>ID: </b> <?= htmlspecialchars($row["id_incidencia"]) ?></li>
+                    <li class="list-group-item "><b>Descripció: </b> <?= htmlspecialchars($row["descripcio"]) ?></li>
+                    <li class="list-group-item"><b>Departament: </b> <?= $row["nom"] ?></li>
+                    <li class="list-group-item"><b>Data: </b> <?= $row["fecha"] ?></li>
+                </ul>
+                <br>
+            </div>
+            <br>
+                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>" class="btn btn-primary" >Crear actuacio</a></p>
                     <form method='POST' action='actuacions.php'> 
-                    <input type='hidden' name='id_incidencia' value=" <?= htmlspecialchars($id) ?> ">        
-                    <input type='submit' value='Tancar Incidencia'>            
+
+                    <input type='hidden' name='id_incidencia'  value=" <?= htmlspecialchars($id) ?> ">
+                    <button type="submit" class="btn btn-primary">Tancar Incidència</button>       
                     </form>
                     <br>
                     <br>
@@ -69,37 +80,52 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             } 
 
         // Preparar la consulta SQL per obtenir la casa a esborrar
-            $sql = "SELECT id_actuacio, descripcio, fecha FROM ACTUACIO WHERE id_incidencia = ?";
+            $sql = "SELECT descripcio, fecha, duracio FROM ACTUACIO WHERE id_incidencia = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();
             $result = $stmt->get_result();
 
             // Comprovar si s'ha trobat la casa
-            if ($result->num_rows > 0) {
+            if ($result->num_rows > 0) {?>
 
-                 echo "<h2> ACTUACIONS: </h2> ";
-        
+                <h3> ACTUACIONS: </h3>
+                <table class="table table-striped table-dark">
+            
+                <tr>
+                    <th> Descripció </th>
+                    <th> Data </th>
+                    <th> Temps dedicat </th>
+                </tr>
+                
 
-               while ($row = $result->fetch_assoc()) { ?>
-                    <p>ID: <?= $row["id_actuacio"] ?> - Descripció: <?= htmlspecialchars($row["descripcio"]) ?> - Data:  <?= $row["fecha"] ?>
-                    <br>
-                    <br>
-                   
-                <?php
-                }
+        <?php while ($row = $result->fetch_assoc()) { ?>
 
-               
+                <tr>
+                    <td> <?= htmlspecialchars($row["descripcio"]) ?> </td>
+                    <td> <?= $row["fecha"] ?> </td>
+                    <td> <?= $row["duracio"] ?> </td>
 
+                </tr>
+                <br>
+
+            <?php
             }
+            ?>
+            </table>
 
-             // Tancar la connexió
-                $conn->close();
-        }   
-}
-?>
-
+                    
 <?php
+    }else {
+        echo "<p>No hi ha actuacions a mostrar.</p>";
+    }
+
+            // Tancar la connexió
+            $conn->close();
+
+}
+}
+
 
 require_once 'footer.php';
 

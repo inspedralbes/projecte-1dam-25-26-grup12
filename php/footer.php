@@ -14,7 +14,7 @@
     <br>
     <a href="https://github.com/inspedralbes/projecte-1dam-25-26-grup12">GitHub</a>
 </div>
-        
+      
 </footer>
 </body>
 </html>
