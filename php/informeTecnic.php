@@ -43,33 +43,45 @@ require_once 'header.php';
 
 
         <?php
+if ($_SERVER["REQUEST_METHOD"] == "POST"){
+    $id = htmlspecialchars($_POST["tecnic_id"]);
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        $id = htmlspecialchars($_POST["tecnic_id"]);
+    echo "<h3> Les teves incidències: </h3><br>";
 
-        echo "<h3> Les teves incidències: </h3><br>";
+    $sql = "SELECT 
+                i.id_incidencia, 
+                i.descripcio, 
+                i.id_dept, 
+                i.fecha,
+                SUM(a.duracio) AS temps_total
+            FROM INCIDENCIA i
+            JOIN ACTUACIO a 
+                ON i.id_incidencia = a.id_incidencia
+            WHERE i.id_tecnic = $id
+            GROUP BY 
+                i.id_incidencia, 
+                i.descripcio, 
+                i.id_dept, 
+                i.fecha";
 
-        // Consulta SQL per obtenir totes les files de la taula 'cases'
-        $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
-        FROM INCIDENCIA WHERE id_tecnic = $id" ;
-        $result = $conn->query($sql);
+    $result = $conn->query($sql);
 
-        // Comprovar si hi ha resultats
-        if ($result->num_rows > 0) {
+    if ($result->num_rows > 0) {
 
-        // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
         while ($row = $result->fetch_assoc()) { ?>
             
-            <h2> INCIDÈNCIA  <?= $row["id_incidencia"] ?> </h2> 
+            <h2> INCIDÈNCIA <?= $row["id_incidencia"] ?> </h2> 
 
-            <p> <strong>- Descripció: </strong> <?= htmlspecialchars($row["descripcio"]) ?> </p> 
-            <p> <strong>- ID Departament: </strong> <?= $row["id_dept"] ?> </p> 
-            <p> <strong>- Data: </strong> <?= $row["fecha"] ?> </p> 
+            <p><strong>- Descripció: </strong> <?= htmlspecialchars($row["descripcio"]) ?> </p> 
+            <p><strong>- ID Departament: </strong> <?= $row["id_dept"] ?> </p> 
+            <p><strong>- Data: </strong> <?= $row["fecha"] ?> </p> 
             
-            <br>
-            <br>
+            <p>
+                <strong>TEMPS DEDICAT TOTAL: </strong>
+                <?= $row["temps_total"] ?> minuts
+            </p>
 
-            <p>TEMPS DEDICAT TOTAL: </p>
+            <br><br>
             
         <?php
         }
@@ -77,11 +89,11 @@ require_once 'header.php';
     } else {
         echo "<p>No hi ha incidencies a mostrar.</p>";
     }
+}
 
     // Tancar la connexió
     $conn->close();
 
-}
     
 ?>
 
