@@ -31,24 +31,15 @@ require_once 'header.php';
     if ($result->num_rows > 0) {
         ?>
         <th>
-
-                Prioritat
-
-                <a href="?sort=prioridad&order=asc">↑</a>
-
-                <a href="?sort=prioridad&order=desc">↓</a>
-
-                </th>
-
-                <th>
-
-                Data
-
-                <a href="?sort=fecha&order=asc">↑</a>
-
-                <a href="?sort=fecha&order=desc">↓</a>
-
-                </th>
+            Prioritat
+            <a href="?sort=prioridad&order=asc">↑</a>
+            <a href="?sort=prioridad&order=desc">↓</a>
+            </th>
+            <th>
+            Data
+            <a href="?sort=fecha&order=asc">↑</a>
+            <a href="?sort=fecha&order=desc">↓</a>
+        </th>
         <table class="table table-striped table-dark">
             <tr >
                 <th>ID</th>
