@@ -84,18 +84,18 @@ INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo, prioridad, id_tecni
 ('Possible virus detectat', 4, '2026-04-20 08:45:00', 4, 'alta', 1, NULL);
 
 INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha, finalitzat, visible, duracio) VALUES
-(1, 'Revisió del router', '2026-04-02 08:30:00', 1, 1, 30),
+(1, 'Revisió del router', '2026-04-02 08:30:00', 1, 0, 30),
 (1, 'Canvi de cable Ethernet', '2026-04-02 09:30:00', 1, 1, 45),
 
-(2, 'Reinstal·lació de drivers', '2026-04-17 10:00:00', 1, 1, 60),
+(2, 'Reinstal·lació de drivers', '2026-04-17 10:00:00', 1, 0, 60),
 
 (3, 'Reset de contrasenya', '2026-04-10 10:30:00', 1, 1, 20),
-(3, 'Revisió servidor autenticació', '2026-04-10 11:00:00', 0, 1, 40),
+(3, 'Revisió servidor autenticació', '2026-04-10 11:00:00', 0, 0, 40),
 
 (4, 'Neteja de fitxers temporals', '2026-04-12 11:30:00', 1, 1, 50),
 
 (5, 'Anàlisi antivirus', '2026-04-20 09:00:00', 0, 1, 70),
-(5, 'Eliminació malware', '2026-04-20 10:30:00', 0, 1, 90);
+(5, 'Eliminació malware', '2026-04-20 10:30:00', 0, 0, 90);
 
 
 CREATE OR REPLACE VIEW vista_informe_tecnics AS
