@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     echo "<h3> Les teves incidències: </h3><br>";
 
-    $sql = "SELECT i.id_incidencia, d.nom, i.fecha, i.prioridad, SUM(a.duracio) AS temps_total
+    $sql = "SELECT i.id_incidencia, d.nom, i.fecha, i.prioridad, IFNULL(SUM(a.duracio), 0) AS temps_total
             FROM INCIDENCIA i
             LEFT JOIN ACTUACIO a 
             ON i.id_incidencia = a.id_incidencia
