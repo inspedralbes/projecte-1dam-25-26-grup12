@@ -24,21 +24,24 @@ require_once 'header.php';
     <?php $id = ""; ?>
 
         <form method="POST" action="">
+            <div class="mb-3">
             <fieldset>
                 <legend>Tècnic</legend>
 
-                <label for="nom">Nom</label>
-                <select name="tecnic_id" id="tecnic">
-                    <option value=""> Selecciona </option>
+                <label for="nom"  class="form-label">Nom</label>
+                <br>
+                <select name="tecnic_id" id="tecnic" class="form-select" aria-label="Default select example" required>
+                    <option value="" > Selecciona </option>
                     <?php while ($tec = $result->fetch_assoc()) { ?>
                         <option value="<?= $tec['id_tecnic'] ?>">
                             <?= htmlspecialchars($tec['nom']) ?>
                         </option>
                     <?php } ?>
                 </select>
-
-                <input type="submit" value="Entrar">
+                <br>
+                <button type="submit" class="btn btn-primary">Entrar</button>
             </fieldset>
+        </div>
         </form>
 
 

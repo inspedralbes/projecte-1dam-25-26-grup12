@@ -38,7 +38,7 @@ function crear_actuaciones($conn)
 }
 
 ?>
-    <h1>Crear actuació</h1><br>
+    <h1>Registrar actuació</h1><br>
 
     <?php
 
