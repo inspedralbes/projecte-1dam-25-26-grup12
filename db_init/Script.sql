@@ -32,7 +32,7 @@ CREATE TABLE TECNIC (
 CREATE TABLE INCIDENCIA(
     id_incidencia INT AUTO_INCREMENT PRIMARY KEY,
     descripcio VARCHAR(1000) NOT NULL,
-    id_dept INT NOT NULL
+    id_dept INT NOT NULL,
     fecha DATETIME ,
     id_tipo INT ,
     prioridad ENUM('baja','media','alta'),

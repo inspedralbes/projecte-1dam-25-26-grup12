@@ -118,5 +118,3 @@ function crear_incidencia($conn)
 require_once 'footer.php';
 
 ?>
-
-get_result
