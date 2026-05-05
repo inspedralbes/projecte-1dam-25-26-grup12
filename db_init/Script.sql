@@ -53,20 +53,49 @@ CREATE TABLE ACTUACIO(
     duracio INT,
     FOREIGN KEY (id_incidencia) REFERENCES INCIDENCIA(id_incidencia));
 
-INSERT INTO TIPO (nom) VALUES ('Redes');
-INSERT INTO TIPO (nom) VALUES ('Hardware');
 
-INSERT INTO DEPARTAMENT (nom) VALUES ('Català');
-INSERT INTO DEPARTAMENT (nom) VALUES ('Tecnologia');
+    
+-- TIPUS
+INSERT INTO TIPO (nom) VALUES 
+('Xarxes'),
+('Hardware'),
+('Software'),
+('Seguretat');
 
-INSERT INTO TECNIC (nom) VALUES ('Carles');
-INSERT INTO TECNIC (nom) VALUES ('Marta');
+-- DEPARTAMENTS
+INSERT INTO DEPARTAMENT (nom) VALUES 
+('Català'),
+('Tecnologia'),
+('Administració'),
+('Direcció');
 
-INSERT INTO INCIDENCIA (descripcio, id_dept,fecha,id_tipo) VALUES ('El ordinador no es conecta a Internet', 2, '2026-04-2 00:00:00', 1);
-INSERT INTO INCIDENCIA (descripcio, id_dept,fecha,id_tipo) VALUES ('La impresora no funciona', 1, '2026-04-17 00:00:00', 2);
+-- TÈCNICS
+INSERT INTO TECNIC (nom) VALUES 
+('Carles'),
+('Marta'),
+('Joan'),
+('Laura');
 
-INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha) VALUES (1, 'He canviat el cable Ethernet', '2026-04-5 00:00:00' );
-INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha) VALUES (2, 'Hola que tal ', '2026-04-20 00:00:00' );
+INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_tipo, prioridad, id_tecnic, fecha_fin) VALUES
+('No hi ha connexió a Internet', 2, '2026-04-02 08:00:00', 1, 'alta', 1, NULL),
+('La impressora no imprimeix', 1, '2026-04-17 09:30:00', 2, 'media', 2, '2026-04-18 12:00:00'),
+('Error en iniciar sessió al sistema', 3, '2026-04-10 10:15:00', 3, 'alta', 3, NULL),
+('Ordinador molt lent', 2, '2026-04-12 11:00:00', 2, 'baja', 4, '2026-04-13 16:00:00'),
+('Possible virus detectat', 4, '2026-04-20 08:45:00', 4, 'alta', 1, NULL);
+
+INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha, finalitzat, visible, duracio) VALUES
+(1, 'Revisió del router', '2026-04-02 08:30:00', 1, 1, 30),
+(1, 'Canvi de cable Ethernet', '2026-04-02 09:30:00', 1, 1, 45),
+
+(2, 'Reinstal·lació de drivers', '2026-04-17 10:00:00', 1, 1, 60),
+
+(3, 'Reset de contrasenya', '2026-04-10 10:30:00', 1, 1, 20),
+(3, 'Revisió servidor autenticació', '2026-04-10 11:00:00', 0, 1, 40),
+
+(4, 'Neteja de fitxers temporals', '2026-04-12 11:30:00', 1, 1, 50),
+
+(5, 'Anàlisi antivirus', '2026-04-20 09:00:00', 0, 1, 70),
+(5, 'Eliminació malware', '2026-04-20 10:30:00', 0, 1, 90);
 
 
 CREATE OR REPLACE VIEW vista_informe_tecnics AS
