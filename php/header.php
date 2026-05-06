@@ -15,7 +15,7 @@
     </style>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <div class="fixed-top bg-white shadow-sm">
 
@@ -66,5 +66,5 @@
 
 </div>
 
-<main>
+<main class="flex-grow-1">
     <div class="container">

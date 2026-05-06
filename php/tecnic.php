@@ -1,107 +1,110 @@
 <?php
-
 require_once 'header.php';
 require_once 'connexio.php';
-
 ?>
 
-<!DOCTYPE html>
-<html lang="ca">
+<style>
+    body {
+        background-color: #e9ecef; /* Fondo gris azulado */
+    }
+    .admin-card {
+        background-color: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .incidencia-item {
+        background-color: #f8f9fa;
+        border-left: 5px solid #212529; /* Detalle lateral oscuro */
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    h1, h3 {
+        font-weight: 700;
+        color: #212529;
+    }
+    legend {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+</style>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-</head>
-
-<body>
-    <h1>Identifica't</h1>
-
-<?php
-/**
- * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
- * @param mixed $conn
- * @return void
- */
-
-?>
-
-<?php
-
-    // Consulta SQL per obtenir totes les files de la taula 'tecnic'
-    $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
-    $result = $conn->query($sql);
-    ?>
-
-    <?php $id = ""; ?>
-
-        <form method="POST" action="">
-            <div class="mb-3">
-            <fieldset>
-                <legend>Tècnic</legend>
-
-                <label for="nom"  class="form-label">Nom</label>
-                <br>
-                <select name="tecnic_id" id="tecnic" class="form-select" aria-label="Default select example" required>
-                    <option value="" > Selecciona </option>
-                    <?php while ($tec = $result->fetch_assoc()) { ?>
-                        <option value="<?= $tec['id_tecnic'] ?>">
-                            <?= htmlspecialchars($tec['nom']) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-                <br>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </fieldset>
-        </div>
-        </form>
-
-
-        <?php
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-            $id = htmlspecialchars($_POST["tecnic_id"]);
-            ?>
-                <br><h3> Les teves incidències: </h3><br>
-            <?php
-
-            // Consulta SQL per obtenir totes les files de la taula 'cases'
-            $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
-            FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL" ;
-            $result = $conn->query($sql);
-
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
             
-            // Comprovar si hi ha resultats
-            if ($result->num_rows > 0) {
-
-                // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-                while ($row = $result->fetch_assoc()) { ?>
-                
-                    <h3> Incidència  <?= $row["id_incidencia"] ?> </h3> 
-                    <br>
-                    <a href='actuacions.php?id_incidencia= <?= $row["id_incidencia"] ?> ' class="btn btn-primary">Mostrar</a>
-                    <br>
-                    <br>
-
-                
-
+            <div class="admin-card">
+                <h1 class="text-center mb-4">Identifica't</h1>
 
                 <?php
+                // Consulta SQL para obtener los técnicos
+                $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
+                $result = $conn->query($sql);
+                ?>
+
+                <form method="POST" action="">
+                    <fieldset class="border p-4 rounded">
+                        <legend class="w-auto px-2">Panell de Tècnic</legend>
+
+                        <div class="mb-3">
+                            <label for="tecnic" class="form-label fw-bold">Selecciona el teu nom</label>
+                            <select name="tecnic_id" id="tecnic" class="form-select form-select-lg" required>
+                                <option value=""> Selecciona </option>
+                                <?php while ($tec = $result->fetch_assoc()) { ?>
+                                    <option value="<?= $tec['id_tecnic'] ?>">
+                                        <?= htmlspecialchars($tec['nom']) ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dark btn-lg">Entrar al sistema</button>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $id = htmlspecialchars($_POST["tecnic_id"]);
+                    echo "<hr class='my-5'>";
+                    echo "<h3 class='mb-4 text-center text-primary'>Les teves incidències</h3>";
+
+                    // Consulta para obtener incidencias pendientes del técnico
+                    $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
+                            FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL";
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) { ?>
+                            
+                            <div class="incidencia-item shadow-sm">
+                                <div>
+                                    <h5 class="mb-1">Incidència #<?= $row["id_incidencia"] ?></h5>
+                                    <p class="mb-0 text-muted small"><?= htmlspecialchars(substr($row["descripcio"], 0, 50)) ?>...</p>
+                                </div>
+                                <a href='actuacions.php?id_incidencia=<?= $row["id_incidencia"] ?>' class="btn btn-primary btn-sm px-4">Mostrar</a>
+                            </div>
+
+                        <?php
+                        }
+                    } else {
+                        echo "<div class='alert alert-light text-center border'>No tens incidències pendents actualment.</div>";
+                    }
                 }
-
-            }else {
-                    echo "<p>No hi ha incidencies a mostrar.</p>";
-            }
-
-}
- 
-?>
-
-
+                ?>
+            </div> </div>
+    </div>
+</div>
 
 <?php
-
 require_once 'footer.php';
-// Tancar la connexió
-    $conn->close();
+$conn->close();
 ?>
