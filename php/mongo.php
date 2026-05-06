@@ -1,6 +1,6 @@
 <?php
 
-require  '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 
 $uri = getenv('MONGODB_URI') ?: throw new RuntimeException(
@@ -14,7 +14,6 @@ $restaurants = [
     ['name' => 'Mongo\'s Pizza'],
 ];
 $result = $collection->insertMany($restaurants);
-
 
 
 
