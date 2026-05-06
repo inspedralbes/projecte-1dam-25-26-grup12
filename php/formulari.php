@@ -3,6 +3,7 @@
 //Conexion a la base de dades i header
 require_once 'connexio.php';
 require_once 'header.php';
+require_once 'mongo.php';
 
 
 /**
