@@ -6,25 +6,20 @@ require_once 'header.php' ;
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 ?>
-    
-    
 
+<div class="container" style="max-width: 750px;">
+    <div class="bg-white rounded-4 shadow-sm p-5 mt-4 text-center">
 
-    <div class="container" style="position: relative; width: 1050px; height: 520px; margin: 40px auto; border: 2px solid #3b5bdb;
-    border-radius: 18px;
-    padding: 40px 40px 60px 80px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;">
-        <h1 style = "margin-bottom: 40px; text-align: center;">Benvingut!!</h1>
+        <h1 class="mb-4">Benvingut!!</h1>
+        <hr class="mb-4">
 
-    <hr><br><br>
-        <header><h2 style= "text-align: center;">Identifica't</h2></header>
-        <br><br>
-        <span class="container-flex" style= "display: flex; justify-content: center; gap: 16px;">
-            <a class="btn btn-primary" href="usuari.php">Usuari</a>
-            <a class="btn btn-primary"  href="admin.php">Admin</a>
-            <a class="btn btn-primary" href="tecnic.php">Tècnic</a>
-          </span>
+        <h2 class="mb-4">Identifica't</h2>
+
+        <span class="d-flex justify-content-center gap-3">
+            <a class="btn btn-dark px-4" href="usuari.php">Usuari</a>
+            <a class="btn btn-dark px-4" href="admin.php">Admin</a>
+            <a class="btn btn-dark px-4" href="tecnic.php">Tècnic</a>
+        </span>
+
     </div>
+</div>
