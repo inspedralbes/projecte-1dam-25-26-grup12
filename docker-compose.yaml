@@ -25,6 +25,7 @@ services:
       VAR2: ${VAR2}
     depends_on:
        - db
+       - mongo
 
   db:
     # Tota la informació d'aquesta imatge està https://dockerhub.com/_/mysql
