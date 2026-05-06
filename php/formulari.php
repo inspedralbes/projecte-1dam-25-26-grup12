@@ -45,8 +45,8 @@ function crear_incidencia($conn)
 
         echo "<p class='text-success fw-semibold'>Incidencia creada amb èxit!</p>";
         echo "<p>ID de la incidencia creada: " . htmlspecialchars($id_incidencia) . "</p>";
-        echo "<p><a href='index.php'>Retorna</a></p>";  
-    } else {
+        echo "<div class='text-center mt-4'><a href='index.php' class='btn btn-dark px-4'>Retorna a l'inici</a></div>";
+        } else {
         echo "<p class='text-danger'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
     }
 
