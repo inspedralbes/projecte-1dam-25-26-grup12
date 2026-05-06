@@ -1,24 +1,30 @@
-# Hi ha 3 contenidors
-# 1. php amb apache (la nostra aplicació web) que la trobaràs a http://localhost:8080
+# Hi ha 5 contenidors
+# 1. php amb apache i els drivers de mongodb (la nostra aplicació web) que la trobaràs a http://localhost:8080
 # 2. mysql (la base de dades), que no és accessible des de l'exterior (el primer cop pot trigar diversos minuts, mireu els logs)
-# 3. adminer (un client web per gestionar el mysql), que la trobaràs a http://localhost:8081
-
+# 3. adminer (un client web per gestionar el mysql), que el trobaràs a http://localhost:8081
+# 5, mongo la BBDD no sql
+# 6, express js, (un client web per gestionar el mongodv) que el trobaràs a http://localhost:8081
 
 services:
-  web:
-    #La imatge php:apache no conté els drivers de mysql, hem de fer una imatge a mida
-    #image: php:apache
-    build:
-      context: ./images
-      dockerfile: Dockerfile_php
+  apache_php_mysql_mongodb:
+    #La imatge php:apache no té tots els drivers. hem de fer una imatge a mida
+    # Podeu fer servir el dockerfile que hi ha a /images i fer el build
+    # o podeu agafar aquest imatge, ebota/daw:apache_php_mysql_mongodb, 
+    #  que ja està construüida i està a dockerhub. Teniu més info a:
+    # https://hub.docker.com/r/ebota/daw
+    image: ebota/daw:apache_php_mysql_mongodb
     ports:
       - "8080:80"
     volumes:
       - ./php:/var/www/html
+    # És necessari que hi hagi el fitxer composer.json a la carpeta php i la següent directiva
+    # perque el php instal·li les dependències de mongo 
+    command: /bin/bash -c "composer install --no-interaction --no-plugins --no-scripts && echo WEBSERVER_________UP_________AND_______RUNNIIIIIIING && apache2-foreground"
     environment:
       VAR1: "sóc una pera i estic al docker-compose"
+      VAR2: ${VAR2}
     depends_on:
-      - db
+       - db
 
   db:
     # Tota la informació d'aquesta imatge està https://dockerhub.com/_/mysql
@@ -36,16 +42,14 @@ services:
     #    L'aplicació web hi accedirà per la xarxa interna de docker
     #    ports:
     #      - "3306:3306"
-
-    # La carpeta de mysql ha d'estar al .gitignore per no pujar-la al repositori
+    # La carpeta de mysql /db_data ha d'estar al .gitignore per no pujar-la al repositori
     volumes:
       - ./db_data:/var/lib/mysql
       - ./db_init:/docker-entrypoint-initdb.d
 
-
-# Aquesta imatge és un client web per gestionar el mysql via web
-# està disponible a http://localhost:8081
-# i les credencials són les del mysql (per que "simplement" es connecta al mysql)
+  # Aquesta imatge és un client web per gestionar el mysql via web
+  # està disponible a http://localhost:8081
+  # i les credencials són les del mysql (per que "simplement" es connecta al mysql)
   adminer:
     image: adminer
     ports:
@@ -53,30 +57,38 @@ services:
     depends_on:
       - db
 
-    
-  #------------------------------------------------------------------
+  # BBDD no sql,
+  mongo:
+    image: mongo:latest
+    volumes:
+      #Named volume, no cal posar res al .gitignore
+      #perque no es crea una carpeta al host sinó que es crea un volum a docker
+      # i es pot veure amb docker volume ls
+      # i es pot eliminar amb docker volume rm nom_del_volum      
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
 
- # mongo:
-   # image: mongo:7.0
-   # ports:
-    #  -27017:27017
-    #environment:
-    #  MONGO_INITDB_ROOT_USERNAME: usuari
-    #  MONGO_INITDB_ROOT_PASSWORD: paraula_de_pas
-   #volumes:
-   #   - ./data_mongo:/data/db
+  mongo-express:
+    image: mongo-express
+    ports:
+      - "8082:8081"
+    environment:
+      #Per entrar a la web de mongo-express, les credencials són
+      #admin
+      #pass
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    depends_on:
+      - mongo
 
-  #mongo-express:
-   # image: mongo-express
-  #  restart: always
-  #  ports:
-  #    - 8082:8082
-  #  environment:
-   #  ME_CONFIG_MONGODB_URL: mongodb://usuari:paraula_de_pas@localhost:27017/
-  #  ME_CONFIG_BASICAUTH_ENABLED: true
-   #   ME_CONFIG_BASICAUTH_USERNAME: mongoexpressuser
-     # ME_CONFIG_BASICAUTH_PASSWORD: mongoexpresspass
-  #  depends_on:
-   #   - mongo
-
-   #-------------------------------------------------------------------------------------------------
+# Volums
+#Les dades del mongodb les guardem en un named volume
+#perque així no es perden quan es recrea el contenidor
+#Però el podem esborrar des del terminal amb:
+#docker volume ls #per veure els volums creats
+#docker volume rm nom_del_volum #per eliminar un volum
+volumes:
+  mongodb_data:
