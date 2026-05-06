@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
     echo "<h3> Les teves incidències: </h3><br>";
 
-    $sql = "SELECT i.id_incidencia, d.nom, i.fecha, i.prioridad, IFNULL(SUM(a.duracio), 0) AS temps_total
+    $sql = "SELECT i.id_incidencia, i.descripcio, d.nom, i.fecha, i.prioridad, IFNULL(SUM(a.duracio), 0) AS temps_total
             FROM INCIDENCIA i
             LEFT JOIN ACTUACIO a 
             ON i.id_incidencia = a.id_incidencia
@@ -68,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
             <tr>
                 <th> INCIDENCIA </th>
                 <th> DESCRIPCIÓ </th>
+                <th> DEPARTAMENT </th>
                 <th> DATA </th>
                 <th> TEMPS TOTAL DEDICAT</th>
                 <th> PRIORITAT </th>
@@ -89,6 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
                 <?php } ?>
 
                 <td> <?= $row["id_incidencia"] ?> </td> 
+                <td> <?= $row["descripcio"] ?> </td> 
                 <td> <?= $row["nom"] ?> </td> 
                 <td> <?= $row["fecha"] ?> </td> 
                 <td> <?= $row["temps_total"] ?> minuts </td>
