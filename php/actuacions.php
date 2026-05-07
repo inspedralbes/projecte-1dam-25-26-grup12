@@ -1,132 +1,146 @@
 <?php
-
-//Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
-require_once 'header.php' ;
-// Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
-
+require_once 'header.php';
 
 function tancar_incidencia($conn){
     $id = $_POST['id_incidencia'];
-    $sql= "UPDATE  INCIDENCIA (fecha_fin) VALUES (NOW())";
-    $sql= "UPDATE  INCIDENCIA SET fecha_fin = NOW() WHERE id_incidencia = ?";
+    $sql = "UPDATE INCIDENCIA SET fecha_fin = NOW() WHERE id_incidencia = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
 
-    // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) { ?>
-        <p class='info'>Incidencia tancada amb èxit!</p>
-        <p><a href='index.php'>Retorna</a></p>  
-        <?php
+        <div class="container mt-4">
+            <div class="alert alert-success shadow-sm">Incidència tancada amb èxit!</div>
+            <a href='index.php' class="btn btn-dark">Retorna a l'inici</a>
+        </div>
+    <?php
     } else { ?>
-       <p class='error'>Error al tancar la Incidencia:  <?= htmlspecialchars($stmt->error) ?> </p>
-       <?php
+       <div class="container mt-4">
+            <div class="alert alert-danger">Error al tancar la Incidència: <?= htmlspecialchars($stmt->error) ?></div>
+       </div>
+    <?php
     }
-
-    // Tancar la declaració i la connexió
     $stmt->close();
 }   
-
 ?>
 
-<?php
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    tancar_incidencia($conn,$id);
-
-} elseif (isset($_GET['id_incidencia'])){
-    $id = $_GET['id_incidencia'];
-
-        // Comprovar si l'ID és un número vàlid
-        if (is_numeric($id)) {
-            // Preparar la consulta SQL per obtenir la casa a esborrar
-            $sql = "SELECT id_incidencia, descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING(id_dept) WHERE id_incidencia = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            // Comprovar si s'ha trobat la casa
-            if ($result->num_rows > 0) {
-        
-
-               while ($row = $result->fetch_assoc()) {
-                ?>
-
-                <br>
-                <br>
-                <div>
-                <ul class="list-group">
-                    <li class="list-group-item "><b>ID: </b> <?= htmlspecialchars($row["id_incidencia"]) ?></li>
-                    <li class="list-group-item "><b>Descripció: </b> <?= htmlspecialchars($row["descripcio"]) ?></li>
-                    <li class="list-group-item"><b>Departament: </b> <?= $row["nom"] ?></li>
-                    <li class="list-group-item"><b>Data: </b> <?= $row["fecha"] ?></li>
-                </ul>
-                <br>
-            </div>
-            <br>
-                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>" class="btn btn-primary" >Crear actuacio</a></p>
-                    <form method='POST' action='actuacions.php'> 
-
-                    <input type='hidden' name='id_incidencia'  value=" <?= htmlspecialchars($id) ?> ">
-                    <button type="submit" class="btn btn-primary">Tancar Incidència</button>       
-                    </form>
-                    <br>
-                    <br>
-                    
-                    
-
-         <?php  }
-
-            } 
-
-        // Preparar la consulta SQL per obtenir la casa a esborrar
-            $sql = "SELECT descripcio, fecha, duracio FROM ACTUACIO WHERE id_incidencia = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            // Comprovar si s'ha trobat la casa
-            if ($result->num_rows > 0) {?>
-
-                <h3> ACTUACIONS: </h3>
-                <table class="table table-striped table-dark">
-            
-                <tr>
-                    <th> Descripció </th>
-                    <th> Data </th>
-                    <th> Temps dedicat </th>
-                </tr>
-                
-
-        <?php while ($row = $result->fetch_assoc()) { ?>
-
-                <tr>
-                    <td> <?= htmlspecialchars($row["descripcio"]) ?> </td>
-                    <td> <?= $row["fecha"] ?> </td>
-                    <td> <?= $row["duracio"] ?> </td>
-
-                </tr>
-                <br>
-
-            <?php
-            }
-            ?>
-            </table>
-
-                    
-<?php
-    }else {
-        echo "<p>No hi ha actuacions a mostrar.</p>";
+<style>
+    body {
+        background-color: #e9ecef; 
     }
+    .main-card {
+        background-color: white;
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .incidencia-header {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+    }
+    .info-row {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+    .info-label {
+        font-weight: 700;
+        color: #212529;
+        width: 140px;
+        display: inline-block;
+    }
+    h3 {
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+</style>
 
-            // Tancar la connexió
-            $conn->close();
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="main-card">
+                
+                <?php
+                if($_SERVER["REQUEST_METHOD"] == "POST"){
+                    tancar_incidencia($conn);
+                } elseif (isset($_GET['id_incidencia'])){
+                    $id = $_GET['id_incidencia'];
 
-}
-}
+                    if (is_numeric($id)) {
+                        $sql = "SELECT id_incidencia, descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING(id_dept) WHERE id_incidencia = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
 
+                        if ($result->num_rows > 0) {
+                            while ($row = $result->fetch_assoc()) { ?>
+                                
+                                <div class="incidencia-header">
+                                    <h1>Detall Incidència #<?= htmlspecialchars($row["id_incidencia"]) ?></h1>
+                                </div>
 
-require_once 'footer.php';
+                                <div class="mb-4">
+                                    <div class="info-row"><span class="info-label">ID:</span> <?= htmlspecialchars($row["id_incidencia"]) ?></div>
+                                    <div class="info-row"><span class="info-label">Descripció:</span> <?= htmlspecialchars($row["descripcio"]) ?></div>
+                                    <div class="info-row"><span class="info-label">Departament:</span> <?= $row["nom"] ?></div>
+                                    <div class="info-row"><span class="info-label">Data:</span> <?= $row["fecha"] ?></div>
+                                </div>
 
-?>
+                                <div class="d-flex gap-2 mb-2">
+                                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>" class="btn btn-primary px-4">Crear actuació</a>
+                                    
+                                    <form method='POST' action='actuacions.php'> 
+                                        <input type='hidden' name='id_incidencia' value="<?= htmlspecialchars($id) ?>">
+                                        <button type="submit" class="btn btn-dark px-4">Tancar Incidència</button>       
+                                    </form>
+                                </div>
+                            <?php }
+                        } 
+
+                        $sql = "SELECT descripcio, fecha, duracio FROM ACTUACIO WHERE id_incidencia = ?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("i", $id);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+
+                        echo "<h3>ACTUACIONS:</h3>";
+
+                        if ($result->num_rows > 0) { ?>
+                            <div class="table-responsive rounded shadow-sm">
+                                <table class="table table-dark table-striped align-middle mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Descripció</th>
+                                            <th>Data</th>
+                                            <th>Temps dedicat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php while ($row = $result->fetch_assoc()) { ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($row["descripcio"]) ?></td>
+                                                <td><?= $row["fecha"] ?></td>
+                                                <td><?= $row["duracio"] ?> minuts</td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php 
+                        } else {
+                            echo "<p class='text-muted'>No hi ha actuacions a mostrar.</p>";
+                        }
+                        $conn->close();
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php require_once 'footer.php'; ?>
