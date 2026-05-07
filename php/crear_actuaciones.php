@@ -1,6 +1,7 @@
 <?php
 require_once 'connexio.php';
 require_once 'header.php' ;
+include_once 'mongo.php';
 /**
  * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
  * @param mixed $conn

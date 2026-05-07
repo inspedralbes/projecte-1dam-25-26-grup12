@@ -21,7 +21,6 @@ $user_agent = obtenerNavegador($_SERVER['HTTP_USER_AGENT']) ?? 'unknown';
 
 $collection->insertOne([
     'user' => $user,
-    'age' => 28,
     'ip_origin' => $ip,
     'date' => $hora,
     'metodo' => $metod,
@@ -30,25 +29,13 @@ $collection->insertOne([
     'nav' => $user_agent
 
 ]);
-echo "Dades inserides a demo .\n";
 
 
 // Obtenir tots els documents de la col·lecció users de la BBDD demo
 // $collection = $client->demo->users; #no cal, ja que ho hem fet abans
 $documents = $collection->find();
 
-foreach ($documents as $document) {
-    echo "<p>";
-    echo htmlspecialchars($document['date'] ?? "x");
-    echo " ( " . htmlspecialchars($document['ip_origin'] ?? "x") . " )";
-    echo " : " . htmlspecialchars($document['user']);
-    echo " : " . $document['metodo'];
-    echo " : " . $document['uri'];
-    echo " : " . $document['rtime'];
-    echo " : " . $document['nav'];
-    echo "</p>";
 
-}
 
 function obtenerNavegador($user_agent) {
     if (strpos($user_agent, 'MSIE') !== FALSE || strpos($user_agent, 'Trident') !== FALSE) return 'Internet Explorer';

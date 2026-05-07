@@ -1,6 +1,7 @@
 <?php
 require_once 'connexio.php';
 require_once 'header.php';
+include_once 'mongo.php';
 
 function tancar_incidencia($conn){
     $id = $_POST['id_incidencia'];

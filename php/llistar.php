@@ -2,6 +2,7 @@
 // Conexiones y headers (No tocamos lógica)
 require_once 'connexio.php';
 require_once 'header.php';
+include_once 'mongo.php';
 
 $sort = $_GET['sort'] ?? 'prioridad';
 $order = $_GET['order'] ?? 'desc';
