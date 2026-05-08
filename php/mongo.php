@@ -1,39 +1,47 @@
 <?php
-require 'vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$client = new MongoDB\Client("mongodb://root:example@mongo:27017/?authSource=admin");
+try {
+    
+    $client = new MongoDB\Client("mongodb://a25adrurbrub_db_user:DpOUDFTWJpYzCyNc@ac-f4c77ru-shard-00-00.uok03ie.mongodb.net:27017,ac-f4c77ru-shard-00-01.uok03ie.mongodb.net:27017,ac-f4c77ru-shard-00-02.uok03ie.mongodb.net:27017/?ssl=true&replicaSet=atlas-fzoqka-shard-0&authSource=admin&appName=Cluster0");
 
-$collection = $client->demo->users;
+    $collection = $client->demo->users;
 
-// Obtenim l'adreça IP origen de la petció.
-// Teniu informació sobre l'operador ?? a 
-// https://phpsensei.es/operadores-en-php-null-coalesce-operator/
-// "Si no es pot obtenir, es fa servir 'unknown' com a valor per defecte"
+    // Obtenim l'adreça IP origen de la petció.
+    // Teniu informació sobre l'operador ?? a 
+    // https://phpsensei.es/operadores-en-php-null-coalesce-operator/
+    // "Si no es pot obtenir, es fa servir 'unknown' com a valor per defecte"
 
-$ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$hora = date("Y-m-d H:i:s");
-$metod = $_SERVER['REQUEST_METHOD'] ?? 'unknown';
-$file = $_SERVER['PHP_SELF'] ?? 'unknown';
-$user = 'null';
-$r_time = $_SERVER['REQUEST_TIME_FLOAT'] ?? 'unknown';
-$user_agent = obtenerNavegador($_SERVER['HTTP_USER_AGENT']) ?? 'unknown';
-
-
-$collection->insertOne([
-    'user' => $user,
-    'ip_origin' => $ip,
-    'date' => $hora,
-    'metodo' => $metod,
-    'uri' => $file,
-    'rtime' => $r_time,
-    'nav' => $user_agent
-
-]);
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $hora = date("Y-m-d H:i:s");
+    $metod = $_SERVER['REQUEST_METHOD'] ?? 'unknown';
+    $file = $_SERVER['PHP_SELF'] ?? 'unknown';
+    $user = 'null';
+    $r_time = $_SERVER['REQUEST_TIME_FLOAT'] ?? 'unknown';
+    $user_agent = obtenerNavegador($_SERVER['HTTP_USER_AGENT']) ?? 'unknown';
 
 
-// Obtenir tots els documents de la col·lecció users de la BBDD demo
-// $collection = $client->demo->users; #no cal, ja que ho hem fet abans
-$documents = $collection->find();
+    $collection->insertOne([
+        'user' => $user,
+        'ip_origin' => $ip,
+        'date' => $hora,
+        'metodo' => $metod,
+        'uri' => $file,
+        'rtime' => $r_time,
+        'nav' => $user_agent
+
+    ]);
+
+
+    // Obtenir tots els documents de la col·lecció users de la BBDD demo
+    // $collection = $client->demo->users; #no cal, ja que ho hem fet abans
+    $documents = $collection->find();
+
+
+} catch (Exception $e) {
+    echo 'Excepción recibida: ',  $e->getMessage(), "\n";
+}
+
 
 
 
