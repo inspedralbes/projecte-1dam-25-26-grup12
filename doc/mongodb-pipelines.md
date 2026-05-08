@@ -1,13 +1,8 @@
 <?php
 
-require 'vendor/autoload.php';
-
-$client = new MongoDB\Client("mongodb://root:example@mongo:27017/?authSource=admin");
-
-$collection = $client->demo->users;
-
 // Hem comptat tots els documents de la col·lecció perquè cada document es igual a un accés.
 $accessos_total = $collection->countDocuments();
+
 
 // Agrupem els accessos per URI i comptem quantes vegades apareix cada pàgina.
 $pagines = $collection->aggregate([
@@ -50,68 +45,3 @@ $accessos_dia = $collection->aggregate([
     ]
 
 ]);
-
-?>
-
-<h1>Estadístiques d'Accès</h1>
-
-<h2>Total d'accessos : </h2>
-<?= $accessos_total ?>
-<br>
-<h2>Pàgines més visitades</h2>
-
-<table>
-
-    <tr>
-        <th>Pàgina</th>
-        <th>Total visites</th>
-    </tr>
-
-    <?php foreach ($pagines as $pagina): ?>
-
-        <tr>
-
-            <td>
-                <?= $pagina['_id'] ?>
-            </td>
-
-            <td>
-                <?= $pagina['total'] ?>
-            </td>
-
-        </tr>
-
-    <?php endforeach; ?>
-
-</table>
-
-<h2>Accessos agrupats per dia</h2>
-
-<table>
-
-    <tr>
-        <th>Dia</th>
-        <th>Total visites</th>
-    </tr>
-
-    <?php foreach ($accessos_dia as $dia): ?>
-
-        <tr>
-            <td><?= $dia['_id'] ?></td>
-            <td><?= $dia['total'] ?></td>
-        </tr>
-
-    <?php endforeach; ?>
-</table>
-
-<br>
-
-
-
-
-
-
-
-
-
-
