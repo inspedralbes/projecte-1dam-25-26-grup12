@@ -45,3 +45,37 @@ $accessos_dia = $collection->aggregate([
     ]
 
 ]);
+
+$data = $_GET['data'] ?? '';
+$pagina = $_GET['pagina'] ?? '';
+
+$pipeline = [];
+
+$pipeline[] = [
+    '$project' => [
+        'dia' => ['$substr' => ['$date', 0, 10]],
+        'uri' => 1
+    ]
+];
+
+$filtre = [];
+if (!empty($data)){
+    $filtre['dia'] = $data;
+}
+
+if (!empty($pagina)) {
+    $filtre['uri'] = $pagina;
+}
+
+if (!empty($filtre)) {
+    $pipeline[] = ['$match' => $filtre];
+}
+
+$pipeline[] = ['$count' => 'total'];
+
+$resultat = $collection->aggregate($pipeline);
+
+$total = 0;
+foreach ($resultat as $fila) {
+    $total = $fila['total'];
+}

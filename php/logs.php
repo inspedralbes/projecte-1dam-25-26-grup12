@@ -1,39 +1,49 @@
 <?php
 
-require 'vendor/autoload.php';
-require_once 'header.php';
-
-$client = new MongoDB\Client("mongodb://root:example@mongo:27017/?authSource=admin");
-
-$collection = $client->demo->users;
-
+// Hem comptat tots els documents de la col·lecció perquè cada document es igual a un accés.
 $accessos_total = $collection->countDocuments();
 
+
+// Agrupem els accessos per URI i comptem quantes vegades apareix cada pàgina.
 $pagines = $collection->aggregate([
+
     [
         '$group' => [
+            // Agrupem pel camp uri
             '_id' => '$uri',
+            // Amb la funcio de suma fem un contador que suma 1 per cada document.
             'total' => ['$sum' => 1]
         ]
     ],
+
     [
+        // Ordenem de més visitades a menys visitades.
         '$sort' => ['total' => -1]
     ],
     [
+        // Mostrem només les 10 primeres pagines.
         '$limit' => 10
     ]
 ]);
 
+
 $accessos_dia = $collection->aggregate([
+
     [
         '$group' => [
+            //Com que la varibale date té el format Y-m-d H:i:s, amb la funcio substr sol agafem la data i no les temps.
             '_id' => ['$substr' => ['$date', 0, 10]],
+
+            //El contador que suma 1 cada vegada.
             'total' => ['$sum' => 1]
         ]
     ],
+
     [
+        //Ordenar de més a menys recents.
         '$sort' => ['_id' => 1]
     ]
+
 ]);
 
 $data = $_GET['data'] ?? '';
@@ -137,8 +147,7 @@ foreach ($resultat as $fila) {
                     </div>
                 </div>
 
-                <!-- Filtre -->
-                <h2>Cerca d'accessos</h2>
+                <h2>Buscar accessos</h2>
                 <form method="GET" class="mb-3">
                     <div class="row g-2">
                         <div class="col-md-4">
