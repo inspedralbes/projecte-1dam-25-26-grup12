@@ -49,30 +49,24 @@ $pipeline[] = [
 ];
 
 $filtre = [];
-if (!empty($data))   { 
-    $filtre['dia'] = $data; 
+if (!empty($data)) {
+    $filtre['dia'] = $data;
 }
-if (!empty($pagina)) { 
-    $filtre['uri'] = $pagina; 
+if (!empty($pagina)) {
+    $filtre['uri'] = $pagina;
 }
 if (!empty($filtre)) {
-    $pipeline[] = [
-        '$match' => $filtre
-    ]; 
+    $pipeline[] = ['$match' => $filtre];
 }
 
-$pipeline[] = [
-    '$group' => [
-        '_id' => ['dia' => '$dia','pagina' => '$uri'],
-        'accessos' => ['$sum' => 1]
-    ]
-];
-
-$pipeline[] = [
-    '$sort' => ['_id.dia' => -1]
-];
+$pipeline[] = ['$count' => 'total'];
 
 $resultat = $collection->aggregate($pipeline);
+
+$total = 0;
+foreach ($resultat as $fila) {
+    $total = $fila['total'];
+}
 
 ?>
 
@@ -95,7 +89,7 @@ $resultat = $collection->aggregate($pipeline);
         <div class="col-lg-9">
             <div class="main-card">
                 <h1 class="text-center mb-4">Estadístiques d'Accés</h1>
-                
+
                 <div class="alert alert-light border text-center mb-4">
                     <p class="mb-0 text-muted small">Total d'accessos</p>
                     <div class="text-total"><?= $accessos_total ?></div>
@@ -143,9 +137,35 @@ $resultat = $collection->aggregate($pipeline);
                     </div>
                 </div>
 
+                <!-- Filtre -->
+                <h2>Cerca d'accessos</h2>
+                <form method="GET" class="mb-3">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="date" name="data" class="form-control" value="<?= htmlspecialchars($data) ?>">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="pagina" class="form-control" placeholder="/inici" value="<?= htmlspecialchars($pagina) ?>">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-dark w-100">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+
+                <?php if (!empty($data) || !empty($pagina)): ?>
+                    <div class="alert alert-light border text-center">
+                        <p class="mb-0 text-muted small">Accessos trobats</p>
+                        <div class="text-total"><?= $total ?></div>
+                    </div>
+                <?php else: ?>
+                    <p class="text-muted">Introdueix almenys una data o una pàgina per buscar.</p>
+                <?php endif; ?>
+
                 <div class="text-center mt-3">
                     <a href="index.php" class="btn btn-dark btn-sm px-4">Tornar</a>
                 </div>
+
             </div>
         </div>
     </div>
