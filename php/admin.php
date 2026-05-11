@@ -47,14 +47,14 @@ include_once 'mongo.php';
         <div class="col-md-10 col-lg-8">
             
             <div class="menu-card">
-                <h1 class="mb-4">Panel d'Administració</h1>
+                <h1 class="mb-4">Administració</h1>
                 <p class="text-muted mb-5">Selecciona una de les opcions per gestionar els informes i estadístiques.</p>
                 
                 <div class="menu-grid">
                     <a class="btn-menu" href="informeTecnic.php">Informe de Tècnics</a>
                     <a class="btn-menu" href="llistar.php">Llistar incidència</a>
                     <a class="btn-menu" href="consum-dept.php">Consum per departaments</a>
-                    <a class="btn-menu" href="estadistiques.php">Estadístiques d'Accés</a>
+                    <a class="btn-menu" href="logs.php">Estadístiques d'Accés</a>
                 </div>
             </div>
 
