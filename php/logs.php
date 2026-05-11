@@ -1,11 +1,15 @@
 <?php
-
-require 'vendor/autoload.php';
+require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 require_once 'header.php';
 
-$client = new MongoDB\Client("mongodb://root:example@mongo:27017/?authSource=admin");
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-$collection = $client->demo->users;
+    $uri = $_ENV['MONGODB_URI'];
+
+    $client = new MongoDB\Client($uri);
+
+    $collection = $client->demo->users;
 
 $accessos_total = $collection->countDocuments();
 
@@ -47,6 +51,10 @@ $accessos_dia = $collection->aggregate([
     [
         //Ordenar de més a menys recents.
         '$sort' => ['_id' => 1]
+    ],
+    [
+        // Mostrem només les 10 primeres pagines.
+        '$limit' => 10
     ]
 
 ]);
