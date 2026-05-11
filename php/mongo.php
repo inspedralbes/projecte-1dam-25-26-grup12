@@ -1,9 +1,15 @@
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 try {
-    
-    $client = new MongoDB\Client("mongodb://a25adrurbrub_db_user:DpOUDFTWJpYzCyNc@ac-f4c77ru-shard-00-00.uok03ie.mongodb.net:27017,ac-f4c77ru-shard-00-01.uok03ie.mongodb.net:27017,ac-f4c77ru-shard-00-02.uok03ie.mongodb.net:27017/?ssl=true&replicaSet=atlas-fzoqka-shard-0&authSource=admin&appName=Cluster0");
+
+    $uri = $_ENV['MONGODB_URI'];
+
+
+    $client = new MongoDB\Client($uri);
 
     $collection = $client->demo->users;
 
