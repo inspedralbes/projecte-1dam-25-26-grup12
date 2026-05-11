@@ -10,6 +10,6 @@ db_data_8
 db_data_9
 db_data_10
 data_mongo
-.env
+php/.env
 mongodb_data
 php/vendor
