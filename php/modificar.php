@@ -99,8 +99,8 @@ include_once 'mongo.php';
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Prioritat</label>
                                 <select required name='prioridad' id='prioridad' class="form-select"> 
-                                    <option value='baja'> Baja </option>
-                                    <option value='media'> Media </option>
+                                    <option value='baja'> Baixa </option>
+                                    <option value='media'> Mitja </option>
                                     <option value='alta'> Alta </option>
                                 </select>
                             </div>

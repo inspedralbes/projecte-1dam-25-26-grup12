@@ -143,6 +143,11 @@ $result1 = $conn->query($sql1);
             echo "<p class='alert alert-secondary'>No hi ha dades a mostrar.</p>";
         } ?>
 
+        <br><br>
+
+<a class="btn btn-dark px-4" href='resoltes.php'>Incidències resoltes</a>
+
+
     </div>
 </div>
 

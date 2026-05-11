@@ -40,7 +40,7 @@ include_once 'mongo.php';
             
             <div class="main-card">
                 <h1 class="mb-4">Gestió d'Incidències</h1>
-                <p class="text-muted mb-5">Benvingut al sistema de suport tècnic. Selecciona una opció per començar.</p>
+                <p class="text-muted mb-5">Selecciona una opció per començar.</p>
                 
                 <div class="d-flex justify-content-center gap-3">
                     <a class="btn-custom" href="formulari.php">Registrar nova incidència</a>
