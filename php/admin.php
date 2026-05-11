@@ -51,15 +51,13 @@ include_once 'mongo.php';
                 <p class="text-muted mb-5">Selecciona una de les opcions per gestionar els informes i estadístiques.</p>
                 
                 <div class="menu-grid">
-                    <a class="btn-menu" href="informeTecnic.php">Informe de Tècnics</a>
-                    <a class="btn-menu" href="llistar.php">Llistar incidència</a>
-                    <a class="btn-menu" href="consum-dept.php">Consum per departaments</a>
-                    <a class="btn-menu" href="logs.php">Estadístiques d'Accés</a>
+                    <a class="btn btn-dark px-4" href="informeTecnic.php">Informe de Tècnics</a>
+                    <a class="btn btn-dark px-4" href="llistar.php">Llistar incidència</a>
+                    <a class="btn btn-dark px-4" href="consum-dept.php">Consum per departaments</a>
+                    <a class="btn btn-dark px-4" href="logs.php">Estadístiques d'Accés</a>
                 </div>
             </div>
-
-            <p class="text-center mt-4 text-secondary small">Gestió d'incidències Institut Pedralbes</p>
-        </div>
+                </div>
     </div>
 </div>
 
