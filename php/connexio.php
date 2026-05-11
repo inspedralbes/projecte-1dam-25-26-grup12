@@ -1,4 +1,6 @@
 <?php
+require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
+
 
 // Tots els fitxers PHP que utilitzin la connexió a la base de dades han de
 // incloure aquest fitxer al principi del codi PHP.
@@ -6,11 +8,14 @@
 // require_once  'connexio.php';
 
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 // Configuració de la connexió a la base de dades
 $servername = "db"; // Nom del servei definit al docker-compose.yaml
-$username = "usuari"; // Usuari definit al docker-compose.yaml
-$password = "paraula_de_pas"; // Contrasenya definida al docker-compose.yaml
-$dbname = "persones"; // Nom de la base de dades
+$username = $_ENV['DB_user']; // Usuari definit al docker-compose.yaml  
+$password = $_ENV['DB_pass']; // Contrasenya definida al docker-compose.yaml
+$dbname = $_ENV['DB_name']; // Nom de la base de dades    
 
 // Quan ja tingueu un codi una mica depurat, i vulgueu fer la gestió dels errors
 // vosaltres mateixos heu de desactivar el comportament predeterminat de mysqli 
