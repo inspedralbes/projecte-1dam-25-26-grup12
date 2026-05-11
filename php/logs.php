@@ -1,8 +1,13 @@
 <?php
 
-// Hem comptat tots els documents de la col·lecció perquè cada document es igual a un accés.
-$accessos_total = $collection->countDocuments();
+require 'vendor/autoload.php';
+require_once 'header.php';
 
+$client = new MongoDB\Client("mongodb://root:example@mongo:27017/?authSource=admin");
+
+$collection = $client->demo->users;
+
+$accessos_total = $collection->countDocuments();
 
 // Agrupem els accessos per URI i comptem quantes vegades apareix cada pàgina.
 $pagines = $collection->aggregate([
@@ -171,6 +176,7 @@ foreach ($resultat as $fila) {
                         </div>
                         <div class="col-md-2">
                             <button type="submit" class="btn btn-dark w-100">Buscar</button>
+                            
                         </div>
                     </div>
                 </form>
@@ -181,7 +187,7 @@ foreach ($resultat as $fila) {
                         <div class="text-total"><?= $total ?></div>
                     </div>
                 <?php else: ?>
-                    <p class="text-muted">Introdueix almenys una data o una pàgina per buscar.</p>
+                    <p class="text-muted">Introdueix almenys una data o una pàgina amb "/" al principi per buscar.</p>
                 <?php endif; ?>
 
                 <div class="text-center mt-3">
