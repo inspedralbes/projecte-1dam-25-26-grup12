@@ -59,6 +59,28 @@ $accessos_dia = $collection->aggregate([
 
 ]);
 
+$ultim_acces = $collection->aggregate([
+
+    //Ordenem del access mes recent al mes antic
+    [
+        '$sort' => ['date' => -1]
+    ],
+    //posem un limit perque sol surti el ultim i un access
+    [
+        '$limit' => 1
+    ],
+    // i a la etapa de project mostrem sol la hora amb la funcio substr
+    [
+        '$project' => [
+            'hora' => ['$substr' => ['$date', 11, 19]]
+        ]
+    ]
+]);
+
+foreach ($ultim_acces as $fila) {
+    $hora = $fila['hora'];
+}
+
 //Variables php que s'afegeix al formulari i com a default no s'envia res.
 
 $data = $_GET['data'] ?? '';
@@ -126,11 +148,28 @@ foreach ($resultat as $fila) {
             <div class="main-card">
                 <h1 class="text-center mb-4">Estadístiques d'Accés</h1>
 
-                <div class="alert alert-light border text-center mb-4">
-                    <p class="mb-0 text-muted small">Total d'accessos</p>
-                    <div class="text-total"><?= $accessos_total ?></div>
+            <div class= "row g-4 mb-2">
+                <div class="col-6 col-md-6">
+                    <div class  = "card text-center h-100 black">
+                        <div class="card-body">
+                            <div class="alert alert-light border text-center mb-4">
+                                <p class="mb-0 text-muted small">Total d'accessos</p>
+                                <div class="text-total"><?= $accessos_total ?></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
+                <div class="col-6 col-md-6">
+                    <div class  = "card text-center h-100" style = "background-color: #dbdee0;">
+                        <div class="card-body">
+                            <div class="alert alert-light border text-center mb-4">
+                                <p class="mb-0 text-muted small">Última visita</p>
+                                <div class="text-total"><?= $hora ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <h2>Pàgines més visitades</h2>
