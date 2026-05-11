@@ -6,7 +6,7 @@ include_once 'mongo.php';
 
 <style>
     body {
-        background-color: #e9ecef; /* Fondo gris azulado */
+        background-color: #e9ecef; 
     }
     .admin-card {
         background-color: white;
@@ -18,7 +18,7 @@ include_once 'mongo.php';
     }
     .incidencia-item {
         background-color: #f8f9fa;
-        border-left: 5px solid #212529; /* Detalle lateral oscuro */
+        border-left: 5px solid #212529;
         padding: 20px;
         border-radius: 8px;
         margin-bottom: 15px;
@@ -45,14 +45,13 @@ include_once 'mongo.php';
                 <h1 class="text-center mb-4">Identifica't</h1>
 
                 <?php
-                // Consulta SQL para obtener los técnicos
                 $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
                 $result = $conn->query($sql);
                 ?>
 
                 <form method="POST" action="">
                     <fieldset class="border p-4 rounded">
-                        <legend class="w-auto px-2">Panell de Tècnic</legend>
+                        <legend class="w-auto px-2">Tècnic</legend>
 
                         <div class="mb-3">
                             <label for="tecnic" class="form-label fw-bold">Selecciona el teu nom</label>
@@ -78,7 +77,6 @@ include_once 'mongo.php';
                     echo "<hr class='my-5'>";
                     echo "<h3 class='mb-4 text-center text-primary'>Les teves incidències</h3>";
 
-                    // Consulta para obtener incidencias pendientes del técnico
                     $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
                             FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL";
                     $result = $conn->query($sql);
