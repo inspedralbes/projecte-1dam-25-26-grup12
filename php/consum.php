@@ -1,4 +1,19 @@
-<?php include("header.php");
+<?php 
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}elseif (!($_SESSION["rol"] == "admin")) {
+    header("Location: index.php");
+    exit();  
+}
+
+
+
+
+
+include("header.php");
 require_once 'connexio.php';
 
 $sql = ("SELECT DISTINCT i.id_dept, d.nom AS departament_nom, 

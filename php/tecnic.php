@@ -1,4 +1,17 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}elseif (!($_SESSION["rol"] == "tecnic")) {
+    header("Location: index.php");
+    exit();  
+}
+
+
+
+
 require_once 'header.php';
 require_once 'connexio.php';
 include_once 'mongo.php';

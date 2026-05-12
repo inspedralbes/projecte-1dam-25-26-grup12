@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}
+
 //Conexion a la base de dades i header
 require_once 'connexio.php';
 require_once 'header.php';
