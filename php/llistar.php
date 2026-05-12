@@ -1,4 +1,19 @@
 <?php
+
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}elseif (!($_SESSION["rol"] == "admin")) {
+    header("Location: index.php");
+    exit();  
+}
+
+
+
+
+
 // Conexiones y headers (No tocamos lógica)
 require_once 'connexio.php';
 require_once 'header.php';
