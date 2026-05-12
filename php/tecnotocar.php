@@ -50,10 +50,43 @@ include_once 'mongo.php';
     }
 </style>
 
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="admin-card">
+                <h1 class="text-center mb-4">Identifica't</h1>
 
                 <?php
-            
-                    $id = $_SESSION["id_tecnic"];
+                $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
+                $result = $conn->query($sql);
+                ?>
+
+                <form method="POST" action="">
+                    <fieldset class="border p-4 rounded">
+                        <legend class="w-auto px-2">Tècnic</legend>
+
+                        <div class="mb-3">
+                            <label for="tecnic" class="form-label fw-bold">Selecciona el teu nom</label>
+                            <select name="tecnic_id" id="tecnic" class="form-select form-select-lg" required>
+                                <option value=""> Selecciona </option>
+                                <?php while ($tec = $result->fetch_assoc()) { ?>
+                                    <option value="<?= $tec['id_tecnic'] ?>">
+                                        <?= htmlspecialchars($tec['nom']) ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-dark btn-lg">Entrar al sistema</button>
+                        </div>
+                    </fieldset>
+                </form>
+
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $id = htmlspecialchars($_POST["tecnic_id"]);
                     echo "<hr class='my-5'>";
                     echo "<h3 class='mb-4 text-center text-primary'>Les teves incidències</h3>";
 
@@ -77,7 +110,7 @@ include_once 'mongo.php';
                     } else {
                         echo "<div class='alert alert-light text-center border'>No tens incidències pendents actualment.</div>";
                     }
-                
+                }
                 ?>
             </div> </div>
     </div>
