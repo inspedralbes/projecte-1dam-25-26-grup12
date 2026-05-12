@@ -22,11 +22,11 @@ $result1 = $conn->query($sql1);
 
 <style>
     body {
-        background-color: #e9ecef; /* El gris azulado de tu fondo */
+        background-color: #e9ecef; 
     }
     .main-container {
         background-color: white;
-        border-radius: 15px; /* Bordes redondeados como tu imagen */
+        border-radius: 15px; 
         padding: 40px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         margin-top: 30px;
@@ -37,10 +37,7 @@ $result1 = $conn->query($sql1);
         color: #212529;
         margin-bottom: 25px;
     }
-    /* Ajuste para que las celdas de colores de prioridad no se vean raras en tabla oscura */
-    .table-dark .table-danger { background-color: #842029 !important; color: white; }
-    .table-dark .table-warning { background-color: #664d03 !important; color: white; }
-    .table-dark .table-info { background-color: #055160 !important; color: white; }
+    
 </style>
 
 <div class="container d-flex justify-content-center">

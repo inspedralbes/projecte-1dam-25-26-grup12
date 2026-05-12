@@ -92,7 +92,7 @@ function tancar_incidencia($conn){
                                 </div>
 
                                 <div class="d-flex gap-2 mb-2">
-                                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>" class="btn btn-primary px-4">Crear actuació</a>
+                                    <a href="crear_actuaciones.php?id_incidencia=<?= $row["id_incidencia"] ?>" class="btn btn-success px-4">Crear actuació</a>
                                     
                                     <form method='POST' action='actuacions.php'> 
                                         <input type='hidden' name='id_incidencia' value="<?= htmlspecialchars($id) ?>">

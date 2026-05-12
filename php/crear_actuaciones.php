@@ -51,7 +51,7 @@ function crear_actuaciones($conn)
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         margin-top: 30px;
         margin-bottom: 30px;
-        max-width: 700px; /* Ajustamos el ancho para que parezca un formulario */
+        max-width: 700px; 
     }
     h1 {
         font-weight: 700;
