@@ -126,6 +126,17 @@ foreach ($resultat as $fila) {
     $total = $fila['total'];
 }
 
+$ultims_logs = $collection->aggregate([
+    [
+        // Ordenem del més recent al més antic
+        '$sort' => ['date' => -1]
+    ],
+    [
+        // Agafem només els 10 primers
+        '$limit' => 10
+    ]
+]);
+
 ?>
 
 <style>
@@ -148,94 +159,136 @@ foreach ($resultat as $fila) {
             <div class="main-card">
                 <h1 class="text-center mb-4">Estadístiques d'Accés</h1>
 
-            <div class= "row g-4 mb-2">
+            <div class="row g-4 mb-2">
                 <div class="col-6 col-md-6">
-                    <div class  = "card text-center h-100 black">
-                        <div class="card-body">
-                            <div class="alert alert-light border text-center mb-4">
-                                <p class="mb-0 text-muted small">Total d'accessos</p>
-                                <div class="text-total"><?= $accessos_total ?></div>
-                            </div>
+                    <div class="card text-center h-100">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <p class="small mb-1">Total d'accessos</p>
+                            <div class="text-total" style="color:#2e8754;"><?= $accessos_total ?></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 col-md-6">
-                    <div class  = "card text-center h-100" style = "background-color: #dbdee0;">
-                        <div class="card-body">
-                            <div class="alert alert-light border text-center mb-4">
-                                <p class="mb-0 text-muted small">Última visita</p>
-                                <div class="text-total"><?= $hora ?></div>
-                            </div>
+                    <div class="card text-center h-100">
+                        <div class="card-body d-flex flex-column justify-content-center">
+                            <p class="small mb-1">Última visita</p>
+                            <div class="text-total" style="color:#2e8754;"><?= $hora ?></div>
                         </div>
                     </div>
                 </div>
             </div>
+
                 <div class="row">
                     <div class="col-md-6 mb-4">
-                        <h2>Pàgines més visitades</h2>
-                        <table class="table table-sm table-striped table-dark rounded overflow-hidden">
-                            <thead>
-                                <tr>
-                                    <th>Pàgina</th>
-                                    <th>Visites</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($pagines as $enllaç): ?>
-                                    <tr>
-                                        <td class="small"><?= $enllaç['_id'] ?></td>
-                                        <td class="fw-bold"><?= $enllaç['total'] ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="card-title ">Pàgines més visitades</h2><br>
+                            <div class="mb-2">
+                                <?php foreach ($pagines as $enllaç): 
+                                    $percentatge = ($accessos_total > 0) ? ($enllaç['total'] / $accessos_total) * 100 : 0;
+                                ?>
+                                <div class="d-flex justify-content-between small mb-1 mt-3">
+                                    <span class="text-truncate me-2" style="max-width:200px" title="/pagina.php">
+                                    <?= $enllaç['_id'] ?>
+                                    </span>
+                                    <span class="fw-bold">
+                                    <?= $enllaç['total'] ?>
+                                    </span>
+                                </div>
+                                <div class="progress mb-4" style="height:10px">
+                                    <div class="progress-bar bg-success" style="width: <?= $percentatge ?>%"></div>
+                                </div>
+                            <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
                     </div>
 
                     <div class="col-md-6 mb-4">
-                        <h2>Accessos per dia</h2>
-                        <table class="table table-sm table-striped table-dark rounded overflow-hidden">
-                            <thead>
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="card-title">Accessos per dia</h2><br>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="color:#2e8754;">Dia</th>
+                                            <th style="color:#2e8754;">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($accessos_dia as $dia): ?>
+                                            <tr>
+                                                <td><?= $dia['_id'] ?></td>
+                                                <td class="fw-bold"><?= $dia['total'] ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title">Últims accessos</h2><br>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover table-sm align-middle mb-0">
+                                <thead class="table-light">
                                 <tr>
-                                    <th>Dia</th>
-                                    <th>Total</th>
+                                    <th>Hora</th>
+                                    <th>Mètode</th>
+                                    <th>URL</th>
+                                    <th class="d-none d-md-table-cell">IP</th>
+                                    <th class="d-none d-md-table-cell">Usuari</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($accessos_dia as $dia): ?>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($ultims_logs as $log): ?>
                                     <tr>
-                                        <td><?= $dia['_id'] ?></td>
-                                        <td class="fw-bold"><?= $dia['total'] ?></td>
+                                        <td><?= $log['date'] ?></td>
+                                            <td>
+                                                <span class= "badge bg-success">
+                                                <?= $log['metodo'] ?>
+                                                </span>
+                                    </td>
+                                        <td><?= $log['uri'] ?></td>
+                                        <td class="d-none d-md-table-cell"><?= $log['ip_origin'] ?></td>
+                                        <td class="d-none d-md-table-cell"><?= $log['user'] ?></td>
                                     </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
-                <h2>Buscar accessos</h2>
-                <form method="GET" class="mb-3">
-                    <div class="row g-2">
-                        <div class="col-md-4">
-                            <input type="date" name="data" class="form-control" value="<?= htmlspecialchars($data) ?>">
-                        </div>
-                        <div class="col-md-4">
-                            <input type="text" name="pagina" class="form-control" placeholder="/inici" value="<?= htmlspecialchars($pagina) ?>">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-dark w-100">Buscar</button>
-                            
-                        </div>
-                    </div>
-                </form>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h2 class="card-title text-muted">Buscar accessos</h2>
+                        <form method="GET" class="mb-3">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="date" name="data" class="form-control" value="<?= htmlspecialchars($data) ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="text" name="pagina" class="form-control" placeholder="/inici" value="<?= htmlspecialchars($pagina) ?>">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-dark w-100">Buscar</button>
+                                </div>
+                            </div>
+                        </form>
 
-                <?php if (!empty($data) || !empty($pagina)): ?>
-                    <div class="alert alert-light border text-center">
-                        <p class="mb-0 text-muted small">Accessos trobats</p>
-                        <div class="text-total"><?= $total ?></div>
+                        <?php if (!empty($data) || !empty($pagina)): ?>
+                            <div class="text-center mt-3">
+                                <p class="small mb-1">Accessos trobats</p>
+                                <div class="text-total" style="color:#2e8754;"><?= $total ?></div>
+                            </div>
+                        <?php else: ?>
+                            <p class="text-muted small">Introdueix almenys una data o una pàgina amb "/" al principi per buscar.</p>
+                        <?php endif; ?>
                     </div>
-                <?php else: ?>
-                    <p class="text-muted">Introdueix almenys una data o una pàgina amb "/" al principi per buscar.</p>
-                <?php endif; ?>
+                </div>
 
                 <div class="text-center mt-3">
                     <a href="index.php" class="btn btn-dark btn-sm px-4">Tornar</a>
