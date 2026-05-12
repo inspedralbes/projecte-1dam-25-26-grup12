@@ -1,4 +1,5 @@
 <?php
+
 require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
@@ -22,7 +23,7 @@ try {
     $hora = date("Y-m-d H:i:s");
     $metod = $_SERVER['REQUEST_METHOD'] ?? 'unknown';
     $file = $_SERVER['PHP_SELF'] ?? 'unknown';
-    $user = 'null';
+    $user = $_SESSION['email'] ?? 'unknown';
     $r_time = $_SERVER['REQUEST_TIME_FLOAT'] ?? 'unknown';
     $user_agent = obtenerNavegador($_SERVER['HTTP_USER_AGENT']) ?? 'unknown';
 

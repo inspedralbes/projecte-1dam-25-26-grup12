@@ -53,6 +53,16 @@ CREATE TABLE ACTUACIO(
     duracio INT,
     FOREIGN KEY (id_incidencia) REFERENCES INCIDENCIA(id_incidencia));
 
+CREATE TABLE USERS(
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(100) NOT NULL,
+    pass VARCHAR(100) NOT NULL,
+    rol ENUM('user','tecnic','admin'),
+    id_tecnic INT,
+    FOREIGN KEY (id_tecnic) REFERENCES TECNIC(id_tecnic)
+);
+
+
 
     
 -- TIPUS
