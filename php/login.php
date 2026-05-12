@@ -1,25 +1,6 @@
 <?php
 
 session_start();
-
-/*
-
-    Array temporal d'usuaris.
-
-    Més endavant això es podria substituir per una base de dades.
-
-*/
-
-$usuaris = array(
-
-    "alvaro" => "12345",
-
-    "joan" => "abc123",
-
-    "maria" => "pass"
-
-);
-
 $error = "";
 
 /*
@@ -28,12 +9,9 @@ $error = "";
 
 */
 
-if (isset($_SESSION["usuari"])) {
-
+if (isset($_SESSION["email"])) {
     header("Location: login_success.php");
-
     exit();
-
 }
 
 /*
@@ -44,9 +22,14 @@ if (isset($_SESSION["usuari"])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $usuari = $_POST["usuari"];
+    
+    if(isset($_POST['email']) && isset($_POST['password'])){
+        $login = new Login($_POST['email'], $_POST['password']);
+    } else {
+        $error = "Usuari o contrasenya incorrectes";
+    }
 
-    $password = $_POST["password"];
+   
 
     /*
 
