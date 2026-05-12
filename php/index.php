@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($row['pass'] == $password){
             $_SESSION['email'] = $usuari;
             $_SESSION['rol'] = $row['rol'];
+            $_SESSION['id_tecnic'] = $row['id_tecnic'];
             header("Location: index.php");
         }else{
             $error = "Contraseña incorrecta";
