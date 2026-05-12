@@ -151,10 +151,31 @@ $ultims_logs = $collection->aggregate([
     ]
 ]);
 
+$usuaris = $collection->aggregate([
 
+    [
+        '$group' => [
+            
+            '_id' => ['$user'],
+
+            //El contador que suma 1 cada vegada.
+            'total' => ['$sum' => 1]
+        ]
+    ],
+
+    [
+        //Ordenar de més a menys acessos.
+        '$sort' => ['_id' => 1]
+    ],
+    [
+        // Mostrem només les 10 primeres pagines.
+        '$limit' => 4
+    ]
+
+]);
 
 ?>
-
+    
 <style>
     body { background-color: #e9ecef; }
     .main-card {
@@ -309,6 +330,32 @@ $ultims_logs = $collection->aggregate([
                 <div class="text-center mt-3">
                     <a href="index.php" class="btn btn-dark btn-sm px-4">Tornar</a>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h2 class="card-title ">Usuari més actius</h2><br>
+                            <div class="mb-2">
+                                <?php foreach ($usuaris as $usu): 
+                                    $percent = ($usuaris > 0) ? ($usu['total'] / $usuaris) * 100 : 0;
+                                ?>
+                                <div class="d-flex justify-content-between small mb-1 mt-3">
+                                    <span class="text-truncate me-2" style="max-width:200px" title="usuari">
+                                    <?= $usu['_id'] ?>
+                                    </span>
+                                    <span class="fw-bold">
+                                    <?= $usu['total'] ?>
+                                    </span>
+                                </div>
+                                <div class="progress mb-4" style="height:10px">
+                                    <div class="progress-bar bg-success" style="width: <?= $percent ?>%"></div>
+                                </div>
+                            <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
             </div>
         </div>
