@@ -1,5 +1,7 @@
+
 <!DOCTYPE html>
 <html lang="es">
+
 
 <head>
     <meta charset="UTF-8">
@@ -55,6 +57,10 @@
                             <li><a class="dropdown-item" href="formulari.php">Registrar nova incidència</a></li>
                             <li><a class="dropdown-item" href="estado.php">Veure estat incidència</a></li>
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                            <a class="btn btn-danger btn-sm px-3" aria-current="page" href="logout.php">Logout</a> 
+                         
                     </li>
                 </ul>
             </div>
