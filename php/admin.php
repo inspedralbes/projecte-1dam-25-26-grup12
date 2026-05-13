@@ -64,8 +64,9 @@ include_once 'mongo.php';
                 <p class="text-muted mb-5">Selecciona una de les opcions per gestionar els informes i estadístiques.</p>
                 
                 <div class="menu-grid">
-                    <a class="btn btn-dark px-4" href="informeTecnic.php">Informe de Tècnics</a>
                     <a class="btn btn-dark px-4" href="llistar.php">Llistar incidència</a>
+                    <a class="btn btn-dark px-4" href="tecnotocar.php">Acces a actuacions</a>
+                    <a class="btn btn-dark px-4" href="informeTecnic.php">Informe de Tècnics</a>
                     <a class="btn btn-dark px-4" href="consum.php">Consum per departaments</a>
                     <a class="btn btn-dark px-4" href="logs.php">Estadístiques d'Accés</a>
                 </div>
