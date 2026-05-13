@@ -112,29 +112,6 @@ GROUP BY
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
 -- TIPUS
 INSERT INTO TIPO (nom) VALUES 
