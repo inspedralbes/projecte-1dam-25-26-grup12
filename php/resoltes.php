@@ -104,6 +104,11 @@ $result = $conn->query($sql);
             echo "<p class='alert alert-secondary'>No hi ha dades a mostrar.</p>";
         } ?>
 
+        <br>
+        <div>
+                    <a href="llistar.php" class="btn btn-dark btn-sm px-4">Tornar</a>
+                </div>
+
     </div>
 </div>
 

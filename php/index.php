@@ -58,7 +58,6 @@ include_once 'mongo.php';
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,13 +69,19 @@ include_once 'mongo.php';
             background-color: #f0f2f5;
             padding-top: 150px;
         }
+        .form-control:focus {
+            border-color: #198754;
+        }
+        .btn-success {
+            background-color: #198754;
+            border-color: #198754;
+        }
     </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
 
 <div class="fixed-top bg-white shadow-sm">
-
     <div class="text-center py-3 border-bottom">
         <h4 class="mb-0 fw-semibold text-secondary">Gestió d'incidències informàtiques Institut Pedralbes</h4>
     </div>
@@ -85,34 +90,32 @@ include_once 'mongo.php';
 <main class="flex-grow-1">
 <div class="container">
 <div class="container" style="max-width: 750px;">
-    <div class="bg-white rounded-4 shadow-sm p-5 mt-4 text-center">
+    <div class="bg-white rounded-4 shadow-sm p-5 mt-4">
 
-        <span >
-            <h1>Inici de sessió</h1>
+        <h1 class="fw-semibold text-center mb-4" style="font-size:1.6rem;">Inici de sessió</h1>
 
-            <?php
-            if ($error != "") {
-                echo "<p style='color:red;'>$error</p>";
-            }
-            ?>
-            <div>
-                <form method="POST" action="index.php">
-                    <label>Usuari:</label><br>
-                    <input type="text" name="email" required><br><br>
-                    <label>Contrasenya:</label><br>
-                    <input type="password" name="password" required><br><br>
-                    <button class="btn btn-dark px-4" type="submit">Entrar</button>
+        <?php if ($error != ""): ?>
+            <div class="alert alert-danger py-2 text-center"><?= $error ?></div>
+        <?php endif; ?>
 
-                </form>
+        <form method="POST" action="index.php">
+            <div class="mb-3">
+                <label class="form-label fw-medium">Usuari</label>
+                <input type="text" name="email" class="form-control" required>
             </div>
-            <br>
-            <div class="menu-grid">
-                    <a class="btn btn-dark px-4" href="formulari_invi.php">Invitat</a>
+            <div class="mb-4">
+                <label class="form-label fw-medium">Contrasenya</label>
+                <input type="password" name="password" class="form-control" required>
             </div>
-        </span>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success" type="submit">Entrar</button>
+                <a class="btn btn-outline-dark" href="formulari_invi.php">Continuar com a invitat</a>
+            </div>
+        </form>
 
     </div>
 </div>
-
+</div>
+</main>
 
 <?php include_once 'footer.php'; ?>
