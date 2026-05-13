@@ -37,10 +37,12 @@ CREATE TABLE INCIDENCIA(
     id_tipo INT ,
     prioridad ENUM('baja','media','alta'),
     id_tecnic INT,
+    id_user INT,
     fecha_fin DATETIME,
     FOREIGN KEY (id_dept) REFERENCES DEPARTAMENT(id_dept),
     FOREIGN KEY (id_tipo) REFERENCES TIPO(id_tipo),
-    FOREIGN KEY (id_tecnic) REFERENCES TECNIC(id_tecnic)
+    FOREIGN KEY (id_tecnic) REFERENCES TECNIC(id_tecnic),
+    FOREIGN KEY (id_user) REFERENCES USERS(id_user)
 );
 
 CREATE TABLE ACTUACIO(
@@ -61,6 +63,52 @@ CREATE TABLE USERS(
     id_tecnic INT,
     FOREIGN KEY (id_tecnic) REFERENCES TECNIC(id_tecnic)
 );
+
+
+
+CREATE OR REPLACE VIEW vista_informe_tecnics AS
+SELECT
+    t.id_tecnic,
+    t.nom AS nomTecnic,
+    i.prioridad,
+    i.id_incidencia,
+    i.descripcio AS descripcioIncidencia,
+    i.fecha AS dataInici,
+    IFNULL(SUM(a.duracio), 0) AS tempsTotalDedicat
+FROM TECNIC t
+INNER JOIN INCIDENCIA i
+    ON t.id_tecnic = i.id_tecnic
+LEFT JOIN ACTUACIO a
+    ON i.id_incidencia = a.id_incidencia
+WHERE i.fecha_fin IS NULL
+GROUP BY
+    t.id_tecnic,
+    t.nom,
+    i.prioridad,
+    i.id_incidencia,
+    i.descripcio,
+    i.fecha;
+
+CREATE OR REPLACE VIEW vista_consum_departaments AS
+SELECT
+    d.id_dept,
+    d.nom AS nomDepartament,
+    COUNT(i.id_incidencia) AS nombreIncidencies,
+    IFNULL(SUM(temps_per_incidencia.tempsTotal), 0) AS tempsTotalDedicat
+FROM DEPARTAMENT d
+LEFT JOIN INCIDENCIA i
+    ON d.id_dept = i.id_dept
+LEFT JOIN (
+    SELECT
+        id_incidencia,
+        SUM(duracio) AS tempsTotal
+    FROM ACTUACIO
+    GROUP BY id_incidencia
+) AS temps_per_incidencia
+    ON i.id_incidencia = temps_per_incidencia.id_incidencia
+GROUP BY
+    d.id_dept,
+    d.nom;
 
 
 
@@ -107,50 +155,6 @@ INSERT INTO ACTUACIO (id_incidencia, descripcio, fecha, finalitzat, visible, dur
 (5, 'Anàlisi antivirus', '2026-04-20 09:00:00', 0, 1, 70),
 (5, 'Eliminació malware', '2026-04-20 10:30:00', 0, 0, 90);
 
-
-CREATE OR REPLACE VIEW vista_informe_tecnics AS
-SELECT
-    t.id_tecnic,
-    t.nom AS nomTecnic,
-    i.prioridad,
-    i.id_incidencia,
-    i.descripcio AS descripcioIncidencia,
-    i.fecha AS dataInici,
-    IFNULL(SUM(a.duracio), 0) AS tempsTotalDedicat
-FROM TECNIC t
-INNER JOIN INCIDENCIA i
-    ON t.id_tecnic = i.id_tecnic
-LEFT JOIN ACTUACIO a
-    ON i.id_incidencia = a.id_incidencia
-WHERE i.fecha_fin IS NULL
-GROUP BY
-    t.id_tecnic,
-    t.nom,
-    i.prioridad,
-    i.id_incidencia,
-    i.descripcio,
-    i.fecha;
-
-CREATE OR REPLACE VIEW vista_consum_departaments AS
-SELECT
-    d.id_dept,
-    d.nom AS nomDepartament,
-    COUNT(i.id_incidencia) AS nombreIncidencies,
-    IFNULL(SUM(temps_per_incidencia.tempsTotal), 0) AS tempsTotalDedicat
-FROM DEPARTAMENT d
-LEFT JOIN INCIDENCIA i
-    ON d.id_dept = i.id_dept
-LEFT JOIN (
-    SELECT
-        id_incidencia,
-        SUM(duracio) AS tempsTotal
-    FROM ACTUACIO
-    GROUP BY id_incidencia
-) AS temps_per_incidencia
-    ON i.id_incidencia = temps_per_incidencia.id_incidencia
-GROUP BY
-    d.id_dept,
-    d.nom;
 
 
 

@@ -20,13 +20,30 @@ include_once 'mongo.php';
         <h1 class="mb-4">Llistat d'incidències</h1>
         <hr class="mb-4">
 
-        <?php $id = ""; ?>
+        <?php 
+        $id = "";
+        $user = $_SESSION["id_user"];
+        
+        
+            $sql = "SELECT  id_incidencia, descripcio FROM INCIDENCIA  WHERE id_user = $user ";
+            $result = $conn->query($sql);
+        ?>
+
+
 
         <form method="post" action="">
             <div class="mb-3">
                 <fieldset>
                     <label for="exampleInputEmail1" class="form-label">ID INCIDÈNCIA:</label>
-                    <input type="number" class="form-control mb-3" name="id" required value="<?php echo $id; ?>">
+                        <select name="id_incidencia" id="id_incidencia" class="form-select mb-4" aria-label="Default select example" required>
+                            <option value="">Selecciona</option>
+                            <?php while ($row = $result->fetch_assoc()) { ?>            
+                                <option value="<?= $row['id_incidencia'] ?>" required>
+                                    <?= htmlspecialchars($row['descripcio']) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                    
                     <button type="submit" class="btn btn-dark px-4">Enviar</button>
                 </fieldset>
             </div>
@@ -34,7 +51,7 @@ include_once 'mongo.php';
 
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
-        $id = htmlspecialchars($_POST["id"]); ?>
+        $id = htmlspecialchars($_POST["id_incidencia"]); ?>
 
             <hr class="mt-4 mb-3">
             <h2 class="mb-3">Estat de l'incidència <?= $id ?></h2>
