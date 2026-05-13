@@ -5,6 +5,10 @@ if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }elseif (!($_SESSION["rol"] == "tecnic")) {
+    if ($_SESSION["rol"] == "admin") {
+        header("Location: tecnotocar.php");
+        exit(); 
+    }
     header("Location: index.php");
     exit();  
 }
