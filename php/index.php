@@ -101,14 +101,14 @@ include_once 'mongo.php';
                     <input type="text" name="email" required><br><br>
                     <label>Contrasenya:</label><br>
                     <input type="password" name="password" required><br><br>
-                    <button type="submit">Entrar</button>
+                    <button class="btn btn-dark px-4" type="submit">Entrar</button>
 
                 </form>
             </div>
+            <br>
             <div class="menu-grid">
-                    <a class="btn btn-dark px-4" href="consum.php">Registrar-se</a>
                     <a class="btn btn-dark px-4" href="formulari_invi.php">Invitat</a>
-                </div>
+            </div>
         </span>
 
     </div>
