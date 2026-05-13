@@ -51,7 +51,7 @@
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="usuari.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Usuari
+                            Incidencies
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="formulari.php">Registrar nova incidència</a></li>
