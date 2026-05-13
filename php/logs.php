@@ -99,6 +99,7 @@ foreach ($ultim_acces as $fila) {
 
 $data = $_GET['data'] ?? '';
 $pagina = $_GET['pagina'] ?? '';
+$user = $_GET['user'] ?? '';
 
 //Comencem a un pipeline buit
 $pipeline = [];
@@ -107,7 +108,8 @@ $pipeline = [];
 $pipeline[] = [
     '$project' => [
         'dia' => ['$substr' => ['$date', 0, 10]],
-        'uri' => 1
+        'uri' => 1,
+        'user' => 1
     ]
 ];
 // Creem un array buit que equival al filtre
@@ -121,6 +123,10 @@ if (!empty($data)) {
 // Si la variable php $pagina no està buida, afegim al filtre la condició que el camp "uri" de MongoDB ha de ser igual al valor de $pagina.
 if (!empty($pagina)) {
     $filtre['uri'] = $pagina;
+}
+
+if (!empty($user)) {
+    $filtre['user'] = $user;
 }
 
 // Si el filtre té alguna condició, amb l'etapa $match li diem a MongoDB que només busqui els documents que coincideixin.
@@ -139,6 +145,37 @@ $total = 0;
 foreach ($resultat as $fila) {
     $total = $fila['total'];
 }
+
+// Pipeline per trobar els logs filtrats
+$pipeline_logs = [];
+
+// Afegim el camp 'dia' igual que abans
+$pipeline_logs[] = [
+    '$project' => [
+        'dia' => ['$substr' => ['$date', 0, 10]],
+        'uri' => 1,
+        'user' => 1,
+        'date' => 1,
+        'metodo' => 1,
+        'ip_origin' => 1
+    ]
+];
+
+// Apliquem els mateixos filtres
+if (!empty($filtre)) {
+    $pipeline_logs[] = ['$match' => $filtre];
+}
+
+// Ordenem del més recent al més antic
+$pipeline_logs[] = ['$sort' => ['date' => -1]];
+
+// Limitem a 10 resultats
+$pipeline_logs[] = ['$limit' => 10];
+
+$logs_filtrats = $collection->aggregate($pipeline_logs);
+
+
+
 
 $ultims_logs = $collection->aggregate([
     [
@@ -326,33 +363,66 @@ $usuaris = $collection->aggregate([
                 </div>
 
                 <div class="card mb-3">
-                    <div class="card-body">
-                        <h2 class="card-title text-muted">Buscar accessos</h2>
-                        <form method="GET" class="mb-3">
-                            <div class="row g-2">
-                                <div class="col-md-4">
-                                    <input type="date" name="data" class="form-control" value="<?= htmlspecialchars($data) ?>">
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" name="pagina" class="form-control" placeholder="/inici" value="<?= htmlspecialchars($pagina) ?>">
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-dark w-100">Buscar</button>
-                                </div>
-                            </div>
-                        </form>
-
-                        <?php if (!empty($data) || !empty($pagina)): ?>
-                            <div class="text-center mt-3">
-                                <p class="small mb-1">Accessos trobats</p>
-                                <div class="text-total" style="color:#2e8754;"><?= $total ?></div>
-                            </div>
-                        <?php else: ?>
-                            <p class="text-muted small">Introdueix almenys una data o una pàgina amb "/" al principi per buscar.</p>
-                        <?php endif; ?>
-                    </div>
+    <div class="card-body">
+        <h2 class="card-title text-muted">Buscar accessos</h2>
+        <form method="GET" class="mb-3">
+            <div class="row g-2">
+                <div class="col-md-3">
+                    <input type="date" name="data" class="form-control" value="<?= htmlspecialchars($data) ?>">
                 </div>
+                <div class="col-md-3">
+                    <input type="text" name="pagina" class="form-control" placeholder="/inici" value="<?= htmlspecialchars($pagina) ?>">
+                </div>
+                <div class="col-md-3">
+                    <input type="text" name="user" class="form-control" placeholder="usuari" value="<?= htmlspecialchars($user ?? '') ?>">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-dark w-100">Buscar</button>
+                </div>
+            </div>
+        </form>
 
+        <?php if (!empty($data) || !empty($pagina) || !empty($user)): ?>
+            <div class="text-center mt-3">
+                <p class="small mb-1">Accessos trobats</p>
+                <div class="text-total" style="color:#2e8754;"><?= $total ?></div>
+            </div>
+        <?php else: ?>
+            <p class="text-muted small">Introdueix almenys una data, una pàgina amb "/" al principi o un usuari per buscar.</p>
+        <?php endif; ?>
+
+        <?php if (!empty($data) || !empty($pagina) || !empty($user)): ?>
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-hover table-sm align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Hora</th>
+                    <th>Mètode</th>
+                    <th>URL</th>
+                    <th class="d-none d-md-table-cell">IP</th>
+                    <th class="d-none d-md-table-cell">Usuari</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($logs_filtrats as $log): ?>
+                <tr>
+                    <td><?= $log['date'] ?></td>
+                    <td>
+                        <span class="badge bg-success">
+                            <?= $log['metodo'] ?>
+                        </span>
+                    </td>
+                    <td><?= $log['uri'] ?></td>
+                    <td class="d-none d-md-table-cell"><?= $log['ip_origin'] ?></td>
+                    <td class="d-none d-md-table-cell"><?= $log['user'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php endif; ?>
+    </div>
+</div>
                 <div class="text-center mt-3">
                     <a href="index.php" class="btn btn-dark btn-sm px-4">Tornar</a>
                 </div>

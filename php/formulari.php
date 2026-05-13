@@ -73,19 +73,16 @@ function crear_incidencia($conn)
 <div class="container" style="max-width: 700px;">
     <div class="bg-white rounded-4 shadow-sm p-5 mt-4">
 
-        <h1 class="mb-4">Registrar incidència</h1>
+        <h1 class="fw-semibold mb-3" style="font-size:1.6rem;">Registrar incidència</h1>
         <hr class="mb-4">
 
         <?php
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Si el formulari s'ha enviatc (mètode POST), cridem a la funció per crear la incidencia
             crear_incidencia($conn);
 
-        //Mostrem el formulari per crear una nova incidencia    
         } else {
-        
-            //Consulta per a recuperar les dades de departamets
+
             $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
             $departaments = $conn->query($sql);
 
@@ -93,10 +90,10 @@ function crear_incidencia($conn)
             <form method="POST" action="formulari.php">
                 <fieldset>
                     <div class="mb-3">
-                        <label for="descripcio" class="form-label">Descripció</label>
+                        <label for="descripcio" class="form-label fw-medium">Descripció</label>
                         <textarea name="descripcio" class="form-control mb-3" rows="5"></textarea>
 
-                        <label for="departament" class="form-label">Departament</label>
+                        <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>
                             <option value="">Selecciona</option>
                             <?php while ($dep = $departaments->fetch_assoc()) { ?>
@@ -106,7 +103,9 @@ function crear_incidencia($conn)
                             <?php } ?>
                         </select>
 
-                        <button type="submit" class="btn btn-dark px-4">Crear</button>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success">Crear</button>
+                            
                     </div>
                 </fieldset>
             </form>

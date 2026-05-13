@@ -37,41 +37,27 @@ $result1 = $conn->query($sql1);
 
 <style>
     body {
-        background-color: #e9ecef; 
+        background-color: #f0f2f5;
     }
-    .main-container {
-        background-color: white;
-        border-radius: 15px; 
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-    h1 {
-        font-weight: 700;
-        color: #212529;
-        margin-bottom: 25px;
-    }
-    
 </style>
 
 <div class="container d-flex justify-content-center">
-    <div class="col-12 main-container">
-        
+    <div class="col-12 bg-white rounded-4 shadow-sm p-5 mt-4 mb-4">
+
         <?php if ($result1->num_rows > 0) { ?>
-            <h1>Incidències Pendents</h1>
-            
+            <h1 class="fw-semibold mb-3" style="font-size:1.6rem;">Incidències Pendents</h1>
+
             <div class="mb-3">
-                <span class="me-2">Data</span>
+                <span class="me-2 fw-medium">Data</span>
                 <a class="btn btn-dark btn-sm" href="?sort1=fecha&order1=asc">↑</a>
                 <a class="btn btn-dark btn-sm" href="?sort1=fecha&order1=desc">↓</a>
             </div>
 
-            <div class="table-responsive shadow-sm rounded">
-                <table class="table table-striped">
-                    <thead>
+            <div class="table-responsive shadow-sm rounded mb-2">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-success">
                         <tr>
-                            <th style="color:#2e8754;">ID</th>
+                            <th>ID</th>
                             <th>Descripció</th>
                             <th>Data</th>
                             <th>Departament</th>
@@ -82,9 +68,9 @@ $result1 = $conn->query($sql1);
                             <th>Esborrar</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table-group-divider">
                     <?php while ($row = $result1->fetch_assoc()) { ?>
-                        <tr>
+                        <tr class="table-light">
                             <td><?= $row["id_incidencia"] ?></td>
                             <td><?= htmlspecialchars($row["descripcio"]) ?></td>
                             <td><?= $row["fecha"] ?></td>
@@ -103,20 +89,20 @@ $result1 = $conn->query($sql1);
         <?php } ?>
 
         <?php if ($result->num_rows > 0) { ?>
-            <h1>Llistat d'Incidències</h1>
-            
+            <h1 class="fw-semibold mb-3" style="font-size:1.6rem;">Llistat d'Incidències</h1>
+
             <div class="mb-3">
-                <span class="me-2">Prioritat</span>
+                <span class="me-2 fw-medium">Prioritat</span>
                 <a class="btn btn-dark btn-sm" href="?sort=prioridad&order=asc">↑</a>
                 <a class="btn btn-dark btn-sm" href="?sort=prioridad&order=desc">↓</a>
-                <span class="ms-3 me-2">Data</span>
+                <span class="ms-3 me-2 fw-medium">Data</span>
                 <a class="btn btn-dark btn-sm" href="?sort=fecha&order=asc">↑</a>
                 <a class="btn btn-dark btn-sm" href="?sort=fecha&order=desc">↓</a>
             </div>
 
-            <div class="table-responsive shadow-sm rounded">
-                <table class="table table-striped">
-                    <thead>
+            <div class="table-responsive shadow-sm rounded mb-2">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
                         <tr>
                             <th>ID</th>
                             <th>Descripció</th>
@@ -129,8 +115,8 @@ $result1 = $conn->query($sql1);
                             <th>Esborrar</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    <?php while ($row = $result->fetch_assoc()) { 
+                    <tbody class="table-group-divider">
+                    <?php while ($row = $result->fetch_assoc()) {
                         $clase_prioridad = "";
                         if ($row["prioridad"] == "alta") $clase_prioridad = "table-danger";
                         elseif ($row["prioridad"] == "media") $clase_prioridad = "table-warning";
@@ -157,8 +143,7 @@ $result1 = $conn->query($sql1);
 
         <br><br>
 
-<a class="btn btn-dark px-4" href='resoltes.php'>Incidències resoltes</a>
-
+        <a class="btn btn-dark px-4" href='resoltes.php'>Incidències resoltes</a>
 
     </div>
 </div>

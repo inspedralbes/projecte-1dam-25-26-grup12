@@ -12,14 +12,13 @@ if (!isset($_SESSION["email"])) {
 
 
 
-// Mantengo tus includes intactos
 require_once 'connexio.php';
 require_once 'header.php';
 include_once 'mongo.php';
 ?>
 
 <style>
-    body { background-color: #e9ecef; } /* Fondo gris azulado */
+    body { background-color: #e9ecef; } 
     .contenedor-blanco {
         background-color: white;
         border-radius: 15px;
@@ -27,16 +26,12 @@ include_once 'mongo.php';
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         margin-top: 30px;
     }
-    /* Para que las filas de prioridad se vean bien sobre el negro de la tabla */
-    .table-dark .table-danger { background-color: #842029 !important; color: white; }
-    .table-dark .table-warning { background-color: #664d03 !important; color: white; }
-    .table-dark .table-info { background-color: #055160 !important; color: white; }
+  
 </style>
 
 <div class="container">
     <div class="contenedor-blanco">
         <?php
-        // TU CÓDIGO PHP EMPIEZA AQUÍ (SIN TOCAR)
         $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
         $result = $conn->query($sql);
         $id = ""; 
@@ -57,7 +52,7 @@ include_once 'mongo.php';
                     <?php } ?>
                 </select>
                 <br>
-                <button type="submit" class="btn btn-dark">Entrar</button>
+                <button type="submit" class="btn btn-success">Entrar</button>
             </fieldset>
             </div>
         </form>
@@ -65,7 +60,7 @@ include_once 'mongo.php';
         <?php
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $id = htmlspecialchars($_POST["tecnic_id"]);
-            echo "<h3> Les teves incidències: </h3><br>";
+            echo "<br><h3> Les teves incidències: </h3><br>";
 
             $sql = "SELECT i.id_incidencia, i.descripcio, d.nom, i.fecha, i.prioridad, IFNULL(SUM(a.duracio), 0) AS temps_total
                     FROM INCIDENCIA i
@@ -92,7 +87,7 @@ include_once 'mongo.php';
                         <tbody>
                         <?php 
                         while ($row = $result->fetch_assoc()) {
-                            // Tu lógica de colores de fila intacta
+
                             if ($row["prioridad"] == "alta" ){
                                 echo '<tr class="table-danger">';
                             } elseif ($row["prioridad"] == "media") {

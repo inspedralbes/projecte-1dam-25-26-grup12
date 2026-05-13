@@ -14,49 +14,23 @@ include_once 'mongo.php';
 ?>
 
 <style>
-    body {
-        background-color: #e9ecef; /* Fondo gris azulado de tu captura */
-    }
-    .main-card {
-        background-color: white;
-        border: none;
-        border-radius: 15px; /* Bordes redondeados como la imagen */
-        padding: 60px 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Sombra suave */
-        margin-top: 50px;
-        text-align: center;
-    }
-    /* Estilo para los botones oscuros */
-    .btn-custom {
-        background-color: #212529;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 8px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        border: none;
-        font-weight: 500;
-    }
-    .btn-custom:hover {
-        background-color: #343a40;
-        color: white;
-        transform: translateY(-2px);
-    }
+    body { background-color: #f0f2f5; }
 </style>
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            
-            <div class="main-card">
-                <h1 class="mb-4">Gestió d'Incidències</h1>
+
+            <div class="bg-white rounded-4 shadow-sm p-5 mt-5 text-center">
+                <h1 class="fw-semibold mb-3" style="font-size:2.5rem;">Gestió d'Incidències</h1>
                 <p class="text-muted mb-5">Selecciona una opció per començar.</p>
-                
+
                 <div class="d-flex justify-content-center gap-3">
-                    <a class="btn-custom" href="formulari.php">Registrar nova incidència</a>
-                    <a class="btn-custom" href="estado.php">Veure estat incidència</a>
+                    <a class="btn btn-success fw-medium px-4 py-3 rounded-3" href="formulari.php">Registrar nova incidència</a>
+                    <a class="btn btn-success fw-medium px-4 py-3 rounded-3" href="estado.php">Veure estat incidència</a>
                 </div>
             </div>
+
         </div>
     </div>
 </div>

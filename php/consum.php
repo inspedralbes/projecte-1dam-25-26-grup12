@@ -35,168 +35,85 @@ $numArray = array();
 ?>
 
 <style>
-
-.container-fluid{
-    padding-left: 50px;
-    padding-right: 50px;
-}
-
-.graficos-container {
-    display: flex;
-    justify-content: center;
-    margin: auto;
-
-
-}
-
 .grafico {
-    width: 600px;
-    height: 600px;
+    flex: 1;
+    min-width: 0;
+    height: 500px;
+    position: relative;
 }
-
 .grafico canvas {
     width: 100% !important;
     height: 100% !important;
 }
-
-.card {
-    border-radius: 12px;
-}
-
-.card-body {
-    padding: 40px;
-}
-
-
-
-
 </style>
 
-<div class="container-fluid">
+<div class="container-fluid px-2">
 
-    <div class="row mb-2">
-
+    <div class="row mb-3">
         <div class="col-12">
-
-            <div class="card">
-
-                <div class="card-body text-center">
-
-                    <h2 class="card-title mb-0">
+            <div class="card shadow-sm rounded-4">
+                <div class="card-body text-center py-3">
+                    <h2 class="card-title mb-0 fw-semibold" style="font-size:1.6rem;">
                         Consum per departaments
                     </h2>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
-    <div class="row mb-6">
-
+    <div class="row mb-3">
         <div class="col-12">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <div class="graficos-container">
-
-                        <div class="grafico">
-                            <canvas id="myChart" ></canvas>
+            <div class="card shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <div class="row g-4">
+                        <div class="col-6" style="height:800px; position:relative;">
+                            <br><br><br>
+                            <canvas id="myChart"></canvas>
                         </div>
-
-                        <div class="grafico">
+                        <div class="col-6" style="height:800px; position:relative;">
+                        <br><br><br>
                             <canvas id="myChart2"></canvas>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <div class="row">
-
         <div class="col-12">
-
-            <div class="card h-100">
-
-                <div class="card-body">
-
-                    <div class="table-responsive shadow-sm rounded">
-
-                        <table class="table table-striped">
-
-                            <thead>
-
+            <div class="card shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="table-responsive rounded">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-success">
                                 <tr>
-
-                                    <th style="color:#2e8754; text-align:center;">
-                                        Departament
-                                    </th>
-
-                                    <th style="color:#2e8754; text-align:center;">
-                                        Temps total
-                                    </th>
-
-                                    <th style="color:#2e8754; text-align:center;">
-                                        Núm. incidències
-                                    </th>
-
+                                    <th class="text-center">Departament</th>
+                                    <th class="text-center">Temps total</th>
+                                    <th class="text-center">Núm. incidències</th>
                                 </tr>
-
                             </thead>
-
-                            <tbody>
-
+                            <tbody class="table-group-divider">
                                 <?php foreach ($departaments as $unDepartament) { 
-                                    
                                     $tempsArray[] = $unDepartament["TEMPS_TOTAL"];
                                     $deptsArray[] = $unDepartament["departament_nom"];
                                     $numArray[] = $unDepartament["NUM_INCIDENCIES"];
                                 ?>
-
-                                <tr>
-
-                                    <td scope="row" style="text-align:center;">
-                                        <?php echo $unDepartament["departament_nom"]; ?>
-                                    </td>
-
-                                    <td style="text-align:center;">
-                                        <?php echo $unDepartament["TEMPS_TOTAL"]; ?> minuts
-                                    </td>
-
-                                    <td style="text-align:center;">
-                                        <?php echo $unDepartament["NUM_INCIDENCIES"]; ?>
-                                    </td>
-
+                                <tr class="table-light">
+                                    <td class="text-center"><?php echo $unDepartament["departament_nom"]; ?></td>
+                                    <td class="text-center"><?php echo $unDepartament["TEMPS_TOTAL"]; ?> minuts</td>
+                                    <td class="text-center"><?php echo $unDepartament["NUM_INCIDENCIES"]; ?></td>
                                 </tr>
-
                                 <?php } ?>
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
