@@ -32,13 +32,18 @@ function crear_incidencia($conn)
         return;
 
     }
+    
+    $user = $_SESSION['id_user'];
+
 
     // Preparar la consulta SQL per inserir una nova incidenccia(el valor de data es automatic amb now)
-    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_user) VALUES (?, ?, ?, ?)";
     //Preparacio de la consulta.
     $stmt = $conn->prepare($sql);
     // Vincular els paràmetres a la consulta preparada  
-    $stmt->bind_param("sis", $descripcio, $departamento, $data);
+    $stmt->bind_param("sisi", $descripcio, $departamento, $data, $user);
+
+
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) {
