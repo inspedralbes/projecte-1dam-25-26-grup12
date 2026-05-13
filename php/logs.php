@@ -68,7 +68,7 @@ $accessos_dia = $collection->aggregate([
     ],
     [
         // Mostrem només les 10 primeres pagines.
-        '$limit' => 10
+        '$limit' => 5
     ]
 
 ]);
@@ -151,12 +151,14 @@ $ultims_logs = $collection->aggregate([
     ]
 ]);
 
+
+$total_usuaris = $collection->countDocuments();
 $usuaris = $collection->aggregate([
 
     [
         '$group' => [
             
-            '_id' => ['$user'],
+            '_id' => '$user',
 
             //El contador que suma 1 cada vegada.
             'total' => ['$sum' => 1]
@@ -165,11 +167,11 @@ $usuaris = $collection->aggregate([
 
     [
         //Ordenar de més a menys acessos.
-        '$sort' => ['_id' => 1]
+        '$sort' => ['total' => -1]
     ],
     [
         // Mostrem només les 10 primeres pagines.
-        '$limit' => 4
+        '$limit' => 5
     ]
 
 ]);
@@ -204,7 +206,8 @@ $usuaris = $collection->aggregate([
                             <div class="text-total" style="color:#2e8754;"><?= $accessos_total ?></div>
                         </div>
                     </div>
-                </div>
+                </div> 
+
                 <div class="col-6 col-md-6">
                     <div class="card text-center h-100">
                         <div class="card-body d-flex flex-column justify-content-center">
@@ -242,13 +245,13 @@ $usuaris = $collection->aggregate([
                     </div>
 
                     <div class="col-md-6 mb-4">
-                        <div class="card h-100">
+                        <div class="card h-40">
                             <div class="card-body">
                                 <h2 class="card-title">Accessos per dia</h2><br>
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th style="color:#2e8754;">Dia</th>
+                                            <th style="color:#2e8754; ">Dia</th>
                                             <th style="color:#2e8754;">Total</th>
                                         </tr>
                                     </thead>
@@ -262,9 +265,32 @@ $usuaris = $collection->aggregate([
                                     </tbody>
                                 </table>
                             </div>
+
+                            
+                            <div class="card-body">
+                                <h2 class="card-title ">Usuari més actius</h2><br>
+                            <div class="mb-2">
+                                <?php foreach ($usuaris as $usu): 
+                                    $percent = ($total_usuaris > 0) ? ($usu['total'] / $total_usuaris) * 100 : 0;
+                                ?>
+                                <div class="d-flex justify-content-between small mb-1 mt-3">
+                                    <span class="text-truncate me-2" style="max-width:200px" title="usuari">
+                                    <?= $usu['_id'] ?>
+                                    </span>
+                                    <span class="fw-bold">
+                                    <?= $usu['total'] ?>
+                                    </span>
+                                </div>
+                                <div class="progress mb-4" style="height:10px">
+                                <div class="progress-bar bg-success" style="width: <?= $percent ?>%"></div>
+                                </div>
+                            <?php endforeach; ?>
+                            </div>
+
                         </div>
                     </div>
                 </div>
+               
                 <div class="card mb-4">
                     <div class="card-body">
                         <h2 class="card-title">Últims accessos</h2><br>
@@ -330,32 +356,6 @@ $usuaris = $collection->aggregate([
                 <div class="text-center mt-3">
                     <a href="index.php" class="btn btn-dark btn-sm px-4">Tornar</a>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h2 class="card-title ">Usuari més actius</h2><br>
-                            <div class="mb-2">
-                                <?php foreach ($usuaris as $usu): 
-                                    $percent = ($usuaris > 0) ? ($usu['total'] / $usuaris) * 100 : 0;
-                                ?>
-                                <div class="d-flex justify-content-between small mb-1 mt-3">
-                                    <span class="text-truncate me-2" style="max-width:200px" title="usuari">
-                                    <?= $usu['_id'] ?>
-                                    </span>
-                                    <span class="fw-bold">
-                                    <?= $usu['total'] ?>
-                                    </span>
-                                </div>
-                                <div class="progress mb-4" style="height:10px">
-                                    <div class="progress-bar bg-success" style="width: <?= $percent ?>%"></div>
-                                </div>
-                            <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
 
             </div>
         </div>

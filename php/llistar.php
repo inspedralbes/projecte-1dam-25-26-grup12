@@ -68,10 +68,10 @@ $result1 = $conn->query($sql1);
             </div>
 
             <div class="table-responsive shadow-sm rounded">
-                <table class="table table-dark table-striped mb-0">
+                <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th style="color:#2e8754;">ID</th>
                             <th>Descripció</th>
                             <th>Data</th>
                             <th>Departament</th>
@@ -115,7 +115,7 @@ $result1 = $conn->query($sql1);
             </div>
 
             <div class="table-responsive shadow-sm rounded">
-                <table class="table table-dark table-striped mb-0">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>ID</th>
