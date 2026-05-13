@@ -33,6 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($row['pass'] == $password){
             $_SESSION['email'] = $usuari;
             $_SESSION['rol'] = $row['rol'];
+            $_SESSION['id_user'] = $row['id_user'];
             $_SESSION['id_tecnic'] = $row['id_tecnic'];
             header("Location: index.php");
         }else{
@@ -48,19 +49,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 
-require_once 'header.php' ;
+
 include_once 'mongo.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 ?>
 
+<!DOCTYPE html>
+<html lang="es">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestió d'incidencies</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            padding-top: 150px;
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div class="fixed-top bg-white shadow-sm">
+
+    <div class="text-center py-3 border-bottom">
+        <h4 class="mb-0 fw-semibold text-secondary">Gestió d'incidències informàtiques Institut Pedralbes</h4>
+    </div>
+</div>
+
+<main class="flex-grow-1">
+<div class="container">
 <div class="container" style="max-width: 750px;">
     <div class="bg-white rounded-4 shadow-sm p-5 mt-4 text-center">
 
-        <h2 class="mb-4">Identifica't</h2>
-
-        <hr class="mb-4">
-        <span class="d-flex justify-content-center gap-3">
+        <span >
             <h1>Inici de sessió</h1>
 
             <?php
@@ -68,16 +95,24 @@ include_once 'mongo.php';
                 echo "<p style='color:red;'>$error</p>";
             }
             ?>
+            <div>
+                <form method="POST" action="index.php">
+                    <label>Usuari:</label><br>
+                    <input type="text" name="email" required><br><br>
+                    <label>Contrasenya:</label><br>
+                    <input type="password" name="password" required><br><br>
+                    <button type="submit">Entrar</button>
 
-            <form method="POST" action="index.php">
-                <label>Usuari:</label><br>
-                <input type="text" name="email" required><br><br>
-                <label>Contrasenya:</label><br>
-                <input type="password" name="password" required><br><br>
-                <button type="submit">Entrar</button>
-
-            </form>
+                </form>
+            </div>
+            <div class="menu-grid">
+                    <a class="btn btn-dark px-4" href="consum.php">Registrar-se</a>
+                    <a class="btn btn-dark px-4" href="formulari_invi.php">Invitat</a>
+                </div>
         </span>
 
     </div>
 </div>
+
+
+<?php include_once 'footer.php'; ?>
