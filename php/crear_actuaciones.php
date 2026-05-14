@@ -5,6 +5,7 @@ if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }elseif (!($_SESSION["rol"] == "tecnic")) {
+   
     header("Location: index.php");
     exit();  
 }
@@ -91,22 +92,22 @@ function crear_actuaciones($conn)
                 // Comprovar si l'ID és un número vàlid
                 if (is_numeric($id_incidencia)) {
         ?>
-                    <form method="POST" action="crear_actuaciones.php">
+                    <form name="actuacion" method="POST" action="crear_actuaciones.php" onsubmit="return valActua()">
                         <div class="mb-3">
                             <label for="descripcio" class="form-label fw-bold">Descripció</label>
-                            <textarea name="descripcio" class="form-control" rows="5" placeholder="Escriu els detalls de l'actuació..."></textarea>
+                            <textarea name="descripcio" class="form-control" rows="5" placeholder="Escriu els detalls de l'actuació..." required></textarea>
                             <input type="hidden" name="id_incidencia" value="<?= htmlspecialchars($id_incidencia) ?>">
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="duracio" class="form-label fw-bold">Duració (minuts)</label>
-                                <input type="number" class="form-control" name="duracio" placeholder="0">
+                                <input type="number" class="form-control" name="duracio" placeholder="0" required>
                             </div>
                             
                             <div class="col-md-6 mb-3 d-flex align-items-center pt-4">
                                 <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input" name="visible" id="visible">
+                                    <input type="checkbox" class="form-check-input" name="visible" id="visible" required checked>
                                     <label for="visible" class="form-check-label fw-bold ms-2">Visible per l'usuari</label>
                                 </div>
                             </div>
