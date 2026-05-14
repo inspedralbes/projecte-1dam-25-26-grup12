@@ -53,7 +53,7 @@ include_once 'mongo.php';
         <h1>Modificar Incidència</h1>
 
         <?php
-        // --- TU LÓGICA PHP (SIN TOCAR) ---
+      
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             $id = $_POST['id_incidencia'];
@@ -102,7 +102,7 @@ include_once 'mongo.php';
                     $row = $result->fetch_assoc();
                     ?>
                     
-                    <form method='POST' action='modificar.php'>
+                    <form name="modificar" method='POST' action='modificar.php' onsubmit="return valModi()>
                         <fieldset class="border p-4 rounded shadow-sm">
                             <legend class="w-auto px-2">Incidència a modificar:</legend>
                             <p class="mb-4 p-3 bg-light rounded border">
