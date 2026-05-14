@@ -10,6 +10,6 @@
         </div>
     </div>
 </footer>
-
+<script src="js/funcions.js"></script>
 </body>
 </html>
