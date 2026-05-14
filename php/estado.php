@@ -94,7 +94,7 @@ include_once 'mongo.php';
                         <tr>
                             <td><?= $row["id_actuacio"] ?></td><?php
                             if($row["visible"] == 1){
-                               ?><td>-------------------</td><?php
+                               ?><td>***********************</td><?php
                             }else{
                                 ?><td><?= htmlspecialchars($row["descripcio"]) ?></td><?php
                             } ?>
