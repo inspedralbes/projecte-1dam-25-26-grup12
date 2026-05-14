@@ -14,4 +14,5 @@ mongodb_data
 php/vendor
 php/vendor/composer
 php/.env
+php/composer.lock
 
