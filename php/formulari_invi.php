@@ -1,15 +1,9 @@
 <?php
 
-session_start();
 
-if (!isset($_SESSION["email"])) {
-    header("Location: index.php");
-    exit();
-}
 
 //Conexion a la base de dades i header
 require_once 'connexio.php';
-require_once 'header.php';
 include_once 'mongo.php';
 
 
@@ -33,15 +27,15 @@ function crear_incidencia($conn)
 
     }
     
-    $user = $_SESSION['id_user'];
+   
 
 
     // Preparar la consulta SQL per inserir una nova incidenccia(el valor de data es automatic amb now)
-    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha, id_user) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO INCIDENCIA (descripcio, id_dept, fecha) VALUES (?, ?, ?)";
     //Preparacio de la consulta.
     $stmt = $conn->prepare($sql);
     // Vincular els paràmetres a la consulta preparada  
-    $stmt->bind_param("sisi", $descripcio, $departamento, $data, $user);
+    $stmt->bind_param("sisi", $descripcio, $departamento, $data);
 
 
 
@@ -70,6 +64,39 @@ function crear_incidencia($conn)
 
 ?>
 
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <a href="index.php"><title>Gestió d'incidencies</title></a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #f0f2f5;
+            padding-top: 150px;
+        }
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #198754;
+            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+        }
+    </style>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div class="fixed-top bg-white shadow-sm">
+    <div class="text-center py-3 border-bottom">
+        <h4 class="mb-0 fw-semibold text-secondary">Gestió d'incidències informàtiques Institut Pedralbes</h4>
+    </div>
+</div>
+
+<main class="flex-grow-1">
+    <div class="container">
+
 <div class="container" style="max-width: 700px;">
     <div class="bg-white rounded-4 shadow-sm p-5 mt-4">
 
@@ -82,7 +109,7 @@ function crear_incidencia($conn)
             crear_incidencia($conn);
 
         } else {
-
+        
             $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
             $departaments = $conn->query($sql);
 
@@ -105,7 +132,8 @@ function crear_incidencia($conn)
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">Crear</button>
-                            
+                            <a href="index.php" class="btn btn-outline-dark">Tornar</a>
+                        </div>
                     </div>
                 </fieldset>
             </form>

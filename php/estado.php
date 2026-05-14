@@ -1,105 +1,120 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
 require_once 'header.php' ;
+include_once 'mongo.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
 ?>
-    <h1>Llistat d'incidències</h1>
-    <br>
-    
-<?php $id = ""; ?>
 
-<form method="post" action="">
-    <div class="mb-3">
-    <fieldset>
-        <label for="exampleInputEmail1" class="form-label">ID INCIDÈNCIA: </label>
-        <input type="number" class="form-control" name="id" required value="<?php echo $id; ?>"><br>
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </fieldset>
-</div>
-</form>
-<br>
+<div class="container" style="max-width: 700px;">
+    <div class="bg-white rounded-4 shadow-sm p-5 mt-4">
 
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST"){
-$id = htmlspecialchars($_POST["id"]); ?>
+        <h1 class="mb-4">Llistat d'incidències</h1>
+        <hr class="mb-4">
 
-    <h2> Estat de l'incidència <?= $id ?> </h2>
-    <br>
+        <?php 
+        $id = "";
+        $user = $_SESSION["id_user"];
+        
+        
+            $sql = "SELECT  id_incidencia, descripcio FROM INCIDENCIA  WHERE id_user = $user ";
+            $result = $conn->query($sql);
+        ?>
 
-<?php
-// Consulta SQL per obtenir totes les files de la taula 'cases'
-    $sql = "SELECT  descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
 
-    $result = $conn->query($sql);
 
-    // Comprovar si hi ha resultats
-    if ($result->num_rows > 0) {
-
-        // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-        while ($row = $result->fetch_assoc()) { ?>
-            <div>
-                <ul class="list-group">
-                    <li class="list-group-item "><b>Descripció: </b> <?= htmlspecialchars($row["descripcio"]) ?></li>
-                    <li class="list-group-item"><b>Departament: </b> <?= $row["nom"] ?></li>
-                    <li class="list-group-item"><b>Data: </b> <?= $row["fecha"] ?></li>
-                </ul>
-                <br>
-            </div>
-
-            <?php
-        }
-    }else {
-        echo "<p>No hi ha dades a mostrar.</p>";
-    }?>
-
-    <?php
-
-            
-    // Preparar la consulta SQL per obtenir la casa a esborrar
-    $sql = "SELECT id_actuacio, descripcio, fecha FROM ACTUACIO WHERE visible = 0 and id_incidencia = $id ORDER BY fecha";
-    $result = $conn->query($sql);
-    
-    // Comprovar si s'ha trobat la casa
-    if ($result->num_rows > 0) { ?>
-            
-        <h2> ACTUACIONS: </h2>
-        <table class="table table-striped table-dark">
-            
-                <tr>
-                    <th> ID </th>
-                    <th> Descripció </th>
-                    <th> Data </th>
-                </tr>
-                
-
-        <?php while ($row = $result->fetch_assoc()) { ?>
-
-                <tr>
-                    <td> <?= $row["id_actuacio"] ?> </td>
-                    <td> <?= htmlspecialchars($row["descripcio"]) ?> </td>
-                    <td> <?= $row["fecha"] ?> </td>
-                </tr>
-                <br>
-
-            <?php
-            }
-            ?>
-            </table>
-
+        <form method="post" action="">
+            <div class="mb-3">
+                <fieldset>
+                    <label for="exampleInputEmail1" class="form-label">INCIDÈNCIA:</label>
+                        <select name="id_incidencia" id="id_incidencia" class="form-select mb-4" aria-label="Default select example" required>
+                            <option value="">Selecciona</option>
+                            <?php while ($row = $result->fetch_assoc()) { ?>            
+                                <option value="<?= $row['id_incidencia'] ?>" required>
+                                    <?= htmlspecialchars($row['descripcio']) ?>
+                                </option>
+                            <?php } ?>
+                        </select>
                     
-<?php
-    }else {
-        echo "<p>No hi ha actuacions a mostrar.</p>";
-    }
+                    <button type="submit" class="btn btn-success px-4">Enviar</button>
+                </fieldset>
+            </div>
+        </form>
 
-            // Tancar la connexió
+        <?php
+        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        $id = htmlspecialchars($_POST["id_incidencia"]); ?>
+
+            <hr class="mt-4 mb-3">
+            <h2 class="mb-3">Estat de l'incidència <?= $id ?></h2>
+
+        <?php
+            $sql = "SELECT  descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) { ?>
+                    <div class="mb-4">
+                        <ul class="list-group list-group-flush border rounded-3">
+                            <li class="list-group-item"><b>Descripció: </b> <?= htmlspecialchars($row["descripcio"]) ?></li>
+                            <li class="list-group-item"><b>Departament: </b> <?= $row["nom"] ?></li>
+                            <li class="list-group-item"><b>Data: </b> <?= $row["fecha"] ?></li>
+                        </ul>
+                    </div>
+                <?php }
+            } else {
+                echo "<p class='text-muted'>No hi ha dades a mostrar.</p>";
+            } ?>
+
+        <?php
+            $sql = "SELECT id_actuacio, descripcio, fecha, visible FROM ACTUACIO WHERE  id_incidencia = $id ORDER BY fecha";
+            $result = $conn->query($sql);
+
+            if ($result->num_rows > 0) { ?>
+
+                <h2 class="mb-3">Actuacions:</h2>
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Descripció</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()) { ?>
+                        <tr>
+                            <td><?= $row["id_actuacio"] ?></td><?php
+                            if($row["visible"] == 1){
+                               ?><td>-------------------</td><?php
+                            }else{
+                                ?><td><?= htmlspecialchars($row["descripcio"]) ?></td><?php
+                            } ?>
+                            <td><?= $row["fecha"] ?></td>
+                        </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+
+        <?php
+            } else {
+                echo "<p class='text-muted'>No hi ha actuacions a mostrar.</p>";
+            }
+
             $conn->close();
+        }
+        ?>
 
-}
-?>
+    </div>
+</div>
 
 <?php
 

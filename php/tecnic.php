@@ -1,107 +1,65 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}elseif (!($_SESSION["rol"] == "tecnic")) {
+    if ($_SESSION["rol"] == "admin") {
+        header("Location: tecnotocar.php");
+        exit(); 
+    }
+    header("Location: index.php");
+    exit();  
+}
+
+
+
 
 require_once 'header.php';
 require_once 'connexio.php';
-
+include_once 'mongo.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="ca">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin</title>
-</head>
-
-<body>
-    <h1>Identifica't</h1>
+<style>
+    body { background-color: #f0f2f5; }
+</style>
 
 <?php
-/**
- * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
- * @param mixed $conn
- * @return void
- */
+    $id = $_SESSION["id_tecnic"];
+    echo "<hr class='my-5'>";
+    echo "<h3 class='mb-4 text-center fw-semibold' style='font-size:2.3rem;'>Les teves incidències</h3><br>";
 
-?>
-
-<?php
-
-    // Consulta SQL per obtenir totes les files de la taula 'tecnic'
-    $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
+    $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
+            FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL";
     $result = $conn->query($sql);
-    ?>
 
-    <?php $id = ""; ?>
+    if ($result->num_rows > 0) { ?>
 
-        <form method="POST" action="">
-            <div class="mb-3">
-            <fieldset>
-                <legend>Tècnic</legend>
+        <div class="row justify-content-center">
+            <div class="col-md-5">
 
-                <label for="nom"  class="form-label">Nom</label>
-                <br>
-                <select name="tecnic_id" id="tecnic" class="form-select" aria-label="Default select example" required>
-                    <option value="" > Selecciona </option>
-                    <?php while ($tec = $result->fetch_assoc()) { ?>
-                        <option value="<?= $tec['id_tecnic'] ?>">
-                            <?= htmlspecialchars($tec['nom']) ?>
-                        </option>
-                    <?php } ?>
-                </select>
-                <br>
-                <button type="submit" class="btn btn-primary">Entrar</button>
-            </fieldset>
+        <?php while ($row = $result->fetch_assoc()) { ?>
+
+                <div class="d-flex justify-content-between align-items-center bg-light border-start border-4 border-success rounded-3 shadow-sm p-4 mb-3">
+                    <div>
+                        <h5 class="mb-1 fw-semibold">Incidència #<?= $row["id_incidencia"] ?></h5>
+                        <p class="mb-0 text-muted small"><?= htmlspecialchars(substr($row["descripcio"], 0, 50)) ?>...</p>
+                    </div>
+                    <a href='actuacions.php?id_incidencia=<?= $row["id_incidencia"] ?>' class="btn btn-success btn-sm px-4">Mostrar</a>
+                </div>
+
+        <?php } ?>
+
+            </div>
         </div>
-        </form>
 
-
-        <?php
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
-            $id = htmlspecialchars($_POST["tecnic_id"]);
-            ?>
-                <br><h3> Les teves incidències: </h3><br>
-            <?php
-
-            // Consulta SQL per obtenir totes les files de la taula 'cases'
-            $sql = "SELECT id_incidencia, descripcio, id_dept, fecha
-            FROM INCIDENCIA WHERE id_tecnic = $id AND fecha_fin IS NULL" ;
-            $result = $conn->query($sql);
-
-            
-            // Comprovar si hi ha resultats
-            if ($result->num_rows > 0) {
-
-                // Llistar els resultats. ATENCIÓ, heu de construir el codi HTML d'una llista correctament
-                while ($row = $result->fetch_assoc()) { ?>
-                
-                    <h3> Incidència  <?= $row["id_incidencia"] ?> </h3> 
-                    <br>
-                    <a href='actuacions.php?id_incidencia= <?= $row["id_incidencia"] ?> ' class="btn btn-primary">Mostrar</a>
-                    <br>
-                    <br>
-
-                
-
-
-                <?php
-                }
-
-            }else {
-                    echo "<p>No hi ha incidencies a mostrar.</p>";
-            }
-
-}
- 
+    <?php } else {
+        echo "<div class='alert alert-light text-center border'>No tens incidències pendents actualment.</div>";
+    }
 ?>
 
-
-
 <?php
-
 require_once 'footer.php';
-// Tancar la connexió
-    $conn->close();
+$conn->close();
 ?>

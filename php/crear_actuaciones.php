@@ -1,6 +1,19 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}elseif (!($_SESSION["rol"] == "tecnic")) {
+    header("Location: index.php");
+    exit();  
+}
+
+
+
 require_once 'connexio.php';
 require_once 'header.php' ;
+include_once 'mongo.php';
 /**
  * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
  * @param mixed $conn
@@ -23,12 +36,12 @@ function crear_actuaciones($conn)
 
     // Executar la consulta i comprovar si s'ha inserit correctament
     if ($stmt->execute()) { ?>
-        <p class='info'>Actuacio creada amb èxit!</p>
-        <p><a href='actuacions.php?id_incidencia=<?= $id_incidencia ?> '>Retorna</a></p>  
+        <div class="alert alert-success mt-3">Actuació creada amb èxit!</div>
+        <p class="mt-3"><a class="btn btn-dark" href='actuacions.php?id_incidencia=<?= $id_incidencia ?>'>Retorna</a></p>  
     
     <?php 
     } else { ?>
-      <p class='error'>Error al crear la Actuacio: <?=  htmlspecialchars($stmt->error) ?> </p>
+      <div class="alert alert-danger mt-3">Error al crear la Actuació: <?=  htmlspecialchars($stmt->error) ?></div>
     <?php 
     }
 
@@ -38,51 +51,80 @@ function crear_actuaciones($conn)
 }
 
 ?>
-    <h1>Registrar actuació</h1><br>
 
-    <?php
+<style>
+    body {
+        background-color: #e9ecef; /* Fondo gris azulado */
+    }
+    .main-container {
+        background-color: white;
+        border-radius: 15px; /* Bordes redondeados */
+        padding: 40px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        margin-top: 30px;
+        margin-bottom: 30px;
+        max-width: 700px; 
+    }
+    h1 {
+        font-weight: 700;
+        color: #212529;
+    }
+    hr {
+        border-top: 1px solid #dee2e6;
+        opacity: 1;
+        margin-bottom: 25px;
+    }
+</style>
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            crear_actuaciones($conn);
-    
-        } elseif (isset($_GET['id_incidencia'])) {
-            $id_incidencia = $_GET['id_incidencia'];
-            // Comprovar si l'ID és un número vàlid
-            if (is_numeric($id_incidencia)) {
-    ?>
-                <form method="POST" action="crear_actuaciones.php">
-                    <fieldset>
+<div class="container d-flex justify-content-center">
+    <div class="col-12 main-container">
+        
+        <h1>Registrar actuació</h1>
+        <hr>
 
-                        <label for="descripcio" class="form-label">Descripció</label><br>
-                        <textarea name="descripcio" class="form-control"rows="5" cols="50"></textarea>
-                        <input type="hidden"  name="id_incidencia" value=" <?= htmlspecialchars($id_incidencia) ?> ">
-                        <br><br>
+        <?php
+            if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                crear_actuaciones($conn);
+        
+            } elseif (isset($_GET['id_incidencia'])) {
+                $id_incidencia = $_GET['id_incidencia'];
+                // Comprovar si l'ID és un número vàlid
+                if (is_numeric($id_incidencia)) {
+        ?>
+                    <form method="POST" action="crear_actuaciones.php">
+                        <div class="mb-3">
+                            <label for="descripcio" class="form-label fw-bold">Descripció</label>
+                            <textarea name="descripcio" class="form-control" rows="5" placeholder="Escriu els detalls de l'actuació..."></textarea>
+                            <input type="hidden" name="id_incidencia" value="<?= htmlspecialchars($id_incidencia) ?>">
+                        </div>
 
-                        <label for="duracio" class="form-label">Duració</label>
-                        <input type="number"  class="form-control" name="duracio">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="duracio" class="form-label fw-bold">Duració (minuts)</label>
+                                <input type="number" class="form-control" name="duracio" placeholder="0">
+                            </div>
+                            
+                            <div class="col-md-6 mb-3 d-flex align-items-center pt-4">
+                                <div class="form-check form-switch">
+                                    <input type="checkbox" class="form-check-input" name="visible" id="visible">
+                                    <label for="visible" class="form-check-label fw-bold ms-2">Visible per l'usuari</label>
+                                </div>
+                            </div>
+                        </div>
 
-                        <br><br>
-                        <label for="visible" class="form-label">Visible</label>
-                        <input type="checkbox" class="form-check-input" name="visible">
+                        <div class="mt-4 text-start">
+                            <button type="submit" class="btn btn-dark px-4 py-2">Crear Actuació</button>
+                            <a href="actuacions.php?id_incidencia=<?= $id_incidencia ?>" class="btn btn-outline-secondary px-4 py-2 ms-2">Cancelar</a>
+                        </div>
+                    </form>
+                            
+        <?php   }
+            }
+        ?>
 
-                        <br><br>
-                        <button type="submit" class="btn btn-primary">Crear</button>
-                    </fieldset>
-                </form>
+    </div>
+</div>
 
-                        
-                        
-    <?php   }
-            
-                
-
-        }
-    ?>
-
-
-
-
-    
 <?php
 require_once 'footer.php';
 ?>

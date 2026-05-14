@@ -1,0 +1,14 @@
+{
+    "name": "inspedralbes/amb-mongodb",
+    "description": "PHP Amb MongoDB",
+
+    "authors": [
+        {
+            "name": "Adria"
+        }
+    ],
+    "require": {
+        "mongodb/mongodb": "^2.0",
+        "vlucas/phpdotenv": "^5.6" 
+    }
+}
