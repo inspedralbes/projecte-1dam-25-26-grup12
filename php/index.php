@@ -98,7 +98,7 @@ include_once 'mongo.php';
             <div class="alert alert-danger py-2 text-center"><?= $error ?></div>
         <?php endif; ?>
 
-        <form method="POST" action="index.php">
+        <form name="loging" method="POST" action="index.php" onsubmit="return valLog()">
             <div class="mb-3">
                 <label class="form-label fw-medium">Usuari</label>
                 <input type="text" name="email" class="form-control" required>
