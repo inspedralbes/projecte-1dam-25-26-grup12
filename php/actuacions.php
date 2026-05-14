@@ -99,8 +99,8 @@ function tancar_incidencia($conn){
                                 <div class="mb-4">
                                     <div class="info-row"><span class="info-label">ID:</span> <?= htmlspecialchars($row["id_incidencia"]) ?></div>
                                     <div class="info-row"><span class="info-label">Descripció:</span> <?= htmlspecialchars($row["descripcio"]) ?></div>
-                                    <div class="info-row"><span class="info-label">Departament:</span> <?= $row["nom"] ?></div>
-                                    <div class="info-row"><span class="info-label">Data:</span> <?= $row["fecha"] ?></div>
+                                    <div class="info-row"><span class="info-label">Departament:</span> <?= htmlspecialchars($row["nom"]) ?></div>
+                                    <div class="info-row"><span class="info-label">Data:</span> <?=htmlspecialchars($row["fecha"]) ?></div>
                                 </div>
 
                                 <div class="d-flex gap-2 mb-2">
@@ -136,7 +136,7 @@ function tancar_incidencia($conn){
                                         <?php while ($row = $result->fetch_assoc()) { ?>
                                             <tr>
                                                 <td><?= htmlspecialchars($row["descripcio"]) ?></td>
-                                                <td><?= $row["fecha"] ?></td>
+                                                <td><?= htmlspecialchars($row["fecha"]) ?></td>
                                                 <td><?= $row["duracio"] ?> minuts</td>
                                             </tr>
                                         <?php } ?>
