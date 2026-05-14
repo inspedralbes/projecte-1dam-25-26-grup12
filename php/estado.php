@@ -34,7 +34,7 @@ include_once 'mongo.php';
         <form method="post" action="">
             <div class="mb-3">
                 <fieldset>
-                    <label for="exampleInputEmail1" class="form-label">ID INCIDÈNCIA:</label>
+                    <label for="exampleInputEmail1" class="form-label">INCIDÈNCIA:</label>
                         <select name="id_incidencia" id="id_incidencia" class="form-select mb-4" aria-label="Default select example" required>
                             <option value="">Selecciona</option>
                             <?php while ($row = $result->fetch_assoc()) { ?>            
@@ -44,7 +44,7 @@ include_once 'mongo.php';
                             <?php } ?>
                         </select>
                     
-                    <button type="submit" class="btn btn-dark px-4">Enviar</button>
+                    <button type="submit" class="btn btn-success px-4">Enviar</button>
                 </fieldset>
             </div>
         </form>
@@ -75,7 +75,7 @@ include_once 'mongo.php';
             } ?>
 
         <?php
-            $sql = "SELECT id_actuacio, descripcio, fecha FROM ACTUACIO WHERE visible = 0 and id_incidencia = $id ORDER BY fecha";
+            $sql = "SELECT id_actuacio, descripcio, fecha, visible FROM ACTUACIO WHERE  id_incidencia = $id ORDER BY fecha";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) { ?>
@@ -92,8 +92,12 @@ include_once 'mongo.php';
                     <tbody>
                         <?php while ($row = $result->fetch_assoc()) { ?>
                         <tr>
-                            <td><?= $row["id_actuacio"] ?></td>
-                            <td><?= htmlspecialchars($row["descripcio"]) ?></td>
+                            <td><?= $row["id_actuacio"] ?></td><?php
+                            if($row["visible"] == 1){
+                               ?><td>-------------------</td><?php
+                            }else{
+                                ?><td><?= htmlspecialchars($row["descripcio"]) ?></td><?php
+                            } ?>
                             <td><?= $row["fecha"] ?></td>
                         </tr>
                         <?php } ?>
