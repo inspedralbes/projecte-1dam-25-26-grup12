@@ -33,7 +33,7 @@ include_once 'mongo.php';
                         <a class="btn btn-dark fw-medium py-3 w-100" href="llistar.php">Llistar incidència</a>
                     </div>
                     <div class="col-6 col-md-4">
-                        <a class="btn btn-dark fw-medium py-3 w-100" href="tecnotocar.php">Acces a actuacions</a>
+                        <a class="btn btn-dark fw-medium py-3 w-100" href="tecnotocar.php">Accés a actuacions</a>
                     </div>
                     <div class="col-6 col-md-4">
                         <a class="btn btn-dark fw-medium py-3 w-100" href="informeTecnic.php">Informe de Tècnics</a>
