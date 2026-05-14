@@ -114,11 +114,11 @@ function crear_incidencia($conn)
             $departaments = $conn->query($sql);
 
             ?>
-            <form method="POST" action="formulari.php">
+            <form name="incidencia" method="POST" action="formulari.php" onsubmit="return formulari()">
                 <fieldset>
                     <div class="mb-3">
                         <label for="descripcio" class="form-label fw-medium">Descripció</label>
-                        <textarea name="descripcio" class="form-control mb-3" rows="5"></textarea>
+                        <textarea name="descripcio" class="form-control mb-3" rows="5" required></textarea>
 
                         <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>
