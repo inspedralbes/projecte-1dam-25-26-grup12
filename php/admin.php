@@ -30,7 +30,7 @@ include_once 'mongo.php';
 
                 <div class="row g-3 justify-content-center">
                     <div class="col-6 col-md-4">
-                        <a class="btn btn-dark fw-medium py-3 w-100" href="llistar.php">Llistar incidència</a>
+                        <a class="btn btn-dark fw-medium py-3 w-100" href="llistar.php">Llistat incidència</a>
                     </div>
                     <div class="col-6 col-md-4">
                         <a class="btn btn-dark fw-medium py-3 w-100" href="tecnotocar.php">Accés a actuacions</a>

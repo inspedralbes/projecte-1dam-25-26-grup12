@@ -19,6 +19,7 @@ try {
     // "Si no es pot obtenir, es fa servir 'unknown' com a valor per defecte"
 
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    date_default_timezone_set('Europe/Madrid');
     $hora = date("Y-m-d H:i:s");
     $metod = $_SERVER['REQUEST_METHOD'] ?? 'unknown';
     $file = $_SERVER['PHP_SELF'] ?? 'unknown';

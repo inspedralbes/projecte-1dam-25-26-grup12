@@ -64,7 +64,7 @@ $accessos_dia = $collection->aggregate([
 
     [
         //Ordenar de més a menys recents.
-        '$sort' => ['_id' => 1]
+        '$sort' => ['_id' => -1]
     ],
     [
         // Mostrem només les 10 primeres pagines.
@@ -161,7 +161,7 @@ $pipeline_logs[] = [
     ]
 ];
 
-// Apliquem els mateixos filtres
+//Si el filtre té alguna condició, amb l'etapa $match li diem a MongoDB que només busqui els documents que coincideixin.
 if (!empty($filtre)) {
     $pipeline_logs[] = ['$match' => $filtre];
 }
@@ -262,7 +262,11 @@ $usuaris = $collection->aggregate([
                                 <h2 class="card-title ">Pàgines més visitades</h2><br>
                             <div class="mb-2">
                                 <?php foreach ($pagines as $enllaç): 
-                                    $percentatge = ($accessos_total > 0) ? ($enllaç['total'] / $accessos_total) * 100 : 0;
+                                    if ($accessos_total > 0) {
+                                        $percentatge = ($enllaç['total'] / $accessos_total) * 100;
+                                    } else {
+                                        $percentatge = 0;
+                                    }
                                 ?>
                                 <div class="d-flex justify-content-between small mb-1 mt-3">
                                     <span class="text-truncate me-2" style="max-width:200px" title="/pagina.php">
@@ -308,7 +312,12 @@ $usuaris = $collection->aggregate([
                                 <h2 class="card-title ">Usuari més actius</h2><br>
                             <div class="mb-2">
                                 <?php foreach ($usuaris as $usu): 
-                                    $percent = ($total_usuaris > 0) ? ($usu['total'] / $total_usuaris) * 100 : 0;
+                                    if ($total_usuaris > 0) {
+                                        $percent = ($usu['total'] / $total_usuaris) * 100;
+                                    } else {
+                                        $percentatge = 0;
+                                    }
+                                    
                                 ?>
                                 <div class="d-flex justify-content-between small mb-1 mt-3">
                                     <span class="text-truncate me-2" style="max-width:200px" title="usuari">
