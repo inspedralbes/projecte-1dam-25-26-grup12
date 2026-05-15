@@ -45,9 +45,7 @@ $result = $conn->query($sql);
         color: #212529;
         margin-bottom: 25px;
     }
-    .table-dark .table-danger { background-color: #842029 !important; color: white; }
-    .table-dark .table-warning { background-color: #664d03 !important; color: white; }
-    .table-dark .table-info { background-color: #055160 !important; color: white; }
+    
 </style>
 
 <div class="container d-flex justify-content-center">
