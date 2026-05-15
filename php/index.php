@@ -28,18 +28,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc(); 
-
-    if($row['email'] == $usuari){
-        if($row['pass'] == $password){
-            $_SESSION['email'] = $usuari;
-            $_SESSION['rol'] = $row['rol'];
-            $_SESSION['id_user'] = $row['id_user'];
-            $_SESSION['id_tecnic'] = $row['id_tecnic'];
-            header("Location: index.php");
+    if(!empty($row['email'])){
+        if($row['email'] == $usuari){
+            if($row['pass'] == $password){
+                $_SESSION['email'] = $usuari;
+                $_SESSION['rol'] = $row['rol'];
+                $_SESSION['id_user'] = $row['id_user'];
+                $_SESSION['id_tecnic'] = $row['id_tecnic'];
+                header("Location: index.php");
+            }else{
+                $error = "Contraseña incorrecta";
+            }
+            
         }else{
-            $error = "Contraseña incorrecta";
+            $error = "No existeix l'usuari";
         }
-        
     }else{
         $error = "No existeix l'usuari";
     }
