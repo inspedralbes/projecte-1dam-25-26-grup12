@@ -85,7 +85,7 @@ include_once 'mongo.php';
                         <tr>
                             <th>ID</th>
                             <th>Descripció</th>
-                            <th>Data</th>c
+                            <th>Data</th>
                         </tr>
                     </thead>
                     <tbody>

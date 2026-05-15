@@ -65,7 +65,7 @@ include_once 'mongo.php';
             <h2 class="mb-3">Estat de l'incidència <?= $id ?></h2>
 
         <?php
-            $sql = "SELECT  descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
+            $sql = "SELECT  descripcio, nom, fecha, fecha_fin FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
@@ -75,6 +75,14 @@ include_once 'mongo.php';
                             <li class="list-group-item"><b>Descripció: </b> <?= htmlspecialchars($row["descripcio"]) ?></li>
                             <li class="list-group-item"><b>Departament: </b> <?= $row["nom"] ?></li>
                             <li class="list-group-item"><b>Data: </b> <?= $row["fecha"] ?></li>
+                            <?php if (!empty($row['fecha_fin'])){ ?>
+                                <li class="list-group-item"><b>Procés: </b> Finalitzat</li>
+                            <?php }else { ?>
+                                <li class="list-group-item"><b>Procés: </b> En procés</li>
+
+                            <?php } ?>
+
+
                         </ul>
                     </div>
                 <?php }

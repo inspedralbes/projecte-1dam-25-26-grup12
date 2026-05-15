@@ -66,28 +66,6 @@ function crear_actuaciones($conn)
 
 ?>
 
-<style>
-   
-
-    .main-container {
-        background-color: white;
-        border-radius: 15px; /* Bordes redondeados */
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-        max-width: 700px; 
-    }
-    h1 {
-        font-weight: 700;
-        color: #212529;
-    }
-    hr {
-        border-top: 1px solid #dee2e6;
-        opacity: 1;
-        margin-bottom: 25px;
-    }
-</style>
 
 <div class="container d-flex justify-content-center">
     <div class="col-12 main-container">
@@ -119,7 +97,7 @@ function crear_actuaciones($conn)
                             
                             <div class="col-md-6 mb-3 d-flex align-items-center pt-4">
                                 <div class="form-check form-switch">
-                                    <input type="checkbox" class="form-check-input" name="visible" id="visible" required checked>
+                                    <input type="checkbox" class="form-check-input" name="visible" id="visible"  checked>
                                     <label for="visible" class="form-check-label fw-bold ms-2">Visible per l'usuari</label>
                                 </div>
                             </div>
