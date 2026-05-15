@@ -14,7 +14,7 @@ if (!isset($_SESSION["email"])) {
 
 
 
-// Conexiones y headers (No tocamos lógica)
+
 require_once 'connexio.php';
 include_once 'header.php';
 include_once 'mongo.php';

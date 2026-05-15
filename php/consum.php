@@ -35,19 +35,7 @@ $deptsArray = array();
 $numArray = array();
 ?>
 
-<!-- ///Estils -->
-<style>
-.grafico {
-    flex: 1;
-    min-width: 0;
-    height: 500px;
-    position: relative;
-}
-.grafico canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-</style>
+
 
 <div class="container-fluid px-2">
 

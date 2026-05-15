@@ -36,24 +36,7 @@ $totalRows = $countResult->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $limit);
 ?>
 
-<style>
-    body {
-        background-color: #e9ecef;
-    }
-    .main-container {
-        background-color: white;
-        border-radius: 15px; 
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-    h1 {
-        font-weight: 700;
-        color: #212529;
-        margin-bottom: 25px;
-    }
-</style>
+
 
 <div class="container d-flex justify-content-center">
     <div class="col-12  juan">
