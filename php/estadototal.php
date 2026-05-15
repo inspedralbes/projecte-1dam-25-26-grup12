@@ -66,6 +66,12 @@ include_once 'mongo.php';
                             <li class="list-group-item"><b>Descripció: </b> <?= htmlspecialchars($row["descripcio"]) ?></li>
                             <li class="list-group-item"><b>Departament: </b> <?= $row["nom"] ?></li>
                             <li class="list-group-item"><b>Data: </b> <?= $row["fecha"] ?></li>
+                             <?php if (!empty($row['fecha_fin'])){ ?>
+                                <li class="list-group-item"><b>Procés: </b> Finalitzat</li>
+                            <?php }else { ?>
+                                <li class="list-group-item"><b>Estat: </b> En procés</li>
+
+                            <?php } ?>
                         </ul>
                     </div>
                 <?php }

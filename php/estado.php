@@ -78,7 +78,7 @@ include_once 'mongo.php';
                             <?php if (!empty($row['fecha_fin'])){ ?>
                                 <li class="list-group-item"><b>Procés: </b> Finalitzat</li>
                             <?php }else { ?>
-                                <li class="list-group-item"><b>Procés: </b> En procés</li>
+                                <li class="list-group-item"><b>Estat: </b> En procés</li>
 
                             <?php } ?>
 
