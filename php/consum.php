@@ -117,7 +117,7 @@ $numArray = array();
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-///Convertertim el array php de departaments a json per poder utilitzar-los en javascript. array_inique elimina els duplicats
+///Convertertim el array php de departaments a json per poder utilitzar en javascript. array_inique elimina els duplicats
 const labelsDepartaments = <?php echo json_encode(array_values(array_unique($deptsArray))); ?>;
 
 ///Convertim els arrays de numeros i temps a json també
