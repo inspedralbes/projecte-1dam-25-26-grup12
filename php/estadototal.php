@@ -56,7 +56,7 @@ include_once 'mongo.php';
             <h2 class="mb-3">Estat de l'incidència <?= $id ?></h2>
 
         <?php
-            $sql = "SELECT  descripcio, nom, fecha FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
+            $sql = "SELECT  descripcio, nom, fecha, fecha_fin FROM INCIDENCIA JOIN DEPARTAMENT USING (id_dept) WHERE id_incidencia = $id ";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
