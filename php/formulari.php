@@ -91,7 +91,7 @@ function crear_incidencia($conn)
                 <fieldset>
                     <div class="mb-3">
                         <label for="descripcio" class="form-label fw-medium">Descripció</label>
-                        <textarea name="descripcio" class="form-control mb-3" rows="5" required></textarea>
+                        <textarea name="descripcio" class="form-control mb-3" rows="5" required placeholder="Explica detalladament el problema: Si doneu molta informació ens serà més fàcil reproduir i resoldre el problema..."></textarea>
                         <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>
                             <option value="">Selecciona</option>
