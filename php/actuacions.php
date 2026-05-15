@@ -12,7 +12,13 @@ if (!isset($_SESSION["email"])) {
 
 
 require_once 'connexio.php';
-require_once 'header.php';
+
+if($_SESSION["rol"] == "tecnic"){
+    include_once 'header-tecnic.php' ; 
+}elseif ($_SESSION["rol"] == "admin") {
+    include_once 'header.php' ;  
+}
+
 include_once 'mongo.php';
 
 function tancar_incidencia($conn){
@@ -36,40 +42,6 @@ function tancar_incidencia($conn){
     $stmt->close();
 }   
 ?>
-
-<style>
-    body {
-        background-color: #e9ecef; 
-    }
-    .main-card {
-        background-color: white;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-    .incidencia-header {
-        border-bottom: 1px solid #eee;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-    }
-    .info-row {
-        margin-bottom: 10px;
-        font-size: 1.1rem;
-    }
-    .info-label {
-        font-weight: 700;
-        color: #212529;
-        width: 140px;
-        display: inline-block;
-    }
-    h3 {
-        font-weight: 700;
-        margin-top: 40px;
-        margin-bottom: 20px;
-    }
-</style>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -99,8 +71,8 @@ function tancar_incidencia($conn){
                                 <div class="mb-4">
                                     <div class="info-row"><span class="info-label">ID:</span> <?= htmlspecialchars($row["id_incidencia"]) ?></div>
                                     <div class="info-row"><span class="info-label">Descripció:</span> <?= htmlspecialchars($row["descripcio"]) ?></div>
-                                    <div class="info-row"><span class="info-label">Departament:</span> <?= $row["nom"] ?></div>
-                                    <div class="info-row"><span class="info-label">Data:</span> <?= $row["fecha"] ?></div>
+                                    <div class="info-row"><span class="info-label">Departament:</span> <?= htmlspecialchars($row["nom"]) ?></div>
+                                    <div class="info-row"><span class="info-label">Data:</span> <?=htmlspecialchars($row["fecha"]) ?></div>
                                 </div>
 
                                 <div class="d-flex gap-2 mb-2">
@@ -136,7 +108,7 @@ function tancar_incidencia($conn){
                                         <?php while ($row = $result->fetch_assoc()) { ?>
                                             <tr>
                                                 <td><?= htmlspecialchars($row["descripcio"]) ?></td>
-                                                <td><?= $row["fecha"] ?></td>
+                                                <td><?= htmlspecialchars($row["fecha"]) ?></td>
                                                 <td><?= $row["duracio"] ?> minuts</td>
                                             </tr>
                                         <?php } ?>

@@ -4,19 +4,14 @@ session_start();
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
+}elseif (!($_SESSION["rol"] == "admin")) {
+    header("Location: index.php");
+    exit();  
 }
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
-
-if($_SESSION["rol"] == "tecnic"){
-    include_once 'header-tecnic.php' ; 
-}elseif ($_SESSION["rol"] == "admin") {
-    include_once 'header.php' ;  
-}elseif ($_SESSION["rol"] == "user") {
-    include_once 'header-user.php' ; 
-}
-
+include_once 'header.php' ;
 include_once 'mongo.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 
@@ -29,12 +24,8 @@ include_once 'mongo.php';
         <hr class="mb-4">
 
         <?php 
-        $id = "";
-        $user = $_SESSION["id_user"];
-        
-        
-            $sql = "SELECT  id_incidencia, descripcio FROM INCIDENCIA  WHERE id_user = $user ";
-            $result = $conn->query($sql);
+        $sql = "SELECT  id_incidencia, descripcio FROM INCIDENCIA";
+        $result = $conn->query($sql);
         ?>
 
 
@@ -47,7 +38,7 @@ include_once 'mongo.php';
                             <option value="">Selecciona</option>
                             <?php while ($row = $result->fetch_assoc()) { ?>            
                                 <option value="<?= $row['id_incidencia'] ?>" required>
-                                    <?= htmlspecialchars($row['descripcio']) ?>
+                                  [<?= htmlspecialchars($row['id_incidencia']) ?>]  <?= htmlspecialchars($row['descripcio']) ?>
                                 </option>
                             <?php } ?>
                         </select>
@@ -94,7 +85,7 @@ include_once 'mongo.php';
                         <tr>
                             <th>ID</th>
                             <th>Descripció</th>
-                            <th>Data</th>
+                            <th>Data</th>c
                         </tr>
                     </thead>
                     <tbody>

@@ -9,7 +9,15 @@ if (!isset($_SESSION["email"])) {
 
 //Conexion a la base de dades i header
 require_once 'connexio.php';
-require_once 'header.php';
+
+if($_SESSION["rol"] == "tecnic"){
+    include_once 'header-tecnic.php' ; 
+}elseif ($_SESSION["rol"] == "admin") {
+    include_once 'header.php' ;  
+}elseif ($_SESSION["rol"] == "user") {
+    include_once 'header-user.php' ; 
+}
+
 include_once 'mongo.php';
 
 
@@ -87,12 +95,11 @@ function crear_incidencia($conn)
             $departaments = $conn->query($sql);
 
             ?>
-            <form method="POST" action="formulari.php">
+            <form name="incidencia" method="POST" action="formulari.php" onsubmit="return formulari()">
                 <fieldset>
                     <div class="mb-3">
                         <label for="descripcio" class="form-label fw-medium">Descripció</label>
-                        <textarea name="descripcio" class="form-control mb-3" rows="5"></textarea>
-
+                        <textarea name="descripcio" class="form-control mb-3" rows="5" required placeholder="Explica detalladament el problema: Si doneu molta informació ens serà més fàcil reproduir i resoldre el problema..."></textarea>
                         <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>
                             <option value="">Selecciona</option>

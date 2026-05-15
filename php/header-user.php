@@ -29,25 +29,6 @@
                     <li class="nav-item">
                         <a class="btn btn-success btn-sm px-3" href="index.php">Inici</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="tecnic.php">Tècnic</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="usuari.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Admin
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="llistar.php">Llistat d'incidències</a></li>
-                            <li><a class="dropdown-item" href="estadototal.php">Accés a incidencies</a></li>
-                            <li><a class="dropdown-item" href="tecnotocar.php">Accés a actuacions</a></li>
-                            <li><a class="dropdown-item" href="informeTecnic.php">Informe de Tècnics</a></li>
-                            <li><a class="dropdown-item" href="consum.php">Consum per departaments</a></li>
-                            <li><a class="dropdown-item" href="logs.php">Estadístiques d'Accés</a></li>
-                            
-                        </ul>
-                    </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="usuari.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Incidencies

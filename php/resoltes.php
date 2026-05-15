@@ -10,7 +10,7 @@ if (!isset($_SESSION["email"])) {
 }
 
 require_once 'connexio.php';
-require_once 'header.php';
+include_once 'header.php';
 include_once 'mongo.php';
 
 $sort = $_GET['sort'] ?? 'prioridad';
@@ -56,10 +56,10 @@ $totalPages = ceil($totalRows / $limit);
 </style>
 
 <div class="container d-flex justify-content-center">
-    <div class="col-12 main-container">
+    <div class="col-12  juan">
 
         <?php if ($result->num_rows > 0) { ?>
-            <h1>Llistat d'Incidències resoltes</h1>
+            <h1 class="h1-b" >Llistat d'Incidències resoltes</h1>
             
             <div class="mb-3">
                 <span class="me-2">Prioritat</span>

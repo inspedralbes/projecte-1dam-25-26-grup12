@@ -12,13 +12,11 @@ if (!isset($_SESSION["email"])) {
 
 
 
-require_once 'header.php';
+include_once 'header.php';
+
 include_once 'mongo.php';
 ?>
 
-<style>
-    body { background-color: #f0f2f5; }
-</style>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -31,6 +29,9 @@ include_once 'mongo.php';
                 <div class="row g-3 justify-content-center">
                     <div class="col-6 col-md-4">
                         <a class="btn btn-dark fw-medium py-3 w-100" href="llistar.php">Llistat incidència</a>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <a class="btn btn-dark fw-medium py-3 w-100" href="estadototal.php">Accés a incidencies</a>
                     </div>
                     <div class="col-6 col-md-4">
                         <a class="btn btn-dark fw-medium py-3 w-100" href="tecnotocar.php">Accés a actuacions</a>

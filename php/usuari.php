@@ -9,13 +9,17 @@ if (!isset($_SESSION["email"])) {
 
 
 
-require_once 'header.php';
+
+if($_SESSION["rol"] == "tecnic"){
+    header("Location: index.php"); 
+}elseif ($_SESSION["rol"] == "admin") {
+    header("Location: index.php");
+}elseif ($_SESSION["rol"] == "user") {
+    include_once 'header-user.php' ; 
+}
 include_once 'mongo.php';
 ?>
 
-<style>
-    body { background-color: #f0f2f5; }
-</style>
 
 <div class="container">
     <div class="row justify-content-center">

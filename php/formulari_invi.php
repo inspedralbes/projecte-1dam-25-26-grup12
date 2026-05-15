@@ -73,17 +73,7 @@ function crear_incidencia($conn)
     <a href="index.php"><title>Gestió d'incidencies</title></a>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #f0f2f5;
-            padding-top: 150px;
-        }
-        .form-control:focus,
-        .form-select:focus {
-            border-color: #198754;
-            box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
-        }
-    </style>
+    <link href="./CSS/style.css" rel="stylesheet" >
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -114,11 +104,11 @@ function crear_incidencia($conn)
             $departaments = $conn->query($sql);
 
             ?>
-            <form method="POST" action="formulari.php">
+            <form name="incidencia" method="POST" action="formulari.php" onsubmit="return formulari()">
                 <fieldset>
                     <div class="mb-3">
                         <label for="descripcio" class="form-label fw-medium">Descripció</label>
-                        <textarea name="descripcio" class="form-control mb-3" rows="5"></textarea>
+                        <textarea name="descripcio" class="form-control mb-3" rows="5" required></textarea>
 
                         <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>

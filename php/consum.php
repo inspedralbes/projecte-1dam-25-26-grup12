@@ -114,6 +114,7 @@ $numArray = array();
                                     <td class="text-center"><?php echo $unDepartament["NUM_INCIDENCIES"]; ?></td>
                                 </tr>
                                 <?php } ?>
+                            
                             </tbody>
                         </table>
                     </div>
@@ -215,4 +216,6 @@ WHERE fecha_fin IS NULL
 ORDER BY prioridad DESC");
 
 $incidencies = $resultat->fetch_all(MYSQLI_ASSOC);
+
+include_once 'footer.php';
 ?>
