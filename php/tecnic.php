@@ -16,7 +16,7 @@ if (!isset($_SESSION["email"])) {
 
 
 
-require_once 'header.php';
+
 
 if($_SESSION["rol"] == "tecnic"){
     include_once 'header-tecnic.php' ; 
