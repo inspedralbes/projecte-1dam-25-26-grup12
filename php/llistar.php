@@ -59,11 +59,6 @@ $stmt = $conn->prepare($sql);
     
 ?>
 
-<style>
-    body {
-        background-color: #f0f2f5;
-    }
-</style>
 
 <div class="container d-flex justify-content-center">
     <div class="col-12 bg-white rounded-4 shadow-sm p-5 mt-4 mb-4">

@@ -216,7 +216,7 @@ $usuaris = $collection->aggregate([
 ?>
     
 <style>
-    body { background-color: #e9ecef; }
+    
     .main-card {
         background-color: white;
         border-radius: 12px;

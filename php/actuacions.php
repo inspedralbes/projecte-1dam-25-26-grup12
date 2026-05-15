@@ -37,40 +37,6 @@ function tancar_incidencia($conn){
 }   
 ?>
 
-<style>
-    body {
-        background-color: #e9ecef; 
-    }
-    .main-card {
-        background-color: white;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-    .incidencia-header {
-        border-bottom: 1px solid #eee;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-    }
-    .info-row {
-        margin-bottom: 10px;
-        font-size: 1.1rem;
-    }
-    .info-label {
-        font-weight: 700;
-        color: #212529;
-        width: 140px;
-        display: inline-block;
-    }
-    h3 {
-        font-weight: 700;
-        margin-top: 40px;
-        margin-bottom: 20px;
-    }
-</style>
-
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-10">

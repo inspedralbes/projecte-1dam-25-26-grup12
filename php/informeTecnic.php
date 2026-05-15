@@ -17,17 +17,7 @@ require_once 'header.php';
 include_once 'mongo.php';
 ?>
 
-<style>
-    body { background-color: #e9ecef; } 
-    .contenedor-blanco {
-        background-color: white;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        margin-top: 30px;
-    }
-  
-</style>
+
 
 <div class="container">
     <div class="contenedor-blanco">

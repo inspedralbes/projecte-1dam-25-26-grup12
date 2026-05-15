@@ -28,31 +28,12 @@ $result = $conn->query($sql);
 
 ?>
 
-<style>
-    body {
-        background-color: #e9ecef;
-    }
-    .main-container {
-        background-color: white;
-        border-radius: 15px; 
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-    }
-    h1 {
-        font-weight: 700;
-        color: #212529;
-        margin-bottom: 25px;
-    }
-    
-</style>
 
 <div class="container d-flex justify-content-center">
-    <div class="col-12 main-container">
+    <div class="col-12  juan">
 
         <?php if ($result->num_rows > 0) { ?>
-            <h1>Llistat d'Incidències resoltes</h1>
+            <h1 class="h1-b" >Llistat d'Incidències resoltes</h1>
             
             <div class="mb-3">
                 <span class="me-2">Prioritat</span>

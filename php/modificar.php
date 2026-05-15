@@ -19,38 +19,11 @@ require_once 'header.php';
 include_once 'mongo.php';
 ?>
 
-<style>
-    body {
-        background-color: #e9ecef; /* Fondo gris azulado */
-    }
-    .main-card {
-        background-color: white;
-        border-radius: 15px;
-        padding: 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 30px;
-        margin-bottom: 30px;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    h1 {
-        font-weight: 700;
-        color: #212529;
-        margin-bottom: 20px;
-        text-align: center;
-    }
-    legend {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #495057;
-        margin-bottom: 15px;
-    }
-</style>
+
 
 <div class="container">
-    <div class="main-card">
-        <h1>Modificar Incidència</h1>
+    <div class="main-card contenedor-a">
+        <h1 class="h1-a">Modificar Incidència</h1>
 
         <?php
       
@@ -104,7 +77,7 @@ include_once 'mongo.php';
                     
                     <form name="modificar" method='POST' action='modificar.php' onsubmit="return valModi()>
                         <fieldset class="border p-4 rounded shadow-sm">
-                            <legend class="w-auto px-2">Incidència a modificar:</legend>
+                            <legend class="w-auto px-2 legend-a">Incidència a modificar:</legend>
                             <p class="mb-4 p-3 bg-light rounded border">
                                 <strong>Descripció:</strong> <?= htmlspecialchars($row["descripcio"]) ?>
                             </p>
@@ -145,7 +118,7 @@ include_once 'mongo.php';
                             </div>
 
                             <div class="d-flex gap-2">
-                                <button type='submit' class='btn btn-dark px-4'>Sí, modificar</button>
+                                <button type='submit' class='btn btn-dark botoncito px-4'>Sí, modificar</button>
                                 <a href="llistar.php" class="btn btn-outline-secondary">Cancelar</a>
                             </div>
                         </fieldset>

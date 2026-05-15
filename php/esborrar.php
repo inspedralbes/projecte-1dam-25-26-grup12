@@ -17,24 +17,14 @@ include_once 'mongo.php';
 ?>
 
 <style>
-    body { background-color: #e9ecef; }
-    .main-card {
-        background-color: white;
-        border-radius: 15px;
-        padding: 50px 40px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        margin-top: 50px;
-        text-align: center;
-    }
-    h1.delete-title { font-weight: 700; color: #dc3545; margin-bottom: 20px; font-size: 2.5rem; }
-    .btn-delete { background-color: #dc3545; color: white; padding: 10px 25px; border-radius: 8px; border: none; font-weight: 600; }
-    .btn-cancel { background-color: #f8f9fa; color: #6c757d; padding: 10px 25px; border-radius: 8px; border: 1px solid #dee2e6; text-decoration: none; font-weight: 600; }
+   
+    
 </style>
 
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="main-card">
+            <div class="main-card esborrar">
                 
                 <?php
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
