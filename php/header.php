@@ -9,12 +9,8 @@
     <title>Gestió d'incidencies</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <style>
-        body {
-            background-color: #f0f2f5;
-            padding-top: 150px;
-        }
-    </style>
+    <link href="./CSS/style.css" rel="stylesheet" >
+   
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -43,6 +39,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="llistar.php">Llistat d'incidències</a></li>
+                            <li><a class="dropdown-item" href="estadototal.php">Accés a incidencies</a></li>
                             <li><a class="dropdown-item" href="tecnotocar.php">Accés a actuacions</a></li>
                             <li><a class="dropdown-item" href="informeTecnic.php">Informe de Tècnics</a></li>
                             <li><a class="dropdown-item" href="consum.php">Consum per departaments</a></li>
