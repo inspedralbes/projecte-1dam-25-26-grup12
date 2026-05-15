@@ -12,7 +12,6 @@ if (!isset($_SESSION["email"])) {
 
 
 
-
 include("header.php");
 require_once 'connexio.php';
 
@@ -34,18 +33,7 @@ $deptsArray = array();
 $numArray = array();
 ?>
 
-<style>
-.grafico {
-    flex: 1;
-    min-width: 0;
-    height: 500px;
-    position: relative;
-}
-.grafico canvas {
-    width: 100% !important;
-    height: 100% !important;
-}
-</style>
+
 
 <div class="container-fluid px-2">
 
@@ -105,6 +93,7 @@ $numArray = array();
                                     <td class="text-center"><?php echo $unDepartament["NUM_INCIDENCIES"]; ?></td>
                                 </tr>
                                 <?php } ?>
+                            
                             </tbody>
                         </table>
                     </div>
@@ -114,6 +103,7 @@ $numArray = array();
     </div>
 
 </div>
+<br>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -176,4 +166,6 @@ WHERE fecha_fin IS NULL
 ORDER BY prioridad DESC");
 
 $incidencies = $resultat->fetch_all(MYSQLI_ASSOC);
+
+include_once 'footer.php';
 ?>
