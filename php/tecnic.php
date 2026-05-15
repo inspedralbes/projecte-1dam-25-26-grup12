@@ -62,7 +62,7 @@ include_once 'mongo.php';
             </div>
         </div>
     </div>
-<</div>
+</div>
 
     <?php } else {
         echo "<div class='alert alert-light text-center border'>No tens incidències pendents actualment.</div>";
