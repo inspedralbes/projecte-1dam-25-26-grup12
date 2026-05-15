@@ -31,9 +31,18 @@ $page = ($start - 1) * $limit;
 
 $sql1 = "SELECT i.id_incidencia, i.descripcio, i.fecha, d.nom AS departament_nom, t.nom AS tipologia_nom, i.prioridad, tec.nom AS tecnic_nom
 FROM INCIDENCIA AS i LEFT JOIN DEPARTAMENT AS d ON i.id_dept=d.id_dept LEFT JOIN TIPO AS t ON i.id_tipo=t.id_tipo  
-LEFT JOIN TECNIC AS tec ON i.id_tecnic=tec.id_tecnic WHERE fecha_fin IS NULL AND prioridad IS  NULL  ORDER BY $sort1 $order1";
+LEFT JOIN TECNIC AS tec ON i.id_tecnic=tec.id_tecnic WHERE fecha_fin IS NULL AND prioridad IS NULL ORDER BY $sort1 $order1 LIMIT ? OFFSET ?";
 
-$result1 = $conn->query($sql1);
+$stmt1 = $conn->prepare($sql1);
+$stmt1->bind_param("ii", $limit, $page);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
+
+$countSql1 = "SELECT COUNT(*) as total FROM INCIDENCIA WHERE fecha_fin IS NULL AND prioridad IS NULL";
+$countResult1 = $conn->query($countSql1);
+$totalRows1 = $countResult1->fetch_assoc()['total'];
+$totalPages1 = ceil($totalRows1 / $limit);
+
 
 $sql = "SELECT i.id_incidencia, i.descripcio, i.fecha, d.nom AS departament_nom, t.nom AS tipologia_nom, i.prioridad, tec.nom AS tecnic_nom
 FROM INCIDENCIA AS i LEFT JOIN DEPARTAMENT AS d ON i.id_dept=d.id_dept LEFT JOIN TIPO AS t ON i.id_tipo=t.id_tipo  
@@ -55,6 +64,8 @@ $stmt = $conn->prepare($sql);
     $totalRows = $countResult->fetch_assoc()['total'];
 
     $totalPages = ceil($totalRows / $limit);
+
+    
 
     
 ?>
@@ -93,7 +104,7 @@ $stmt = $conn->prepare($sql);
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                    <?php while ($row = $result1->fetch_assoc()) { ?>
+                    <?php while ($row = $result1->fetch_assoc()) { ?>NOT
                         <tr class="table-light">
                             <td><?= $row["id_incidencia"] ?></td>
                             <td><?= htmlspecialchars($row["descripcio"]) ?></td>
@@ -109,6 +120,33 @@ $stmt = $conn->prepare($sql);
                     </tbody>
                 </table>
             </div>
+
+             <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+
+                <?php if ($start > 1): ?>
+                    <a href="?start=<?= $start - 1 ?>&sort=<?= $sort1  ?>&order=<?= $order1 ?>" class="btn btn-outline-dark">← Anterior</a>
+                <?php endif; ?>
+
+                <?php
+                $maxButtons = 5;
+                $inicio = max(1, $start - 2);
+                $fin = min($totalPages1, $inicio + $maxButtons - 1);
+                $inicio = max(1, $fin - $maxButtons + 1);
+
+                for ($y = $inicio; $y <= $fin; $y++): ?>
+                    <a href="?start=<?= $y ?>&sort=<?= $sort1 ?>&order=<?= $order1 ?>"
+                    class="btn <?= ($y == $start) ? 'btn-success fw-bold' : 'btn-outline-success' ?>">
+                        <?= $y ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($start < $totalPages1): ?>
+                    <a href="?start=<?= $start + 1 ?>&sort=<?= $sort1 ?>&order=<?= $order1 ?>" class="btn btn-outline-dark">Següent →</a>
+                <?php endif; ?>
+
+            </div>
+
+
             <hr class="my-5">
         <?php } ?>
 
