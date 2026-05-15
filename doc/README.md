@@ -3,6 +3,8 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
 
 És obligatori modificar aquest document!!
 
+https://getbootstrap.com/docs/5.3/components/navbar/
+
 ## Documentació bàsica MÍNIMA
  * Objectius
  * Arquitectura bàsica
@@ -17,3 +19,4 @@ Llistat d'alguns dels punts que han de quedar explicats en aquesta carpeta. Pode
  * Aplicació Android
  * Altres elements importants.
  * ...
+ hola

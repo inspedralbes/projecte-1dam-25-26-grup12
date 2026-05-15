@@ -1,16 +1,20 @@
-# transversals
-Esquema mínim de carpetes pels projectes transversals
+# Projecte GI3P GRUP12
 
-És obligatori seguir aquesta estructura tot i que la podeu ampliar.
+# Desenvolupadors
+ * Sana Hussain i Adrià Urbina
 
-## Atenció
-Un cop comenceu heu de canviar aquesta explicació amb la corresponent al vostre projecte (utilitzant markdown)
+# Objectiu “breu” del projecte:
+ * Creacio d'una aplicacio de gestio d'incidencies desde la creacio d'aquestes fins a seccions d'informes, creacio d'actuacions, etc.
+ 
+# Estat del projecte
+* Funcions basiques = FINALITZAT
+* Informes i estdistiques = FINALITZAT
+* Funcions MONGODB = FINALITZAT
+* Comprovacions javascript = FINALITZAT
+* Estil amb bootstrap = FINALITZAT
+* Sistema de logging = FINALITZAT
 
-# Aquest fitxer ha de contenir com a mínim:
- * Nom dels integrants
- * Nom del projecte
- * Petita descripció
- * Adreça del gestor de tasques (taiga, jira, trello...)
- * Adreça del prototip gràfic del projecte (Penpot, figma, moqups...)
- * URL de producció (quan la tingueu)
- * Estat: (explicació d'en quin punt està)
+
+# Enllaços
+* [Web-produccio](http://g12.dam.inspedralbes.cat)
+* [Taiga](https://tree.taiga.io/project/a25adrurbrub-projecte-gi3p/timeline)
