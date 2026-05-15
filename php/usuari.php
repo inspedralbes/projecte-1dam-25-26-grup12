@@ -9,7 +9,14 @@ if (!isset($_SESSION["email"])) {
 
 
 
-require_once 'header.php';
+
+if($_SESSION["rol"] == "tecnic"){
+    header("Location: index.php"); 
+}elseif ($_SESSION["rol"] == "admin") {
+    header("Location: index.php");
+}elseif ($_SESSION["rol"] == "user") {
+    include_once 'header-user.php' ; 
+}
 include_once 'mongo.php';
 ?>
 

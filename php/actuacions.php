@@ -12,7 +12,13 @@ if (!isset($_SESSION["email"])) {
 
 
 require_once 'connexio.php';
-require_once 'header.php';
+
+if($_SESSION["rol"] == "tecnic"){
+    include_once 'header-tecnic.php' ; 
+}elseif ($_SESSION["rol"] == "admin") {
+    include_once 'header.php' ;  
+}
+
 include_once 'mongo.php';
 
 function tancar_incidencia($conn){

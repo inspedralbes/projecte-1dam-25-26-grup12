@@ -13,7 +13,7 @@ if (!isset($_SESSION["email"])) {
 
 
 require_once 'connexio.php';
-require_once 'header.php';
+include_once 'header.php';
 include_once 'mongo.php';
 
 $sort = $_GET['sort'] ?? 'prioridad';

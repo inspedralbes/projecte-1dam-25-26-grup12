@@ -15,7 +15,18 @@ if (!isset($_SESSION["email"])) {
 
 
 require_once 'connexio.php';
-require_once 'header.php' ;
+
+if($_SESSION["rol"] == "tecnic"){
+    include_once 'header-tecnic.php' ; 
+}elseif ($_SESSION["rol"] == "admin") {
+    include_once 'header.php' ;  
+}elseif ($_SESSION["rol"] == "user") {
+    include_once 'header-user.php' ; 
+}
+
+
+
+
 include_once 'mongo.php';
 /**
  * Funció que llegeix els paràmetres del formulari i crea una nova casa a la base de dades.
@@ -56,9 +67,8 @@ function crear_actuaciones($conn)
 ?>
 
 <style>
-    body {
-        background-color: #e9ecef; /* Fondo gris azulado */
-    }
+   
+
     .main-container {
         background-color: white;
         border-radius: 15px; /* Bordes redondeados */

@@ -8,7 +8,15 @@ if (!isset($_SESSION["email"])) {
 
 //Sempre volem tenir una connexió a la base de dades, així que la creem al principi del fitxer
 require_once 'connexio.php';
-require_once 'header.php' ;
+
+if($_SESSION["rol"] == "tecnic"){
+    include_once 'header-tecnic.php' ; 
+}elseif ($_SESSION["rol"] == "admin") {
+    include_once 'header.php' ;  
+}elseif ($_SESSION["rol"] == "user") {
+    include_once 'header-user.php' ; 
+}
+
 include_once 'mongo.php';
 // Un cop inclòs el fitxer connexio.php, ja podeu utilitzar la variable $conn per a fer les consultes a la base de dades.
 

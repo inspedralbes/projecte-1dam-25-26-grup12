@@ -14,7 +14,7 @@ if (!isset($_SESSION["email"])) {
 
 
 require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
-require_once 'header.php';
+include_once 'header.php';
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();

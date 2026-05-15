@@ -9,7 +9,15 @@ if (!isset($_SESSION["email"])) {
 
 //Conexion a la base de dades i header
 require_once 'connexio.php';
-require_once 'header.php';
+
+if($_SESSION["rol"] == "tecnic"){
+    include_once 'header-tecnic.php' ; 
+}elseif ($_SESSION["rol"] == "admin") {
+    include_once 'header.php' ;  
+}elseif ($_SESSION["rol"] == "user") {
+    include_once 'header-user.php' ; 
+}
+
 include_once 'mongo.php';
 
 
