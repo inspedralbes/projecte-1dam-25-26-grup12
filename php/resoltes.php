@@ -9,23 +9,31 @@ if (!isset($_SESSION["email"])) {
     exit();  
 }
 
-
-
-
 require_once 'connexio.php';
 require_once 'header.php';
 include_once 'mongo.php';
 
 $sort = $_GET['sort'] ?? 'prioridad';
 $order = $_GET['order'] ?? 'desc';
-$sort1 = $_GET['sort1'] ?? 'fecha';
-$order1 = $_GET['order1'] ?? 'desc';
+
+$start = isset($_GET['start']) ? (int)$_GET['start'] : 1;
+$limit = 8;
+$page = ($start - 1) * $limit;
 
 $sql = "SELECT i.id_incidencia, i.descripcio, i.fecha, i.fecha_fin, d.nom AS departament_nom, t.nom AS tipologia_nom, i.prioridad, tec.nom AS tecnic_nom
 FROM INCIDENCIA AS i LEFT JOIN DEPARTAMENT AS d ON i.id_dept=d.id_dept LEFT JOIN TIPO AS t ON i.id_tipo=t.id_tipo  
-LEFT JOIN TECNIC AS tec ON i.id_tecnic=tec.id_tecnic WHERE fecha_fin IS NOT NULL ORDER BY $sort $order";
-$result = $conn->query($sql);
+LEFT JOIN TECNIC AS tec ON i.id_tecnic=tec.id_tecnic WHERE fecha_fin IS NOT NULL ORDER BY $sort $order
+LIMIT ? OFFSET ?";
 
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $limit, $page);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$countSql = "SELECT COUNT(*) as total FROM INCIDENCIA WHERE fecha_fin IS NOT NULL";
+$countResult = $conn->query($countSql);
+$totalRows = $countResult->fetch_assoc()['total'];
+$totalPages = ceil($totalRows / $limit);
 ?>
 
 <style>
@@ -45,7 +53,6 @@ $result = $conn->query($sql);
         color: #212529;
         margin-bottom: 25px;
     }
-    
 </style>
 
 <div class="container d-flex justify-content-center">
@@ -98,14 +105,37 @@ $result = $conn->query($sql);
                     </tbody>
                 </table>
             </div>
+
+            <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                <?php if ($start > 1): ?>
+                    <a href="?start=<?= $start - 1 ?>&sort=<?= $sort ?>&order=<?= $order ?>" class="btn btn-outline-dark">← Anterior</a>
+                <?php endif; ?>
+
+                <?php
+                $maxButtons = 5;
+                $inicio = max(1, $start - 2);
+                $fin = min($totalPages, $inicio + $maxButtons - 1);
+                $inicio = max(1, $fin - $maxButtons + 1);
+                for ($i = $inicio; $i <= $fin; $i++): ?>
+                    <a href="?start=<?= $i ?>&sort=<?= $sort ?>&order=<?= $order ?>"
+                       class="btn <?= ($i == $start) ? 'btn-success fw-bold' : 'btn-outline-success' ?>">
+                        <?= $i ?>
+                    </a>
+                <?php endfor; ?>
+
+                <?php if ($start < $totalPages): ?>
+                    <a href="?start=<?= $start + 1 ?>&sort=<?= $sort ?>&order=<?= $order ?>" class="btn btn-outline-dark">Següent →</a>
+                <?php endif; ?>
+            </div>
+
         <?php } else {
             echo "<p class='alert alert-secondary'>No hi ha dades a mostrar.</p>";
         } ?>
 
         <br>
         <div>
-                    <a href="llistar.php" class="btn btn-dark btn-sm px-4">Tornar</a>
-                </div>
+            <a href="llistar.php" class="btn btn-dark btn-sm px-4">Tornar</a>
+        </div>
 
     </div>
 </div>
