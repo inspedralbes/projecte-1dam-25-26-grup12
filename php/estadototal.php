@@ -43,7 +43,7 @@ include_once 'mongo.php';
                             <?php } ?>
                         </select>
                     
-                    <button type="submit" class="btn btn-success px-4">Enviar</button>
+                    <button type="submit" class="btn btn-success px-4">Consultar</button>
                 </fieldset>
             </div>
         </form>
