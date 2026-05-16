@@ -1,10 +1,12 @@
 <?php
 
-session_start();
+session_start(); // Iniciem la sessió 
 
+// Si no hi ha email a la sessió, vol dir que no ha fet login i es va a index.php
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
+//Sii el rol no és admin, no té permisos per accedir a aquesta pàgina, redirigim a index.php
 }elseif (!($_SESSION["rol"] == "admin")) {
     header("Location: index.php");
     exit();  
@@ -12,10 +14,11 @@ if (!isset($_SESSION["email"])) {
 
 
 
-
+// Carreguem l'autoloader de Composer i el header
 require($_SERVER['DOCUMENT_ROOT'] . '/vendor/autoload.php');
 include_once 'header.php';
 
+// Carreguem les variables d'entorn del fitxer .env i connectem a MongoDB
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
@@ -25,6 +28,8 @@ $dotenv->load();
 
     $collection = $client->demo->users;
 
+
+// Comptem el total de documents (accessos) que hi ha a la col·lecció
 $accessos_total = $collection->countDocuments();
 
 // Agrupem els accessos per URI i comptem quantes vegades apareix cada pàgina.
@@ -115,7 +120,7 @@ $pipeline[] = [
 // Creem un array buit que equival al filtre
 $filtre = [];
 
-// Si la varibale php data no esta buida, afegim al filtre la condició que el camp "dia" de MongoDB ha de ser igual al valor de $data.
+// Si la varibale php $data no esta buida, afegim al filtre la condició que el camp "dia" de MongoDB ha de ser igual al valor de $data.
 if (!empty($data)) {
     $filtre['dia'] = $data;
 }
@@ -125,6 +130,7 @@ if (!empty($pagina)) {
     $filtre['uri'] = $pagina;
 }
 
+// Si la variable php $user no està buida, afegim al filtre la condició que el camp "user" de MongoDB ha de ser igual al valor de $user.
 if (!empty($user)) {
     $filtre['user'] = $user;
 }
@@ -235,6 +241,7 @@ $usuaris = $collection->aggregate([
             <div class="main-card">
                 <h1 class="text-center mb-4">Estadístiques d'Accés</h1>
 
+            <!-- total d'accessos i hora de l'última visita -->
             <div class="row g-4 mb-2">
                 <div class="col-6 col-md-6">
                     <div class="card text-center h-100">
@@ -261,8 +268,10 @@ $usuaris = $collection->aggregate([
                             <div class="card-body">
                                 <h2 class="card-title ">Pàgines més visitades</h2><br>
                             <div class="mb-2">
+                                <!-- Barres de progrés proporcionals al percentatge de visites de cada pàgina -->
                                 <?php foreach ($pagines as $enllaç): 
                                     if ($accessos_total > 0) {
+                                        // Calculem el percentatge de visites respecte al total
                                         $percentatge = ($enllaç['total'] / $accessos_total) * 100;
                                     } else {
                                         $percentatge = 0;
@@ -289,6 +298,7 @@ $usuaris = $collection->aggregate([
                         <div class="card h-40">
                             <div class="card-body">
                                 <h2 class="card-title">Accessos per dia</h2><br>
+                                <!-- Taula amb el nombre d'accessos per dia -->
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
@@ -309,9 +319,11 @@ $usuaris = $collection->aggregate([
 
                             
                             <div class="card-body">
+                                <!-- Barres de progrés dels usuaris més actius -->
                                 <h2 class="card-title ">Usuari més actius</h2><br>
                             <div class="mb-2">
                                 <?php foreach ($usuaris as $usu): 
+                                // Calculem el percentatge d'accessos de cada usuari respecte al total
                                     if ($total_usuaris > 0) {
                                         $percent = ($usu['total'] / $total_usuaris) * 100;
                                     } else {
@@ -319,6 +331,7 @@ $usuaris = $collection->aggregate([
                                     }
                                     
                                 ?>
+                                <!-- Taula amb els 10 últims accessos registrats sense cap filtre -->
                                 <div class="d-flex justify-content-between small mb-1 mt-3">
                                     <span class="text-truncate me-2" style="max-width:200px" title="usuari">
                                     <?= $usu['_id'] ?>
@@ -370,18 +383,21 @@ $usuaris = $collection->aggregate([
                         </div>
                     </div>
                 </div>
-
+<!-- Formulari per filtrar els logs per data, pàgina o usuari -->
                 <div class="card mb-3">
     <div class="card-body">
         <h2 class="card-title text-muted">Buscar accessos</h2>
         <form method="GET" class="mb-3">
             <div class="row g-2">
+                <!-- Camp per filtrar per data -->
                 <div class="col-md-3">
                     <input type="date" name="data" class="form-control" value="<?= htmlspecialchars($data) ?>">
                 </div>
+                 <!-- Camp per filtrar per pàgina -->
                 <div class="col-md-3">
                     <input type="text" name="pagina" class="form-control" placeholder="/inici" value="<?= htmlspecialchars($pagina) ?>">
                 </div>
+                <!-- Camp per filtrar per usuari -->
                 <div class="col-md-3">
                     <input type="text" name="user" class="form-control" placeholder="usuari" value="<?= htmlspecialchars($user ?? '') ?>">
                 </div>
@@ -391,6 +407,7 @@ $usuaris = $collection->aggregate([
             </div>
         </form>
 
+        <!-- Si s'ha aplicat algun filtre, mostrem el total de resultats trobats -->
         <?php if (!empty($data) || !empty($pagina) || !empty($user)): ?>
             <div class="text-center mt-3">
                 <p class="small mb-1">Accessos trobats</p>
@@ -399,6 +416,8 @@ $usuaris = $collection->aggregate([
         <?php else: ?>
             <p class="text-muted small">Introdueix almenys una data, una pàgina amb "/" al principi o un usuari per buscar.</p>
         <?php endif; ?>
+
+        <!-- Si s'ha aplicat algun filtre, mostrem el total de resultats trobats -->
 
         <?php if (!empty($data) || !empty($pagina) || !empty($user)): ?>
     <div class="table-responsive mt-3">

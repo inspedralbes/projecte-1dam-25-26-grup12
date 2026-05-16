@@ -10,6 +10,7 @@
         </div>
     </div>
 </footer>
+<!-- Carreguem el fitxer JS amb les funcions de validació dels formularis -->
 <script src="js/funcions.js"></script>
 </body>
 </html>

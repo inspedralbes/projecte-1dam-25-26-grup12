@@ -1,4 +1,6 @@
 
+<!--Menu fet solament per al admin-->
+
 <!DOCTYPE html>
 <html lang="es">
 

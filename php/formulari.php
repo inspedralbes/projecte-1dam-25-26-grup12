@@ -1,7 +1,8 @@
 <?php
 
-session_start();
+session_start(); // Iniciem la sessió
 
+// Si no hi ha email a la sessió, vol dir que no es fa el login, i redirigim a index.php.
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
@@ -10,6 +11,7 @@ if (!isset($_SESSION["email"])) {
 //Conexion a la base de dades i header
 require_once 'connexio.php';
 
+// Carreguem el header diferent segons el rol de l'usuari
 if($_SESSION["rol"] == "tecnic"){
     include_once 'header-tecnic.php' ; 
 }elseif ($_SESSION["rol"] == "admin") {
@@ -17,6 +19,8 @@ if($_SESSION["rol"] == "tecnic"){
 }elseif ($_SESSION["rol"] == "user") {
     include_once 'header-user.php' ; 
 }
+
+// Connectem a MongoDB
 
 include_once 'mongo.php';
 
@@ -26,7 +30,7 @@ include_once 'mongo.php';
  * @param mixed $conn
  * @return void
  */
-function crear_incidencia($conn)
+function crear_incidencia($conn)//funcio de crear incidencia
 {
     // Obtenir la descripció i el departament del formulari, i netejar les dades per evitar injeccions SQL
     $descripcio = htmlspecialchars($_POST['descripcio']);
@@ -40,7 +44,9 @@ function crear_incidencia($conn)
         return;
 
     }
-    
+
+
+// Agafem l'ID de l'usuari que ha iniciat sessió per vincular-lo a la incidència
     $user = $_SESSION['id_user'];
 
 
@@ -63,11 +69,12 @@ function crear_incidencia($conn)
         $result = $stmt1->get_result();
         $row = $result->fetch_assoc();  
         $id_incidencia = $row['id_incidencia']; 
-
+        // Mostrem missatge d'èxit i l'ID de la nova incidència
         echo "<p class='text-success fw-semibold'>Incidencia creada amb èxit!</p>";
         echo "<p>ID de la incidencia creada: " . htmlspecialchars($id_incidencia) . "</p>";
         echo "<div class='text-center mt-4'><a href='index.php' class='btn btn-dark px-4'>Retorna a l'inici</a></div>";
         } else {
+        // Si hi ha hagut un error, mostrem el missatge que retorna la BD
         echo "<p class='text-danger'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
     }
 
@@ -84,22 +91,28 @@ function crear_incidencia($conn)
         <h1 class="fw-semibold mb-3" style="font-size:1.6rem;">Registrar incidència</h1>
         <hr class="mb-4">
 
-        <?php
-
+        <?php        
+        
+        // Si el formulari s'ha enviat, cridem la funció per crear la incidència
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             crear_incidencia($conn);
 
         } else {
 
+            // Si no s'ha enviat el formulari, consultem els departaments per mostrar-los al desplegable
             $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
             $departaments = $conn->query($sql);
 
             ?>
+            <!-- Formulari per registrar una nova incidència -->
             <form name="incidencia" method="POST" action="formulari.php" onsubmit="return formulari()">
                 <fieldset>
                     <div class="mb-3">
+                        <!-- Camp de text per escriure la descripció de la incidència -->
                         <label for="descripcio" class="form-label fw-medium">Descripció</label>
                         <textarea name="descripcio" class="form-control mb-3" rows="5" required placeholder="Explica detalladament el problema: Si doneu molta informació ens serà més fàcil reproduir i resoldre el problema..."></textarea>
+                        
+                        <!-- Desplegable per seleccionar el departament afectat -->
                         <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>
                             <option value="">Selecciona</option>
@@ -111,6 +124,7 @@ function crear_incidencia($conn)
                         </select>
 
                         <div class="d-grid gap-2">
+                            <!-- Boto per enviar el formulari-->
                             <button type="submit" class="btn btn-success">Crear</button>
                             
                     </div>

@@ -1,3 +1,4 @@
+<!--Menu fet solament per al usuari-->
 
 <!DOCTYPE html>
 <html lang="es">

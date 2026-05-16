@@ -1,14 +1,17 @@
 <?php
-session_start();
+session_start(); // Iniciem la sessió
 
+// Si no hi ha email a la sessió, vol dir que no ha fet login i es va a index.php
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
+//Sii el rol no és admin, no té permisos per accedir a aquesta pàgina, redirigim a index.php
 }elseif (!($_SESSION["rol"] == "admin")) {
     header("Location: index.php");
     exit();  
 }
 
+// Connectem a la BD i carreguem el header i MongoDB
 require_once 'connexio.php';
 include_once 'header.php';
 include_once 'mongo.php';
@@ -19,21 +22,25 @@ include_once 'mongo.php';
 <div class="container">
     <div class="contenedor-blanco">
         <?php
+        // Consultem tots els tècnics de la BD ordenats per nom per mostrar-los al desplegable
         $sql = "SELECT id_tecnic, nom FROM TECNIC ORDER BY nom";
         $result = $conn->query($sql);
         $id = "";
 
+        // Gestionem la paginació: agafem la pàgina actual de la URL, per defecte la 1
         $start = isset($_GET['start']) ? (int)$_GET['start'] : 1;
-        $limit = 5;
-        $page = ($start - 1) * $limit;
+        $limit = 5;  // Nombre de files per pàgina
+        $page = ($start - 1) * $limit; // Calculem l'OFFSET per a la consulta SQL
         ?>
 
+        <!-- Formulari per seleccionar el tècnic del qual volem veure les incidències -->
         <form method="POST" action="">
             <div class="mb-3">
             <fieldset>
                 <legend>Tècnic</legend>
                 <label for="nom" class="form-label">Nom</label>
                 <br>
+                <!-- Desplegable amb tots els tècnics disponibles -->
                 <select name="tecnic_id" id="tecnic" class="form-select" required>
                     <option value="">Selecciona</option>
                     <?php while ($tec = $result->fetch_assoc()) { ?>
@@ -49,10 +56,14 @@ include_once 'mongo.php';
         </form>
 
         <?php
+        // Si el formulari s'ha enviat, consultem les incidències del tècnic seleccionat
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $id = htmlspecialchars($_POST["tecnic_id"]);
+            $id = htmlspecialchars($_POST["tecnic_id"]); // Agafem l'ID del tècnic escolli
             echo "<br><h3> Les teves incidències: </h3><br>";
 
+
+            // Consultem les incidències obertes del tècnic, amb el temps total dedicat
+            // i el nom del departament, aplicant paginació amb LIMIT i OFFSET
             $sql = "SELECT i.id_incidencia, i.descripcio, d.nom, i.fecha, i.prioridad, IFNULL(SUM(a.duracio), 0) AS temps_total
                     FROM INCIDENCIA i
                     LEFT JOIN ACTUACIO a ON i.id_incidencia = a.id_incidencia
@@ -62,15 +73,17 @@ include_once 'mongo.php';
                     LIMIT ? OFFSET ?";
 
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ii", $limit, $page);
+            $stmt->bind_param("ii", $limit, $page); // Lligem el límit i l'offset
             $stmt->execute();
             $result = $stmt->get_result();
 
+            // Consultem el total d'incidències per calcular el nombre de pàgines
             $countSql = "SELECT COUNT(*) as total FROM INCIDENCIA WHERE fecha_fin IS NULL AND id_tecnic = $id";
             $countResult = $conn->query($countSql);
             $totalRows = $countResult->fetch_assoc()['total'];
-            $totalPages = ceil($totalRows / $limit);
+            $totalPages = ceil($totalRows / $limit); // Calculem el total de pàgines
 
+            // Si hi ha incidències, les mostrem en una taula
             if ($result->num_rows > 0) { ?>
                 <div class="table-responsive">
                     <table class="table table-striped table-dark">
@@ -86,6 +99,7 @@ include_once 'mongo.php';
                         </thead>
                         <tbody>
                         <?php while ($row = $result->fetch_assoc()) {
+                            // Pintem cada fila d'un color diferent segons la prioritat de la incidència
                             if ($row["prioridad"] == "alta") {
                                 echo '<tr class="table-danger">';
                             } elseif ($row["prioridad"] == "media") {
@@ -108,29 +122,34 @@ include_once 'mongo.php';
                     </table>
                 </div>
 
+                <!-- Botons de paginació per navegar entre les pàgines de resultats -->
                 <div class="mt-4 d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                    <!-- Botó per anar a la pàgina anterior, només si no estem a la primera -->
                     <?php if ($start > 1): ?>
                         <a href="?start=<?= $start - 1 ?>" class="btn btn-outline-dark">← Anterior</a>
                     <?php endif; ?>
 
                     <?php
+                    // Calculem quins botons de pàgina mostrem (màxim 5 botons centrats a la pàgina actual)
                     $maxButtons = 5;
                     $inicio = max(1, $start - 2);
                     $fin = min($totalPages, $inicio + $maxButtons - 1);
                     $inicio = max(1, $fin - $maxButtons + 1);
                     for ($i = $inicio; $i <= $fin; $i++): ?>
+                    <!-- Marquem en verd el botó de la pàgina actual -->
                         <a href="?start=<?= $i ?>"
                            class="btn <?= ($i == $start) ? 'btn-success fw-bold' : 'btn-outline-success' ?>">
                             <?= $i ?>
                         </a>
                     <?php endfor; ?>
-
+                    <!-- Botó per anar a la pàgina següent, només si no estem a l'última -->
                     <?php if ($start < $totalPages): ?>
                         <a href="?start=<?= $start + 1 ?>" class="btn btn-outline-dark">Següent →</a>
                     <?php endif; ?>
                 </div>
 
             <?php } else {
+                // Si no hi ha incidències per al tècnic seleccionat, mostrem un missatge informatiu
                 echo "<p>No hi ha incidencies a mostrar.</p>";
             }
         }

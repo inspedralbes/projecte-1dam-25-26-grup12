@@ -1,4 +1,6 @@
 
+<!--Menu fet solament pel tècnic-->
+
 <!DOCTYPE html>
 <html lang="es">
 

@@ -1,13 +1,19 @@
 <?php 
-session_start();
+session_start(); // Iniciem la sessió
+
+// Si no hi ha email a la sessió, vol dir que no es fa el login, i redirigim a index.php.
 
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
+// Si el rol no és admin, no té permisos per accedir a aquesta pàgina i i redirigim a index.php.
+
 }elseif (!($_SESSION["rol"] == "admin")) {
     header("Location: index.php");
     exit();  
 }
+
+//Carreguem el header i MongoDB
 
 include("header.php");
 require_once 'connexio.php';

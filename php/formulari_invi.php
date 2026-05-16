@@ -2,7 +2,7 @@
 
 
 
-//Conexion a la base de dades i header
+//Conexion a la base de dades i mongodb
 require_once 'connexio.php';
 include_once 'mongo.php';
 
@@ -50,10 +50,12 @@ function crear_incidencia($conn)
         $row = $result->fetch_assoc();  
         $id_incidencia = $row['id_incidencia']; 
 
+        // Mostrem missatge d'èxit i l'ID de la nova incidència
         echo "<p class='text-success fw-semibold'>Incidencia creada amb èxit!</p>";
         echo "<p>ID de la incidencia creada: " . htmlspecialchars($id_incidencia) . "</p>";
         echo "<div class='text-center mt-4'><a href='index.php' class='btn btn-dark px-4'>Retorna a l'inici</a></div>";
         } else {
+        // Si hi ha hagut un error, mostrem el missatge que retorna la BD
         echo "<p class='text-danger'>Error al crear la Incidencia: " . htmlspecialchars($stmt->error) . "</p>";
     }
 
@@ -94,22 +96,25 @@ function crear_incidencia($conn)
         <hr class="mb-4">
 
         <?php
-
+        // Si el formulari s'ha enviat, cridem la funció per crear la incidència
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             crear_incidencia($conn);
 
         } else {
-        
+            // Si no s'ha enviat el formulari, consultem els departaments per mostrar-los al desplegable
             $sql = "SELECT id_dept, nom FROM DEPARTAMENT";
             $departaments = $conn->query($sql);
 
             ?>
+            <!-- Formulari per registrar una nova incidència -->
             <form name="incidencia" method="POST" action="formulari.php" onsubmit="return formulari()">
                 <fieldset>
                     <div class="mb-3">
+                        <!-- Camp de text per escriure la descripció de la incidència -->
                         <label for="descripcio" class="form-label fw-medium">Descripció</label>
                         <textarea name="descripcio" class="form-control mb-3" rows="5" required></textarea>
-
+                        
+                        <!-- Desplegable per seleccionar el departament afectat -->
                         <label for="departament" class="form-label fw-medium">Departament</label>
                         <select name="id_dept" id="id_dept" class="form-select mb-4" aria-label="Default select example" required>
                             <option value="">Selecciona</option>
@@ -119,7 +124,7 @@ function crear_incidencia($conn)
                                 </option>
                             <?php } ?>
                         </select>
-
+                        <!-- Botons per enviar el formulari o tornar a l'inici -->
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-success">Crear</button>
                             <a href="index.php" class="btn btn-outline-dark">Tornar</a>

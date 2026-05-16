@@ -51,7 +51,7 @@ try {
 
 
 
-
+// Funció que detecta el navegador de l'usuari a partir del User-Agent del navegador
 function obtenerNavegador($user_agent) {
     if (strpos($user_agent, 'MSIE') !== FALSE || strpos($user_agent, 'Trident') !== FALSE) return 'Internet Explorer';
     if (strpos($user_agent, 'Edge') !== FALSE) return 'Edge';
